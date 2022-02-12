@@ -6,7 +6,8 @@ import 'package:organia/src/models/user.dart';
 class OrganIAAPIRepository {
   final OrganIAAPIProvider _organIAAPIProvider = OrganIAAPIProvider();
 
-  Future<User> login() => _organIAAPIProvider.login();
+  Future<User> login(String email, String password) =>
+      _organIAAPIProvider.login(email, password);
   // Future<PokemonList> fetch20MorePokemons(PokemonList list) =>
   //     _OrganIAAPIProvider.fetch20MorePokemons(list);
 }
