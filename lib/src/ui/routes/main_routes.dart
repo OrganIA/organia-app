@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:organia/src/blocs/account/bloc.dart';
@@ -12,14 +13,12 @@ class NavigationRouteInterface {
 
 List<NavigationRouteInterface> navigationRoutes = [
   NavigationRouteInterface(
-      const Icon(Icons.person),
-      "Account",
-      BlocProvider(
-        create: (_) => AccountBloc(),
-        child: const AccountScreen(),
-      )),
+    const Icon(CupertinoIcons.chat_bubble_2_fill),
+    "Messages",
+    Container(),
+  ),
   NavigationRouteInterface(
-      const Icon(Icons.person),
+      const Icon(CupertinoIcons.person_alt_circle),
       "Account",
       BlocProvider(
         create: (_) => AccountBloc(),
