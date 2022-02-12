@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 
-Color blue = const Color(0xff2972ff);
+Color blue = const Color(0xFF498BFE);
+Color darkBlue = const Color(0xFF071f49);
 Color black = const Color(0xff222222);
-Color grey = const Color(0xff94959b);
-Color lightGrey = const Color(0xfff1f1f5);
+Color grey = const Color(0xff8e8e8e);
+Color lightGrey = const Color(0xff97a0b8);
 
 TextStyle heading2 = const TextStyle(
   fontSize: 24,
