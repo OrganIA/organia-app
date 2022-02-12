@@ -15,7 +15,12 @@ class _LoginScreenState extends State<LoginScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(),
+      appBar: AppBar(
+        centerTitle: true,
+        backgroundColor: blue,
+        shadowColor: Colors.white,
+        title: const Text("Connexion"),
+      ),
       body: BlocListener<LoginBloc, LoginState>(
         listener: (context, state) {
           if (state is LoginLoadedFailure) {
@@ -31,21 +36,23 @@ class _LoginScreenState extends State<LoginScreen> {
           }
         },
         child: BlocBuilder<LoginBloc, LoginState>(
-            buildWhen: (LoginState previous, LoginState current) {
-          return (true);
-        }, builder: (context, state) {
-          if (state is LoginOnPage || state is LoginLoadedFailure) {
-            return (const LoginPage());
-          } else if (state is LoginLoading) {
-            return (const Center(
-              child: CircularProgressIndicator(),
-            ));
-          } else if (state is LoginLoadedFailure) {
-            return (Container());
-          } else {
-            return (Container());
-          }
-        }),
+          buildWhen: (LoginState previous, LoginState current) {
+            return (true);
+          },
+          builder: (context, state) {
+            if (state is LoginOnPage || state is LoginLoadedFailure) {
+              return (const LoginPage());
+            } else if (state is LoginLoading) {
+              return (const Center(
+                child: CircularProgressIndicator(),
+              ));
+            } else if (state is LoginLoadedFailure) {
+              return (Container());
+            } else {
+              return (Container());
+            }
+          },
+        ),
       ),
     );
   }

@@ -32,65 +32,38 @@ class _RegisterPageState extends State<RegisterPage> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    'Time Tracker',
-                    style: heading2.copyWith(color: black),
-                  ),
-                  const SizedBox(
-                    height: 10,
-                  ),
-                ],
-              ),
-              const SizedBox(
-                height: 48,
-              ),
               Form(
                 child: Column(
                   children: [
-                    Container(
-                      decoration: BoxDecoration(
-                        color: lightGrey,
-                        borderRadius: BorderRadius.circular(14.0),
-                      ),
-                      child: TextFormField(
-                        controller: emailController,
-                        decoration: InputDecoration(
-                          hintText: 'Email',
-                          hintStyle: heading6.copyWith(color: grey),
-                          border: const OutlineInputBorder(
-                            borderSide: BorderSide.none,
-                          ),
+                    TextFormField(
+                      controller: emailController,
+                      decoration: InputDecoration(
+                        hintText: 'Email',
+                        hintStyle: heading6.copyWith(color: grey),
+                        border: const OutlineInputBorder(
+                          borderSide: BorderSide.none,
                         ),
                       ),
                     ),
                     const SizedBox(
                       height: 32,
                     ),
-                    Container(
-                      decoration: BoxDecoration(
-                        color: lightGrey,
-                        borderRadius: BorderRadius.circular(14.0),
-                      ),
-                      child: TextFormField(
-                        controller: passwordController,
-                        obscureText: !passwordVisible,
-                        decoration: InputDecoration(
-                          hintText: 'Password',
-                          hintStyle: heading6.copyWith(color: grey),
-                          suffixIcon: IconButton(
-                            color: grey,
-                            splashRadius: 1,
-                            icon: Icon(passwordVisible
-                                ? Icons.visibility_outlined
-                                : Icons.visibility_off_outlined),
-                            onPressed: togglePassword,
-                          ),
-                          border: const OutlineInputBorder(
-                            borderSide: BorderSide.none,
-                          ),
+                    TextFormField(
+                      controller: passwordController,
+                      obscureText: !passwordVisible,
+                      decoration: InputDecoration(
+                        hintText: 'Mot de passe',
+                        hintStyle: heading6.copyWith(color: grey),
+                        suffixIcon: IconButton(
+                          color: grey,
+                          splashRadius: 1,
+                          icon: Icon(passwordVisible
+                              ? Icons.visibility_outlined
+                              : Icons.visibility_off_outlined),
+                          onPressed: togglePassword,
+                        ),
+                        border: const OutlineInputBorder(
+                          borderSide: BorderSide.none,
                         ),
                       ),
                     ),
@@ -111,7 +84,7 @@ class _RegisterPageState extends State<RegisterPage> {
                 },
                 child: BigButton(
                     buttonColor: blue,
-                    textValue: "Register",
+                    textValue: "S'inscrire",
                     textColor: Colors.white),
               ),
             ],
