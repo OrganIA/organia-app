@@ -28,7 +28,7 @@ class _AccountLoggedInPageState extends State<AccountLoggedInPage> {
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: <Widget>[
                     const Icon(
-                      Icons.account_circle,
+                      CupertinoIcons.person_alt_circle_fill,
                       size: 150,
                     ),
                     const SizedBox(
