@@ -8,6 +8,8 @@ class OrganIAAPIRepository {
 
   Future<User> login(String email, String password) =>
       _organIAAPIProvider.login(email, password);
+  Future<bool> register(String email, String password) =>
+      _organIAAPIProvider.register(email, password);
   // Future<PokemonList> fetch20MorePokemons(PokemonList list) =>
   //     _OrganIAAPIProvider.fetch20MorePokemons(list);
 }
