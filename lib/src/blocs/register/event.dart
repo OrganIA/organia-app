@@ -11,3 +11,7 @@ class RegisterClickOnRegisterEvent extends RegisterEvent {
 
   const RegisterClickOnRegisterEvent(this.email, this.password);
 }
+
+class RegisterClickOnLoginEvent extends RegisterEvent {
+  const RegisterClickOnLoginEvent();
+}

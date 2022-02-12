@@ -8,6 +8,10 @@ class RegisterLoading extends RegisterState {
   const RegisterLoading();
 }
 
+class RegisterNavigateToLogin extends RegisterState {
+  const RegisterNavigateToLogin();
+}
+
 class RegisterLoadedSuccess extends RegisterState {
   const RegisterLoadedSuccess();
 }

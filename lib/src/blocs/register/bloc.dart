@@ -10,6 +10,8 @@ class RegisterBloc extends Bloc<RegisterEvent, RegisterState> {
   RegisterBloc() : super(const RegisterOnPage()) {
     on<RegisterClickOnRegisterEvent>(
         (event, emit) async => emit(await _registerRequest(event)));
+    on<RegisterClickOnLoginEvent>(
+        (event, emit) => emit(const RegisterNavigateToLogin()));
   }
 
   Future<RegisterState> _registerRequest(

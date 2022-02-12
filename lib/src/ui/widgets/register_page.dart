@@ -83,9 +83,27 @@ class _RegisterPageState extends State<RegisterPage> {
                           emailController.text, passwordController.text));
                 },
                 child: BigButton(
-                    buttonColor: blue,
-                    textValue: "S'inscrire",
-                    textColor: Colors.white),
+                  buttonColor: blue,
+                  textValue: "S'inscrire",
+                  textColor: Colors.white,
+                ),
+              ),
+              const SizedBox(
+                height: 32,
+              ),
+              GestureDetector(
+                onTap: () {
+                  BlocProvider.of<RegisterBloc>(context)
+                      .add(const RegisterClickOnLoginEvent());
+                },
+                child: Center(
+                  child: Text(
+                    "Vous avez déjà un compte? Se connecter",
+                    style: TextStyle(
+                      color: blue,
+                    ),
+                  ),
+                ),
               ),
             ],
           ),

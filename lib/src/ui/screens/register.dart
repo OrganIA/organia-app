@@ -1,6 +1,9 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:organia/src/blocs/login/bloc.dart';
 import 'package:organia/src/blocs/register/bloc.dart';
+import 'package:organia/src/ui/screens/login.dart';
 import 'package:organia/src/ui/themes/themes.dart';
 import 'package:organia/src/ui/widgets/register_page.dart';
 
@@ -30,6 +33,17 @@ class _RegisterScreenState extends State<RegisterScreen> {
               backgroundColor: red,
             );
             ScaffoldMessenger.of(context).showSnackBar(snackBar);
+          }
+          if (state is RegisterNavigateToLogin) {
+            Navigator.pushReplacement(
+              context,
+              CupertinoPageRoute(
+                builder: (context) => BlocProvider(
+                  create: (_) => LoginBloc(),
+                  child: const LoginScreen(),
+                ),
+              ),
+            );
           }
           if (state is RegisterLoadedSuccess) {
             Navigator.pop(context);
