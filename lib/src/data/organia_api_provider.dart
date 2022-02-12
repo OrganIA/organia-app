@@ -16,18 +16,39 @@ class OrganIAAPIProvider {
   Future<User> login(String email, String password) async {
     final response = await http.post(
       Uri.parse("$baseUrl/auth/"),
-      body: jsonEncode(
-        <String, String>{'email': email, 'password': password},
-      ),
+      headers: {"Content-Type": "application/json"},
+      body: jsonEncode({"email": email, "password": password}),
     );
     return parseLoginResponse(response);
   }
 
   Future<User> parseLoginResponse(http.Response response) async {
     if (response.statusCode == success) {
-      final parsedResponse = json.decode(response.body);
-      await MySharedPreferences().set("TOKEN", parsedResponse["token"]);
-      return User.fromJson(parsedResponse["user"]);
+      final parsedBody = json.decode(response.body);
+      await MySharedPreferences().set("TOKEN", parsedBody["token"]);
+      return User.fromJson(parsedBody["user"]);
+    } else if (response.statusCode == unprocessable) {
+      throw Exception("Utilisateur inconnu");
+    } else {
+      throw Exception("Erreur inconnue");
+    }
+  }
+
+  Future<User> getMyInfos(String token) async {
+    final response = await http.get(
+      Uri.parse("$baseUrl/users/me"),
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": "Bearer $token"
+      },
+    );
+    return parseLoginResponse(response);
+  }
+
+  Future<User> parseUserInfosResponse(http.Response response) async {
+    if (response.statusCode == success) {
+      final parsedBody = json.decode(response.body);
+      return User.fromJson(parsedBody);
     } else if (response.statusCode == unprocessable) {
       throw Exception("Utilisateur inconnu");
     } else {
@@ -36,12 +57,10 @@ class OrganIAAPIProvider {
   }
 
   Future<bool> register(String email, String password) async {
-    Map data = {"email": email, "password": password, "role_id": 0};
-
     final response = await http.post(
       Uri.parse("$baseUrl/users/"),
       headers: {"Content-Type": "application/json"},
-      body: jsonEncode(data),
+      body: jsonEncode({"email": email, "password": password, "role_id": 0}),
     );
     return parseRegisterResponse(response);
   }

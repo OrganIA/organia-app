@@ -19,6 +19,11 @@ class AccountLoginEvent extends AccountEvent {
   const AccountLoginEvent(this.email);
 }
 
+class AccountAutoLoginEvent extends AccountEvent {
+  final String token;
+  const AccountAutoLoginEvent(this.token);
+}
+
 class AccountLogoutEvent extends AccountEvent {
   const AccountLogoutEvent();
 }

@@ -5,9 +5,9 @@ import 'package:organia/src/blocs/login/bloc.dart';
 import 'package:organia/src/blocs/register/bloc.dart';
 import 'package:organia/src/ui/screens/login.dart';
 import 'package:organia/src/ui/screens/register.dart';
-import 'package:organia/src/ui/widgets/account_guest.dart';
-import 'package:organia/src/ui/widgets/account_loading.dart';
-import 'package:organia/src/ui/widgets/account_logged.dart';
+import 'package:organia/src/ui/widgets/account/account_guest.dart';
+import 'package:organia/src/ui/widgets/account/account_loading.dart';
+import 'package:organia/src/ui/widgets/account/account_logged.dart';
 
 class AccountScreen extends StatefulWidget {
   const AccountScreen({Key? key}) : super(key: key);
