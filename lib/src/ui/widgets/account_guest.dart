@@ -1,3 +1,5 @@
+// ignore_for_file: deprecated_member_use
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -15,35 +17,39 @@ class AccountGuestPage extends StatefulWidget {
 class _AccountGuestPageState extends State<AccountGuestPage> {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        body: Padding(
-            padding: const EdgeInsets.fromLTRB(24.0, 40.0, 24.0, 0),
-            child: Column(
-              children: [
-                GestureDetector(
-                  onTap: () {
-                    BlocProvider.of<AccountBloc>(context)
-                        .add(const AccountNavigateEvent("login"));
-                  },
-                  child: BigButton(
-                      buttonColor: blue,
-                      textValue: "Login",
-                      textColor: Colors.white),
-                ),
-                const SizedBox(
-                  height: 10,
-                ),
-                GestureDetector(
-                  onTap: () {
-                    BlocProvider.of<AccountBloc>(context)
-                        .add(const AccountNavigateEvent("register"));
-                  },
-                  child: BigButton(
-                      buttonColor: blue,
-                      textValue: "Register",
-                      textColor: Colors.white),
-                ),
-              ],
-            )));
+    return SafeArea(
+      child: Padding(
+        padding: const EdgeInsets.all(50.0),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: <Widget>[
+            GestureDetector(
+              onTap: () {
+                BlocProvider.of<AccountBloc>(context)
+                    .add(const AccountNavigateEvent("login"));
+              },
+              child: BigButton(
+                  buttonColor: blue,
+                  textValue: "Login",
+                  textColor: Colors.white),
+            ),
+            const Padding(
+              padding: EdgeInsets.only(top: 30.0),
+            ),
+            GestureDetector(
+              onTap: () {
+                BlocProvider.of<AccountBloc>(context)
+                    .add(const AccountNavigateEvent("register"));
+              },
+              child: BigButton(
+                  buttonColor: blue,
+                  textValue: "Register",
+                  textColor: Colors.white),
+            ),
+          ],
+        ),
+      ),
+    );
   }
 }
