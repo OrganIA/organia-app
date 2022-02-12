@@ -31,7 +31,7 @@ class _AccountGuestPageState extends State<AccountGuestPage> {
               },
               child: BigButton(
                   buttonColor: blue,
-                  textValue: "Login",
+                  textValue: "Se connecter",
                   textColor: Colors.white),
             ),
             const Padding(
@@ -44,7 +44,7 @@ class _AccountGuestPageState extends State<AccountGuestPage> {
               },
               child: BigButton(
                   buttonColor: blue,
-                  textValue: "Register",
+                  textValue: "S'inscrire",
                   textColor: Colors.white),
             ),
           ],

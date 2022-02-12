@@ -42,7 +42,7 @@ class OrganIAAPIProvider {
         "Authorization": "Bearer $token"
       },
     );
-    return parseLoginResponse(response);
+    return parseUserInfosResponse(response);
   }
 
   Future<User> parseUserInfosResponse(http.Response response) async {
@@ -50,7 +50,7 @@ class OrganIAAPIProvider {
       final parsedBody = json.decode(response.body);
       return User.fromJson(parsedBody);
     } else if (response.statusCode == unprocessable) {
-      throw Exception("Utilisateur inconnu");
+      throw Exception("Connexion automatique impossible");
     } else {
       throw Exception("Erreur inconnue");
     }
