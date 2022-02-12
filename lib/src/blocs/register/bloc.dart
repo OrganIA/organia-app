@@ -13,7 +13,7 @@ class RegisterBloc extends Bloc<RegisterEvent, RegisterState> {
   Future<RegisterState> _registerRequest(
       RegisterClickOnRegisterEvent event) async {
     try {
-      print("register");
+      // print("register");
       return const RegisterLoadedSuccess();
     } catch (e) {
       return RegisterLoadedFailure(e.toString());
