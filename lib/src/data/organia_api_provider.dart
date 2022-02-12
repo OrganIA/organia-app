@@ -28,7 +28,6 @@ class OrganIAAPIProvider {
     } else if (response.statusCode == unprocessable) {
       throw Exception("User not found");
     } else {
-      print(response.statusCode);
       throw Exception("Unkown error");
     }
   }
