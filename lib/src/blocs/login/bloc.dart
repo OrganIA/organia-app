@@ -12,6 +12,8 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
   LoginBloc() : super(const LoginOnPage()) {
     on<LoginClickOnLoginEvent>(
         (event, emit) async => emit(await _loginRequest(event)));
+    on<LoginClickOnRegisterEvent>(
+        (event, emit) => emit(const LoginNavigateToRegister()));
   }
 
   Future<LoginState> _loginRequest(LoginClickOnLoginEvent event) async {

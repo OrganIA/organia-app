@@ -81,9 +81,27 @@ class _LoginPageState extends State<LoginPage> {
                           emailController.text, passwordController.text));
                 },
                 child: BigButton(
-                    buttonColor: blue,
-                    textValue: "Se connecter",
-                    textColor: Colors.white),
+                  buttonColor: blue,
+                  textValue: "Se connecter",
+                  textColor: Colors.white,
+                ),
+              ),
+              const SizedBox(
+                height: 32,
+              ),
+              GestureDetector(
+                onTap: () {
+                  BlocProvider.of<LoginBloc>(context)
+                      .add(LoginClickOnRegisterEvent());
+                },
+                child: Center(
+                  child: Text(
+                    "Pas encore de compte? S'inscrire",
+                    style: TextStyle(
+                      color: blue,
+                    ),
+                  ),
+                ),
               ),
             ],
           ),

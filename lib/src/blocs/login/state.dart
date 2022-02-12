@@ -8,6 +8,10 @@ class LoginLoading extends LoginState {
   const LoginLoading();
 }
 
+class LoginNavigateToRegister extends LoginState {
+  const LoginNavigateToRegister();
+}
+
 class LoginLoadedSuccess extends LoginState {
   String email;
   LoginLoadedSuccess(this.email);
