@@ -92,7 +92,7 @@ class _LoginPageState extends State<LoginPage> {
               GestureDetector(
                 onTap: () {
                   BlocProvider.of<LoginBloc>(context)
-                      .add(LoginClickOnRegisterEvent());
+                      .add(const LoginClickOnRegisterEvent());
                 },
                 child: Center(
                   child: Text(
