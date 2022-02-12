@@ -1,7 +1,7 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:organia/src/blocs/login/bloc.dart';
+import 'package:organia/src/ui/themes/themes.dart';
 import 'package:organia/src/ui/widgets/login_page.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -22,7 +22,7 @@ class _LoginScreenState extends State<LoginScreen> {
             final snackBar = SnackBar(
               duration: const Duration(seconds: 5),
               content: Text('Error ${state.cause}'),
-              backgroundColor: Colors.red,
+              backgroundColor: red,
             );
             ScaffoldMessenger.of(context).showSnackBar(snackBar);
           }

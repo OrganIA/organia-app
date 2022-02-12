@@ -1,7 +1,7 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:organia/src/blocs/register/bloc.dart';
+import 'package:organia/src/ui/themes/themes.dart';
 import 'package:organia/src/ui/widgets/register_page.dart';
 
 class RegisterScreen extends StatefulWidget {
@@ -22,7 +22,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
             var snackBar = SnackBar(
               duration: const Duration(seconds: 5),
               content: Text(state.cause),
-              backgroundColor: Colors.red,
+              backgroundColor: red,
             );
             ScaffoldMessenger.of(context).showSnackBar(snackBar);
           }
