@@ -50,7 +50,7 @@ class _AccountLoggedInPageState extends State<AccountLoggedInPage> {
                         child: SizedBox(
                           child: BigButton(
                               buttonColor: blue,
-                              textValue: "Logout",
+                              textValue: "Se déconnecter",
                               textColor: Colors.white),
                         )),
                   ],
