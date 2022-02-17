@@ -75,7 +75,27 @@ class OrganIAAPIProvider {
     }
   }
 
-  Future<List<Chat>> getUserChats() async {
-    return [];
+  Future<List<Chat>> getUserChats(String token) async {
+    final response = await http.get(
+      Uri.parse("$baseUrl/chats/"),
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": "Bearer $token"
+      },
+    );
+    return parseChatsListResponse(response);
+  }
+
+  Future<List<Chat>> parseChatsListResponse(http.Response response) async {
+    if (response.statusCode == success) {
+      List<Chat> chatsList = [];
+      final parsedBody = json.decode(response.body);
+      for (var i in parsedBody) {
+        chatsList.add(Chat.fromJson(i));
+      }
+      return chatsList;
+    } else {
+      throw Exception("Erreur inconnue");
+    }
   }
 }

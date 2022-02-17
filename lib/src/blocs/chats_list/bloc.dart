@@ -1,12 +1,14 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:organia/src/data/repository.dart';
 import 'package:organia/src/models/chat.dart';
-// import 'package:organia/src/utils/shared_preferences.dart';
+import 'package:organia/src/utils/shared_preferences.dart';
 part 'event.dart';
 part 'state.dart';
 
 class ChatsListBloc extends Bloc<ChatsListEvent, ChatsListState> {
   final ChatsListState initialState;
+  final OrganIAAPIRepository organIAAPIRepository = OrganIAAPIRepository();
   ChatsListBloc([this.initialState = const ChatsListLoading()])
       : super(initialState) {
     on<ChatsListNavigateEvent>(
@@ -18,6 +20,8 @@ class ChatsListBloc extends Bloc<ChatsListEvent, ChatsListState> {
   }
 
   Future<ChatsListState> _getUserChats() async {
+    String token = await MySharedPreferences().get("TOKEN");
+    organIAAPIRepository.getUserChats(token);
     return const ChatsListLoggedIn([]);
   }
 }
