@@ -13,3 +13,11 @@ class ChatsListNavigateEvent extends ChatsListEvent {
 class ChatsListNavigationDoneEvent extends ChatsListEvent {
   const ChatsListNavigationDoneEvent();
 }
+
+class ChatsListLoadEvent extends ChatsListEvent {
+  const ChatsListLoadEvent();
+}
+
+class ChatsListGuestEvent extends ChatsListEvent {
+  const ChatsListGuestEvent();
+}

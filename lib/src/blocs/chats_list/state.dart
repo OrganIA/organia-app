@@ -5,8 +5,8 @@ abstract class ChatsListState {
 }
 
 class ChatsListLoggedIn extends ChatsListState {
-  final String email;
-  const ChatsListLoggedIn(this.email);
+  final List<Chat> chats;
+  const ChatsListLoggedIn(this.chats);
 }
 
 class ChatsListGuest extends ChatsListState {

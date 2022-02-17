@@ -13,6 +13,14 @@ class ChatsListLoadingPage extends StatefulWidget {
 class _ChatsListLoadingPageState extends State<ChatsListLoadingPage> {
   @override
   Widget build(BuildContext context) {
+    MySharedPreferences().get("TOKEN").then((token) {
+      if (token != null && token.isNotEmpty) {
+        BlocProvider.of<ChatsListBloc>(context).add(const ChatsListLoadEvent());
+      } else {
+        BlocProvider.of<ChatsListBloc>(context)
+            .add(const ChatsListGuestEvent());
+      }
+    });
     return const CircularProgressIndicator();
   }
 }

@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:http/http.dart' as http;
+import 'package:organia/src/models/chat.dart';
 import 'package:organia/src/models/user.dart';
 import 'package:organia/src/utils/shared_preferences.dart';
 
@@ -74,5 +75,7 @@ class OrganIAAPIProvider {
     }
   }
 
-  // Future <
+  Future<List<Chat>> getUserChats() async {
+    return [];
+  }
 }
