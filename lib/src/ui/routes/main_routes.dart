@@ -2,7 +2,9 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:organia/src/blocs/account/bloc.dart';
+import 'package:organia/src/blocs/chats_list/bloc.dart';
 import 'package:organia/src/ui/screens/account.dart';
+import 'package:organia/src/ui/screens/chats_list.dart';
 import 'package:organia/src/ui/themes/themes.dart';
 
 class NavigationRouteInterface {
@@ -26,23 +28,27 @@ List<NavigationRouteInterface> navigationRoutes = [
       color: blue,
     ),
     "Messages",
-    Container(),
+    BlocProvider(
+      create: (_) => ChatsListBloc(),
+      child: const ChatsListScreen(),
+    ),
   ),
   NavigationRouteInterface(
-      const Icon(
-        CupertinoIcons.person_alt_circle,
-        size: 30,
-      ),
-      Icon(
-        CupertinoIcons.person_alt_circle,
-        size: 30,
-        color: blue,
-      ),
-      "Compte",
-      BlocProvider(
-        create: (_) => AccountBloc(),
-        child: const AccountScreen(),
-      )),
+    const Icon(
+      CupertinoIcons.person_alt_circle,
+      size: 30,
+    ),
+    Icon(
+      CupertinoIcons.person_alt_circle,
+      size: 30,
+      color: blue,
+    ),
+    "Compte",
+    BlocProvider(
+      create: (_) => AccountBloc(),
+      child: const AccountScreen(),
+    ),
+  ),
 ];
 
 class MainRoutes extends StatefulWidget {
