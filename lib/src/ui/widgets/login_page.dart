@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:organia/src/blocs/login/bloc.dart';
 import 'package:organia/src/ui/themes/themes.dart';
 import 'package:organia/src/ui/widgets/big_button.dart';
@@ -35,6 +36,7 @@ class _LoginPageState extends State<LoginPage> {
                   children: [
                     TextFormField(
                       controller: emailController,
+                      style: GoogleFonts.nunito(),
                       decoration: InputDecoration(
                         hintText: 'Email',
                         hintStyle: heading6.copyWith(color: grey),
@@ -49,6 +51,7 @@ class _LoginPageState extends State<LoginPage> {
                     TextFormField(
                       controller: passwordController,
                       obscureText: !passwordVisible,
+                      style: GoogleFonts.nunito(),
                       decoration: InputDecoration(
                         hintText: 'Mot de passe',
                         hintStyle: heading6.copyWith(color: grey),
@@ -97,8 +100,10 @@ class _LoginPageState extends State<LoginPage> {
                 child: Center(
                   child: Text(
                     "Pas encore de compte? S'inscrire",
-                    style: TextStyle(
-                      color: blue,
+                    style: GoogleFonts.nunito(
+                      textStyle: TextStyle(
+                        color: blue,
+                      ),
                     ),
                   ),
                 ),

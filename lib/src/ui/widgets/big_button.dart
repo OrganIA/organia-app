@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:organia/src/ui/themes/themes.dart';
 
 class BigButton extends StatelessWidget {
@@ -31,7 +32,9 @@ class BigButton extends StatelessWidget {
             child: Center(
               child: Text(
                 textValue,
-                style: heading5.copyWith(color: textColor),
+                style: GoogleFonts.nunito(
+                  textStyle: heading5.copyWith(color: textColor),
+                ),
               ),
             ),
           ),

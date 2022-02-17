@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:organia/src/blocs/login/bloc.dart';
 import 'package:organia/src/blocs/register/bloc.dart';
 import 'package:organia/src/ui/screens/register.dart';
@@ -23,14 +24,20 @@ class _LoginScreenState extends State<LoginScreen> {
         centerTitle: true,
         backgroundColor: blue,
         shadowColor: Colors.white,
-        title: const Text("Connexion"),
+        title: Text(
+          "Connexion",
+          style: GoogleFonts.nunito(),
+        ),
       ),
       body: BlocListener<LoginBloc, LoginState>(
         listener: (context, state) {
           if (state is LoginLoadedFailure) {
             final snackBar = SnackBar(
               duration: const Duration(seconds: 5),
-              content: Text('Error ${state.cause}'),
+              content: Text(
+                'Error ${state.cause}',
+                style: GoogleFonts.nunito(),
+              ),
               backgroundColor: red,
             );
             ScaffoldMessenger.of(context).showSnackBar(snackBar);

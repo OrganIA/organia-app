@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:organia/src/blocs/account/bloc.dart';
 import 'package:organia/src/ui/themes/themes.dart';
 import 'package:organia/src/ui/widgets/big_button.dart';
@@ -36,9 +37,11 @@ class _AccountLoggedInPageState extends State<AccountLoggedInPage> {
                     ),
                     Text(
                       widget.email,
-                      style: TextStyle(
-                        fontSize: 22.0,
-                        color: blue,
+                      style: GoogleFonts.nunito(
+                        textStyle: TextStyle(
+                          fontSize: 22.0,
+                          color: blue,
+                        ),
                       ),
                     ),
                     const SizedBox(height: 50),

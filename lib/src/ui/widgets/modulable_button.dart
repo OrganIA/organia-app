@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class ModulableButton extends StatelessWidget {
   final String textValue;
@@ -36,7 +37,12 @@ class ModulableButton extends StatelessWidget {
         child: InkWell(
           customBorder: const CircleBorder(),
           child: Center(
-            child: Text(textValue, style: textStyle),
+            child: Text(
+              textValue,
+              style: GoogleFonts.nunito(
+                textStyle: textStyle,
+              ),
+            ),
           ),
           splashColor: splashColor,
         ),
