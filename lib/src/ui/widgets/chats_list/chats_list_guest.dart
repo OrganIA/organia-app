@@ -23,7 +23,9 @@ class _ChatsListGuestPageState extends State<ChatsListGuestPage> {
           padding: const EdgeInsets.all(50.0),
           child: Text(
             "Vous n'êtes pas connecté.",
-            style: GoogleFonts.nunito(),
+            style: GoogleFonts.nunito(
+              textStyle: heading5,
+            ),
           )),
     );
   }
