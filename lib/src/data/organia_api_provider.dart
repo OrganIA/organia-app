@@ -55,7 +55,7 @@ class OrganIAAPIProvider {
     }
   }
 
-  Future<bool> register(String email, String password) async {
+  Future<void> register(String email, String password) async {
     final response = await http.post(
       Uri.parse("$baseUrl/users/"),
       headers: {"Content-Type": "application/json"},
@@ -64,13 +64,15 @@ class OrganIAAPIProvider {
     return parseRegisterResponse(response);
   }
 
-  Future<bool> parseRegisterResponse(http.Response response) async {
+  Future<void> parseRegisterResponse(http.Response response) async {
     if (response.statusCode == successPost) {
-      return true;
+      return;
     } else if (response.statusCode == unprocessable) {
       throw Exception("Email ou mot de passe non fourni");
     } else {
       throw Exception("Erreur inconnue");
     }
   }
+
+  // Future <
 }
