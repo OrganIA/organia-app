@@ -9,6 +9,6 @@ class OrganIAAPIRepository {
   Future<User> login(String email, String password) =>
       _organIAAPIProvider.login(email, password);
   Future<User> geMyInfos(String token) => _organIAAPIProvider.getMyInfos(token);
-  Future<bool> register(String email, String password) =>
+  Future<void> register(String email, String password) =>
       _organIAAPIProvider.register(email, password);
 }
