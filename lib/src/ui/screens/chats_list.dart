@@ -33,7 +33,7 @@ class _ChatsListScreenState extends State<ChatsListScreen> {
         if (state is ChatsListGuest) {
           return (const ChatsListGuestPage());
         } else if (state is ChatsListLoggedIn) {
-          return (ChatsListLoggedInPage(email: state.email));
+          return (ChatsListLoggedInPage(chats: state.chats));
         } else if (state is ChatsListLoading) {
           return (const ChatsListLoadingPage());
         } else {
