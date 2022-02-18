@@ -20,8 +20,12 @@ class ChatsListBloc extends Bloc<ChatsListEvent, ChatsListState> {
   }
 
   Future<ChatsListState> _getUserChats() async {
-    String token = await MySharedPreferences().get("TOKEN");
-    List<Chat> chatsList = await organIAAPIRepository.getUserChats(token);
-    return ChatsListLoggedIn(chatsList);
+    try {
+      String token = await MySharedPreferences().get("TOKEN");
+      List<Chat> chatsList = await organIAAPIRepository.getUserChats(token);
+      return ChatsListLoggedIn(chatsList);
+    } catch (e) {
+      return const ChatsListGuest();
+    }
   }
 }
