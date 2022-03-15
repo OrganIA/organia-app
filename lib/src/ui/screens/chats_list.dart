@@ -1,4 +1,5 @@
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:organia/src/blocs/chats_list/bloc.dart';
 import 'package:organia/src/blocs/login/bloc.dart';
@@ -33,7 +34,12 @@ class _ChatsListScreenState extends State<ChatsListScreen> {
         if (state is ChatsListGuest) {
           return (const ChatsListGuestPage());
         } else if (state is ChatsListLoggedIn) {
-          return (ChatsListLoggedInPage(chats: state.chats));
+          return (RefreshIndicator(
+              onRefresh: () async {
+                BlocProvider.of<ChatsListBloc>(context)
+                    .add(const ChatsListLoadEvent());
+              },
+              child: ChatsListLoggedInPage(chats: state.chats)));
         } else if (state is ChatsListLoading) {
           return (const ChatsListLoadingPage());
         } else {

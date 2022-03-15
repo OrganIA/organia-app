@@ -20,7 +20,7 @@ class _ChatsListLoggedInPageState extends State<ChatsListLoggedInPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: SingleChildScrollView(
-        physics: const BouncingScrollPhysics(),
+        physics: const AlwaysScrollableScrollPhysics(),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
