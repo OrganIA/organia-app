@@ -15,9 +15,7 @@ class _ChatElement extends State<ChatElement> {
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      onTap: () {
-        print("tap ${widget.chat.chatName}");
-      },
+      onTap: () {},
       child: Container(
         padding: const EdgeInsets.only(
           left: 16,

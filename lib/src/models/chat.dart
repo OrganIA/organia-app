@@ -1,11 +1,11 @@
 class Chat {
-  int chat_id;
+  int chatId;
   List<int> usersIds;
   String chatName;
   int creatorId;
 
   Chat({
-    required this.chat_id,
+    required this.chatId,
     required this.usersIds,
     required this.chatName,
     required this.creatorId,
@@ -17,7 +17,7 @@ class Chat {
       usersIds.add(parsedJson["users_ids"][i]);
     }
     return Chat(
-      chat_id: parsedJson["chat_id"],
+      chatId: parsedJson["chat_id"],
       creatorId: parsedJson["creator_id"],
       chatName: parsedJson["chat_name"].toString(),
       usersIds: usersIds,
@@ -26,6 +26,6 @@ class Chat {
 
   @override
   String toString() {
-    return "{chat_id: $chat_id, creator_id: $creatorId, chat_name: $chatName, users_ids: $usersIds}";
+    return "{chat_id: $chatId, creator_id: $creatorId, chat_name: $chatName, users_ids: $usersIds}";
   }
 }

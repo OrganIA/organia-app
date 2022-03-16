@@ -50,9 +50,7 @@ class _ChatsListLoggedInPageState extends State<ChatsListLoggedInPage> {
                         color: blue,
                       ),
                       child: InkWell(
-                        onTap: () {
-                          print("new");
-                        },
+                        onTap: () {},
                         child: Row(
                           children: <Widget>[
                             Icon(
