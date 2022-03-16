@@ -35,6 +35,7 @@ class _RegisterPageState extends State<RegisterPage> {
                 child: Column(
                   children: [
                     TextFormField(
+                      key: const Key("emailRegisterField"),
                       controller: emailController,
                       style: GoogleFonts.nunito(),
                       decoration: InputDecoration(
@@ -49,6 +50,7 @@ class _RegisterPageState extends State<RegisterPage> {
                       height: 32,
                     ),
                     TextFormField(
+                      key: const Key("passwordRegisterField"),
                       controller: passwordController,
                       obscureText: !passwordVisible,
                       style: GoogleFonts.nunito(),
@@ -78,6 +80,7 @@ class _RegisterPageState extends State<RegisterPage> {
                 height: 32,
               ),
               GestureDetector(
+                key: const Key("registerButton"),
                 onTap: () {
                   BlocProvider.of<RegisterBloc>(context).add(
                       RegisterClickOnRegisterEvent(

@@ -22,6 +22,7 @@ class _AccountGuestPageState extends State<AccountGuestPage> {
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: <Widget>[
             GestureDetector(
+              key: const Key("loginBigButton"),
               onTap: () {
                 BlocProvider.of<AccountBloc>(context)
                     .add(const AccountNavigateEvent("login"));
@@ -35,6 +36,7 @@ class _AccountGuestPageState extends State<AccountGuestPage> {
               padding: EdgeInsets.only(top: 30.0),
             ),
             GestureDetector(
+              key: const Key("registerBigButton"),
               onTap: () {
                 BlocProvider.of<AccountBloc>(context)
                     .add(const AccountNavigateEvent("register"));

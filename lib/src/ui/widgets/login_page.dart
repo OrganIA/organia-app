@@ -35,6 +35,7 @@ class _LoginPageState extends State<LoginPage> {
                 child: Column(
                   children: [
                     TextFormField(
+                      key: const Key("emailLoginField"),
                       controller: emailController,
                       style: GoogleFonts.nunito(),
                       decoration: InputDecoration(
@@ -49,6 +50,7 @@ class _LoginPageState extends State<LoginPage> {
                       height: 32,
                     ),
                     TextFormField(
+                      key: const Key("passwordLoginField"),
                       controller: passwordController,
                       obscureText: !passwordVisible,
                       style: GoogleFonts.nunito(),
@@ -78,6 +80,7 @@ class _LoginPageState extends State<LoginPage> {
                 height: 32,
               ),
               GestureDetector(
+                key: const Key("loginButton"),
                 onTap: () {
                   BlocProvider.of<LoginBloc>(context).add(
                       LoginClickOnLoginEvent(
