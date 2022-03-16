@@ -13,7 +13,11 @@ class NavigationRouteInterface {
   final String label;
   final Widget widget;
   const NavigationRouteInterface(
-      this.icon, this.activeIcon, this.label, this.widget);
+    this.icon,
+    this.activeIcon,
+    this.label,
+    this.widget,
+  );
 }
 
 List<NavigationRouteInterface> navigationRoutes = [
