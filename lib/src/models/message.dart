@@ -1,7 +1,7 @@
 class Message {
   int id;
-  DateTime createdAt;
-  DateTime updatedAt;
+  String createdAt;
+  String? updatedAt;
   int senderId;
   int chatId;
   String content;

@@ -12,9 +12,9 @@ class ChatsListBloc extends Bloc<ChatsListEvent, ChatsListState> {
   ChatsListBloc([this.initialState = const ChatsListLoading()])
       : super(initialState) {
     on<ChatsListNavigateEvent>(
-        (event, emit) => emit(ChatsListNavigate(event.to)));
+        (event, emit) => emit(ChatsListNavigate(event.to, event.chat)));
     on<ChatsListNavigationDoneEvent>(
-        (event, emit) => emit(const ChatsListGuest()));
+        (event, emit) => emit(const ChatsListLoading()));
     on<ChatsListLoadEvent>((event, emit) async => emit(await _getUserChats()));
     on<ChatsListGuestEvent>((event, emit) => emit(const ChatsListGuest()));
   }

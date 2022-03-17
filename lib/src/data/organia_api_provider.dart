@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:http/http.dart' as http;
 import 'package:organia/src/models/chat.dart';
+import 'package:organia/src/models/message.dart';
 import 'package:organia/src/models/user.dart';
 import 'package:organia/src/utils/shared_preferences.dart';
 
@@ -26,6 +27,8 @@ class OrganIAAPIProvider {
     if (response.statusCode == success) {
       final parsedBody = json.decode(response.body);
       await MySharedPreferences().set("TOKEN", parsedBody["token"]);
+      await MySharedPreferences()
+          .set("USER_ID", parsedBody["user"]["id"].toString());
       return User.fromJson(parsedBody["user"]);
     } else if (response.statusCode == unprocessable) {
       throw Exception("Utilisateur inconnu");
@@ -94,6 +97,31 @@ class OrganIAAPIProvider {
         chatsList.add(Chat.fromJson(i));
       }
       return chatsList;
+    } else {
+      throw Exception("Erreur inconnue");
+    }
+  }
+
+  Future<List<Message>> getChatMessages(String token, int id) async {
+    final response = await http.get(
+      Uri.parse("$baseUrl/chats/messages/$id"),
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": "Bearer $token"
+      },
+    );
+    return parseMessagesListResponse(response);
+  }
+
+  Future<List<Message>> parseMessagesListResponse(
+      http.Response response) async {
+    if (response.statusCode == success) {
+      List<Message> messagesList = [];
+      final parsedBody = json.decode(response.body);
+      for (var i in parsedBody) {
+        messagesList.add(Message.fromJson(i));
+      }
+      return messagesList;
     } else {
       throw Exception("Erreur inconnue");
     }

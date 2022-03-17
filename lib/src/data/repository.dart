@@ -1,5 +1,6 @@
 import 'package:organia/src/data/organia_api_provider.dart';
 import 'package:organia/src/models/chat.dart';
+import 'package:organia/src/models/message.dart';
 import 'package:organia/src/models/user.dart';
 
 class OrganIAAPIRepository {
@@ -15,4 +16,7 @@ class OrganIAAPIRepository {
 
   Future<List<Chat>> getUserChats(String token) =>
       _organIAAPIProvider.getUserChats(token);
+
+  Future<List<Message>> getChatMessages(String token, int id) =>
+      _organIAAPIProvider.getChatMessages(token, id);
 }

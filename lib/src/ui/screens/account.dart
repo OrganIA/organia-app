@@ -27,12 +27,14 @@ class _AccountScreenState extends State<AccountScreen> {
           switch (state.to) {
             case "register":
               Navigator.push(
-                  context,
-                  CupertinoPageRoute(
-                      builder: (context) => BlocProvider(
-                            create: (_) => RegisterBloc(),
-                            child: const RegisterScreen(),
-                          )));
+                context,
+                CupertinoPageRoute(
+                  builder: (context) => BlocProvider(
+                    create: (_) => RegisterBloc(),
+                    child: const RegisterScreen(),
+                  ),
+                ),
+              );
               break;
             case "login":
               final email = await Navigator.push(

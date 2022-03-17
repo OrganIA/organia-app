@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:organia/src/blocs/chats_list/bloc.dart';
 import 'package:organia/src/models/chat.dart';
 import 'package:organia/src/ui/themes/themes.dart';
 
@@ -15,7 +17,10 @@ class _ChatElement extends State<ChatElement> {
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      onTap: () {},
+      onTap: () {
+        BlocProvider.of<ChatsListBloc>(context)
+            .add(ChatsListNavigateEvent("chat", widget.chat));
+      },
       child: Container(
         padding: const EdgeInsets.only(
           left: 16,
@@ -30,7 +35,7 @@ class _ChatElement extends State<ChatElement> {
                 children: <Widget>[
                   CircleAvatar(
                     child: Text(
-                      widget.chat.chatName[0],
+                      widget.chat.chatName[0].toUpperCase(),
                       style: GoogleFonts.nunito(
                         textStyle: heading2,
                       ),

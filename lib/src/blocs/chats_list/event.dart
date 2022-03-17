@@ -7,7 +7,8 @@ abstract class ChatsListEvent {
 
 class ChatsListNavigateEvent extends ChatsListEvent {
   final String to;
-  const ChatsListNavigateEvent(this.to);
+  final Chat chat;
+  const ChatsListNavigateEvent(this.to, this.chat);
 }
 
 class ChatsListNavigationDoneEvent extends ChatsListEvent {

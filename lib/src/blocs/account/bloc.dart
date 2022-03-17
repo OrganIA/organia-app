@@ -24,15 +24,15 @@ class AccountBloc extends Bloc<AccountEvent, AccountState> {
       final User user = await organIAAPIRepository.geMyInfos(event.token);
       return AccountLoggedIn(user.email);
     } catch (e) {
-      MySharedPreferences().unset("EMAIL");
+      MySharedPreferences().unset("USER_ID");
       MySharedPreferences().unset("TOKEN");
       return const AccountGuest();
     }
   }
 
   Future<AccountState> logoutRequest() async {
+    await MySharedPreferences().unset("USER_ID");
     await MySharedPreferences().unset("TOKEN");
-    await MySharedPreferences().unset("EMAIL");
     return const AccountGuest();
   }
 }

@@ -19,5 +19,6 @@ class ChatsListLoading extends ChatsListState {
 
 class ChatsListNavigate extends ChatsListState {
   final String to;
-  const ChatsListNavigate(this.to);
+  final Chat chat;
+  const ChatsListNavigate(this.to, this.chat);
 }
