@@ -1,9 +1,11 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:organia/src/blocs/chats_list/bloc.dart';
 import 'package:organia/src/models/chat.dart';
 import 'package:organia/src/ui/themes/themes.dart';
-import 'package:organia/src/ui/widgets/chats_list/chat_element.dart';
+import 'package:organia/src/ui/widgets/chats_list/element.dart';
 
 class ChatsListLoggedInPage extends StatefulWidget {
   final List<Chat> chats;
@@ -51,8 +53,9 @@ class _ChatsListLoggedInPageState extends State<ChatsListLoggedInPage> {
                       ),
                       child: InkWell(
                         onTap: () {
-                          // ignore: avoid_print
-                          print("New button");
+                          BlocProvider.of<ChatsListBloc>(context).add(
+                              const ChatsListNavigateEvent(
+                                  Destination.newChat, null));
                         },
                         child: Row(
                           children: <Widget>[

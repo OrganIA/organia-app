@@ -4,9 +4,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:organia/src/blocs/chat/bloc.dart';
 import 'package:organia/src/blocs/chats_list/bloc.dart';
 import 'package:organia/src/ui/screens/chat.dart';
-import 'package:organia/src/ui/widgets/chats_list/chats_list_guest.dart';
-import 'package:organia/src/ui/widgets/chats_list/chats_list_loading.dart';
-import 'package:organia/src/ui/widgets/chats_list/chats_list_logged.dart';
+import 'package:organia/src/ui/widgets/chats_list/guest.dart';
+import 'package:organia/src/ui/widgets/chats_list/loading.dart';
+import 'package:organia/src/ui/widgets/chats_list/loaded.dart';
 
 class ChatsListScreen extends StatefulWidget {
   const ChatsListScreen({Key? key}) : super(key: key);
@@ -21,15 +21,18 @@ class _ChatsListScreenState extends State<ChatsListScreen> {
     return BlocListener<ChatsListBloc, ChatsListState>(
       listener: (context, state) async {
         if (state is ChatsListNavigate) {
-          Navigator.push(
-            context,
-            CupertinoPageRoute(
-              builder: (context) => BlocProvider(
-                create: (_) => ChatBloc(ChatLoading(state.chat), state.chat),
-                child: const ChatScreen(),
+          if (state.to == Destination.chat && state.chat != null) {
+            Navigator.push(
+              context,
+              CupertinoPageRoute(
+                builder: (context) => BlocProvider(
+                  create: (_) =>
+                      ChatBloc(ChatLoading(state.chat!), state.chat!),
+                  child: const ChatScreen(),
+                ),
               ),
-            ),
-          );
+            );
+          } else if (state.to == Destination.newChat) {}
           BlocProvider.of<ChatsListBloc>(context)
               .add(const ChatsListNavigationDoneEvent());
         }

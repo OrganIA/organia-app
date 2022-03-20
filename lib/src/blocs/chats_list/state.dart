@@ -4,6 +4,11 @@ abstract class ChatsListState {
   const ChatsListState();
 }
 
+enum Destination {
+  chat,
+  newChat,
+}
+
 class ChatsListLoggedIn extends ChatsListState {
   final List<Chat> chats;
   const ChatsListLoggedIn(this.chats);
@@ -18,7 +23,7 @@ class ChatsListLoading extends ChatsListState {
 }
 
 class ChatsListNavigate extends ChatsListState {
-  final String to;
-  final Chat chat;
+  final Destination to;
+  final Chat? chat;
   const ChatsListNavigate(this.to, this.chat);
 }

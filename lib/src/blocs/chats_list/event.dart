@@ -6,8 +6,8 @@ abstract class ChatsListEvent {
 }
 
 class ChatsListNavigateEvent extends ChatsListEvent {
-  final String to;
-  final Chat chat;
+  final Destination to;
+  final Chat? chat;
   const ChatsListNavigateEvent(this.to, this.chat);
 }
 

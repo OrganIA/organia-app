@@ -19,7 +19,7 @@ class _ChatElement extends State<ChatElement> {
     return InkWell(
       onTap: () {
         BlocProvider.of<ChatsListBloc>(context)
-            .add(ChatsListNavigateEvent("chat", widget.chat));
+            .add(ChatsListNavigateEvent(Destination.chat, widget.chat));
       },
       child: Container(
         padding: const EdgeInsets.only(
