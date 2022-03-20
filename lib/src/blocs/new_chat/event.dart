@@ -6,8 +6,7 @@ abstract class NewChatEvent {
 }
 
 class NewChatNavigateEvent extends NewChatEvent {
-  final String to;
-  const NewChatNavigateEvent(this.to);
+  const NewChatNavigateEvent();
 }
 
 class NewChatNavigationDoneEvent extends NewChatEvent {
@@ -15,6 +14,5 @@ class NewChatNavigationDoneEvent extends NewChatEvent {
 }
 
 class NewChatLoadEvent extends NewChatEvent {
-  final Chat chat;
-  const NewChatLoadEvent(this.chat);
+  const NewChatLoadEvent();
 }
