@@ -1,38 +1,35 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:organia/src/blocs/chat/bloc.dart';
-import 'package:organia/src/ui/widgets/chat/loaded.dart';
-import 'package:organia/src/ui/widgets/chat/loading.dart';
+import 'package:organia/src/blocs/new_chat/bloc.dart';
+import 'package:organia/src/ui/widgets/new_chat/loaded.dart';
+import 'package:organia/src/ui/widgets/new_chat/loading.dart';
 
-class ChatScreen extends StatefulWidget {
-  const ChatScreen({Key? key}) : super(key: key);
+class NewChatScreen extends StatefulWidget {
+  const NewChatScreen({Key? key}) : super(key: key);
 
   @override
-  _ChatScreenState createState() => _ChatScreenState();
+  _NewChatScreenState createState() => _NewChatScreenState();
 }
 
-class _ChatScreenState extends State<ChatScreen> {
+class _NewChatScreenState extends State<NewChatScreen> {
   @override
   Widget build(BuildContext context) {
-    return BlocListener<ChatBloc, ChatState>(
+    return BlocListener<NewChatBloc, NewChatState>(
       listener: (context, state) async {
-        if (state is ChatNavigate) {
-          BlocProvider.of<ChatBloc>(context)
-              .add(const ChatNavigationDoneEvent());
+        if (state is NewChatNavigate) {
+          BlocProvider.of<NewChatBloc>(context)
+              .add(const NewChatNavigationDoneEvent());
         }
       },
-      child: BlocBuilder<ChatBloc, ChatState>(
-          buildWhen: (ChatState previous, ChatState current) {
+      child: BlocBuilder<NewChatBloc, NewChatState>(
+          buildWhen: (NewChatState previous, NewChatState current) {
         return (true);
       }, builder: (context, state) {
-        if (state is ChatLoading) {
-          return (ChatLoadingPage(chat: state.chat));
-        } else if (state is ChatLoaded) {
-          return (ChatLoadedPage(
-            messages: state.messages,
-            chat: state.chat,
-            userId: state.userId,
-          ));
+        if (state is NewChatLoading) {
+          return (const NewChatLoadingPage());
+        } else if (state is NewChatLoaded) {
+          return (const NewChatLoadedPage());
         } else {
           return (Container());
         }
