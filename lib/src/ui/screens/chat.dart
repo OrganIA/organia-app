@@ -33,7 +33,6 @@ class _ChatScreenState extends State<ChatScreen> {
             chat: state.chat,
             userId: state.userId,
           ));
-          // return (const ChatLoadedPage(state.chats));
         } else {
           return (Container());
         }
