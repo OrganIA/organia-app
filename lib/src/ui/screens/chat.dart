@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:organia/src/blocs/chat/bloc.dart';
-import 'package:organia/src/ui/widgets/chat/chat_loaded.dart';
-import 'package:organia/src/ui/widgets/chat/chat_loading.dart';
+import 'package:organia/src/ui/widgets/chat/loaded.dart';
+import 'package:organia/src/ui/widgets/chat/loading.dart';
 
 class ChatScreen extends StatefulWidget {
   const ChatScreen({Key? key}) : super(key: key);
