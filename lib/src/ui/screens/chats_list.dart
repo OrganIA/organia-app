@@ -3,7 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:organia/src/blocs/chat/bloc.dart';
 import 'package:organia/src/blocs/chats_list/bloc.dart';
+import 'package:organia/src/blocs/new_chat/bloc.dart';
 import 'package:organia/src/ui/screens/chat.dart';
+import 'package:organia/src/ui/screens/new_chat.dart';
 import 'package:organia/src/ui/widgets/chats_list/guest.dart';
 import 'package:organia/src/ui/widgets/chats_list/loading.dart';
 import 'package:organia/src/ui/widgets/chats_list/loaded.dart';
@@ -32,7 +34,17 @@ class _ChatsListScreenState extends State<ChatsListScreen> {
                 ),
               ),
             );
-          } else if (state.to == Destination.newChat) {}
+          } else if (state.to == Destination.newChat) {
+            Navigator.push(
+              context,
+              CupertinoPageRoute(
+                builder: (context) => BlocProvider(
+                  create: (_) => NewChatBloc(),
+                  child: const NewChatScreen(),
+                ),
+              ),
+            );
+          }
           BlocProvider.of<ChatsListBloc>(context)
               .add(const ChatsListNavigationDoneEvent());
         }
