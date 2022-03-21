@@ -18,62 +18,50 @@ class RegisterScreen extends StatefulWidget {
 class _RegisterScreenState extends State<RegisterScreen> {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        elevation: 0,
-        centerTitle: true,
-        backgroundColor: blue,
-        shadowColor: Colors.white,
-        title: Text(
-          "Inscription",
-          style: GoogleFonts.nunito(),
-        ),
-      ),
-      body: BlocListener<RegisterBloc, RegisterState>(
-        listener: (context, state) {
-          if (state is RegisterLoadedFailure) {
-            var snackBar = SnackBar(
-              duration: const Duration(seconds: 5),
-              content: Text(
-                state.cause,
-                style: GoogleFonts.nunito(),
+    return BlocListener<RegisterBloc, RegisterState>(
+      listener: (context, state) {
+        if (state is RegisterLoadedFailure) {
+          var snackBar = SnackBar(
+            duration: const Duration(seconds: 5),
+            content: Text(
+              state.cause,
+              style: GoogleFonts.nunito(),
+            ),
+            backgroundColor: red,
+          );
+          ScaffoldMessenger.of(context).showSnackBar(snackBar);
+        }
+        if (state is RegisterNavigateToLogin) {
+          Navigator.pushReplacement(
+            context,
+            CupertinoPageRoute(
+              builder: (context) => BlocProvider(
+                create: (_) => LoginBloc(),
+                child: const LoginScreen(),
               ),
-              backgroundColor: red,
-            );
-            ScaffoldMessenger.of(context).showSnackBar(snackBar);
-          }
-          if (state is RegisterNavigateToLogin) {
-            Navigator.pushReplacement(
-              context,
-              CupertinoPageRoute(
-                builder: (context) => BlocProvider(
-                  create: (_) => LoginBloc(),
-                  child: const LoginScreen(),
-                ),
-              ),
-            );
-          }
-          if (state is RegisterLoadedSuccess) {
-            Navigator.pop(context);
-          }
-        },
-        child: BlocBuilder<RegisterBloc, RegisterState>(
-            buildWhen: (RegisterState previous, RegisterState current) {
-          return (true);
-        }, builder: (context, state) {
-          if (state is RegisterOnPage || state is RegisterLoadedFailure) {
-            return (const RegisterPage());
-          } else if (state is RegisterLoading) {
-            return (const Center(
-              child: CircularProgressIndicator(),
-            ));
-          } else if (state is RegisterLoadedFailure) {
-            return (Container());
-          } else {
-            return (Container());
-          }
-        }),
-      ),
+            ),
+          );
+        }
+        if (state is RegisterLoadedSuccess) {
+          Navigator.pop(context);
+        }
+      },
+      child: BlocBuilder<RegisterBloc, RegisterState>(
+          buildWhen: (RegisterState previous, RegisterState current) {
+        return (true);
+      }, builder: (context, state) {
+        if (state is RegisterOnPage || state is RegisterLoadedFailure) {
+          return (const RegisterPage());
+        } else if (state is RegisterLoading) {
+          return (const Center(
+            child: CircularProgressIndicator(),
+          ));
+        } else if (state is RegisterLoadedFailure) {
+          return (Container());
+        } else {
+          return (Container());
+        }
+      }),
     );
   }
 }
