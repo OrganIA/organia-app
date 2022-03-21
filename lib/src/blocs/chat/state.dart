@@ -8,7 +8,8 @@ class ChatLoaded extends ChatState {
   final List<Message> messages;
   final Chat chat;
   final int userId;
-  const ChatLoaded(this.messages, this.chat, this.userId);
+  final List<User> users;
+  const ChatLoaded(this.messages, this.chat, this.userId, this.users);
 }
 
 class ChatError extends ChatState {

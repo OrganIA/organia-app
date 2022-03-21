@@ -3,19 +3,21 @@ import 'package:flutter/scheduler.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:organia/src/models/chat.dart';
 import 'package:organia/src/models/message.dart';
+import 'package:organia/src/models/user.dart';
 import 'package:organia/src/ui/themes/themes.dart';
-import 'package:intl/intl.dart';
 
 class ChatLoadedPage extends StatefulWidget {
   final List<Message> messages;
   final Chat chat;
   final int userId;
-  const ChatLoadedPage(
-      {Key? key,
-      required this.messages,
-      required this.chat,
-      required this.userId})
-      : super(key: key);
+  final List<User> users;
+  const ChatLoadedPage({
+    Key? key,
+    required this.messages,
+    required this.chat,
+    required this.userId,
+    required this.users,
+  }) : super(key: key);
 
   @override
   _ChatLoadedPageState createState() => _ChatLoadedPageState();
@@ -130,13 +132,15 @@ class _ChatLoadedPageState extends State<ChatLoadedPage> {
                             ),
                           ),
                           Text(
-                            DateFormat('kk:mm dd/MM/yy').format(
-                                DateTime.parse(widget.messages[index].createdAt)
-                                    .toLocal()),
+                            widget.messages[index].createdAt,
                             style: const TextStyle(fontSize: 11),
                           ),
                           Text(
-                            widget.messages[index].senderId.toString(),
+                            widget.users
+                                .firstWhere((element) =>
+                                    element.id ==
+                                    widget.messages[index].senderId)
+                                .email,
                             style: const TextStyle(fontSize: 11),
                           ),
                         ],

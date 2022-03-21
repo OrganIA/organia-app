@@ -19,4 +19,7 @@ class OrganIAAPIRepository {
 
   Future<List<Message>> getChatMessages(String token, int id) =>
       _organIAAPIProvider.getChatMessages(token, id);
+
+  Future<List<User>> getChatUsers(String token, List<int> usersIds) =>
+      _organIAAPIProvider.getChatUsers(token, usersIds);
 }

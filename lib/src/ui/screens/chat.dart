@@ -32,6 +32,7 @@ class _ChatScreenState extends State<ChatScreen> {
             messages: state.messages,
             chat: state.chat,
             userId: state.userId,
+            users: state.users,
           ));
         } else {
           return (Container());

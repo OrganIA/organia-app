@@ -126,4 +126,28 @@ class OrganIAAPIProvider {
       throw Exception("Erreur inconnue");
     }
   }
+
+  Future<List<User>> getChatUsers(String token, List<int> usersIds) async {
+    List<User> users = [];
+    for (var element in usersIds) {
+      final response = await http.get(
+        Uri.parse("$baseUrl/users/$element"),
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": "Bearer $token"
+        },
+      );
+      users.add(parseUserResponse(response));
+    }
+    return users;
+  }
+
+  User parseUserResponse(http.Response response) {
+    if (response.statusCode == success) {
+      final parsedBody = json.decode(response.body);
+      return User.fromJson(parsedBody);
+    } else {
+      throw Exception("Erreur inconnue");
+    }
+  }
 }
