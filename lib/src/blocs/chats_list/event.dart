@@ -19,6 +19,10 @@ class ChatsListLoadEvent extends ChatsListEvent {
   const ChatsListLoadEvent();
 }
 
+class ChatsListReLoadEvent extends ChatsListEvent {
+  const ChatsListReLoadEvent();
+}
+
 class ChatsListGuestEvent extends ChatsListEvent {
   const ChatsListGuestEvent();
 }

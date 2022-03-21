@@ -16,6 +16,8 @@ class ChatsListBloc extends Bloc<ChatsListEvent, ChatsListState> {
     on<ChatsListNavigationDoneEvent>(
         (event, emit) => emit(const ChatsListLoading()));
     on<ChatsListLoadEvent>((event, emit) async => emit(await _getUserChats()));
+    on<ChatsListReLoadEvent>(
+        (event, emit) async => emit(const ChatsListLoading()));
     on<ChatsListGuestEvent>((event, emit) => emit(const ChatsListGuest()));
   }
 
