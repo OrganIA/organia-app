@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:organia/src/ui/themes/themes.dart';
 
 class NewChatLoadingPage extends StatefulWidget {
   const NewChatLoadingPage({Key? key}) : super(key: key);
@@ -8,9 +9,13 @@ class NewChatLoadingPage extends StatefulWidget {
 }
 
 class _NewChatLoadingPageState extends State<NewChatLoadingPage> {
-  final ScrollController controller = ScrollController();
   @override
   Widget build(BuildContext context) {
-    return const Scaffold();
+    return Container(
+      color: Colors.white,
+      child: Center(
+        child: CircularProgressIndicator(color: darkBlue),
+      ),
+    );
   }
 }

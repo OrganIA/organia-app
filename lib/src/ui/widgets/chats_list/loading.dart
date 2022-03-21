@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:organia/src/blocs/chats_list/bloc.dart';
+import 'package:organia/src/ui/themes/themes.dart';
 import 'package:organia/src/utils/shared_preferences.dart';
 
 class ChatsListLoadingPage extends StatefulWidget {
@@ -21,6 +22,11 @@ class _ChatsListLoadingPageState extends State<ChatsListLoadingPage> {
             .add(const ChatsListGuestEvent());
       }
     });
-    return const CircularProgressIndicator();
+    return Container(
+      color: Colors.white,
+      child: Center(
+        child: CircularProgressIndicator(color: darkBlue),
+      ),
+    );
   }
 }

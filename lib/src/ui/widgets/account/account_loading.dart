@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:organia/src/blocs/account/bloc.dart';
+import 'package:organia/src/ui/themes/themes.dart';
 import 'package:organia/src/utils/shared_preferences.dart';
 
 class AccountLoadingPage extends StatefulWidget {
@@ -20,6 +21,11 @@ class _AccountLoadingPageState extends State<AccountLoadingPage> {
         BlocProvider.of<AccountBloc>(context).add(const AccountLogoutEvent());
       }
     });
-    return const CircularProgressIndicator();
+    return Container(
+      color: Colors.white,
+      child: Center(
+        child: CircularProgressIndicator(color: darkBlue),
+      ),
+    );
   }
 }
