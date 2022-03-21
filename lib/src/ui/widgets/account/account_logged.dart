@@ -19,7 +19,26 @@ class _AccountLoggedInPageState extends State<AccountLoggedInPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Padding(
+      appBar: AppBar(
+        elevation: 0,
+        backgroundColor: Colors.transparent,
+        centerTitle: true,
+        title: Text(
+          "Votre compte",
+          style: GoogleFonts.nunito(
+            textStyle: TextStyle(
+              fontSize: 32,
+              fontWeight: FontWeight.bold,
+              color: black,
+            ),
+          ),
+        ),
+        iconTheme: const IconThemeData(
+          color: Colors.black, //change your color here
+        ),
+      ),
+      body: Scaffold(
+        body: Padding(
           padding: const EdgeInsets.fromLTRB(24.0, 40.0, 24.0, 0),
           child: Column(
             children: <Widget>[
@@ -52,7 +71,7 @@ class _AccountLoggedInPageState extends State<AccountLoggedInPage> {
                         },
                         child: SizedBox(
                           child: BigButton(
-                              buttonColor: blue,
+                              buttonColor: darkBlue,
                               textValue: "Se déconnecter",
                               textColor: Colors.white),
                         )),
@@ -60,7 +79,9 @@ class _AccountLoggedInPageState extends State<AccountLoggedInPage> {
                 ),
               ),
             ],
-          )),
+          ),
+        ),
+      ),
     );
   }
 }
