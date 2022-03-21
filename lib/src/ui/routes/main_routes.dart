@@ -93,8 +93,6 @@ class HomeMainRouteState extends State<MainRoutes> {
           selectedItemColor: Colors.blue,
           onTap: _onItemTapped,
         ),
-        body: Center(
-          child: navigationRoutes.elementAt(_selectedIndex).widget,
-        ));
+        body: navigationRoutes.elementAt(_selectedIndex).widget);
   }
 }
