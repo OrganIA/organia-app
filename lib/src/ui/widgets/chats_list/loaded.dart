@@ -47,9 +47,10 @@ class _ChatsListLoggedInPageState extends State<ChatsListLoggedInPage> {
                   height: 30,
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(30),
-                    color: blue,
+                    color: darkBlue,
                   ),
                   child: InkWell(
+                    highlightColor: darkBlue,
                     onTap: () {
                       BlocProvider.of<ChatsListBloc>(context).add(
                           const ChatsListNavigateEvent(
@@ -57,9 +58,9 @@ class _ChatsListLoggedInPageState extends State<ChatsListLoggedInPage> {
                     },
                     child: Row(
                       children: <Widget>[
-                        Icon(
+                        const Icon(
                           CupertinoIcons.add,
-                          color: darkBlue,
+                          color: Colors.white,
                           size: 20,
                         ),
                         const SizedBox(
@@ -71,6 +72,7 @@ class _ChatsListLoggedInPageState extends State<ChatsListLoggedInPage> {
                             textStyle: const TextStyle(
                               fontSize: 14,
                               fontWeight: FontWeight.bold,
+                              color: Colors.white,
                             ),
                           ),
                         ),
