@@ -56,12 +56,7 @@ class _ChatsListScreenState extends State<ChatsListScreen> {
         if (state is ChatsListGuest) {
           return (const ChatsListGuestPage());
         } else if (state is ChatsListLoggedIn) {
-          return (RefreshIndicator(
-              onRefresh: () async {
-                BlocProvider.of<ChatsListBloc>(context)
-                    .add(const ChatsListLoadEvent());
-              },
-              child: ChatsListLoggedInPage(chats: state.chats)));
+          return (ChatsListLoggedInPage(chats: state.chats));
         } else if (state is ChatsListLoading) {
           return (const ChatsListLoadingPage());
         } else {

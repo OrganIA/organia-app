@@ -20,8 +20,7 @@ class ChatsListLoggedInPage extends StatefulWidget {
 class _ChatsListLoggedInPageState extends State<ChatsListLoggedInPage> {
   @override
   Widget build(BuildContext context) {
-    return SingleChildScrollView(
-      physics: const AlwaysScrollableScrollPhysics(),
+    return SafeArea(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
@@ -104,16 +103,21 @@ class _ChatsListLoggedInPageState extends State<ChatsListLoggedInPage> {
               style: GoogleFonts.nunito(),
             ),
           ),
-          ListView.builder(
-            itemCount: widget.chats.length,
-            shrinkWrap: true,
-            padding: const EdgeInsets.only(top: 16),
-            physics: const NeverScrollableScrollPhysics(),
-            itemBuilder: (context, index) {
-              return ChatElement(
-                chat: widget.chats[index],
-              );
+          RefreshIndicator(
+            onRefresh: () async {
+              BlocProvider.of<ChatsListBloc>(context)
+                  .add(const ChatsListLoadEvent());
             },
+            child: ListView.builder(
+              itemCount: widget.chats.length,
+              shrinkWrap: true,
+              padding: const EdgeInsets.only(top: 16),
+              itemBuilder: (context, index) {
+                return ChatElement(
+                  chat: widget.chats[index],
+                );
+              },
+            ),
           ),
         ],
       ),
