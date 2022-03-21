@@ -100,6 +100,7 @@ class _LoginPageState extends State<LoginPage> {
                 GestureDetector(
                   key: const Key("loginButton"),
                   onTap: () {
+                    FocusManager.instance.primaryFocus?.unfocus();
                     BlocProvider.of<LoginBloc>(context).add(
                         LoginClickOnLoginEvent(
                             emailController.text, passwordController.text));
