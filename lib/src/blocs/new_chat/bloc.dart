@@ -13,12 +13,4 @@ class NewChatBloc extends Bloc<NewChatEvent, NewChatState> {
     on<NewChatNavigationDoneEvent>(
         (event, emit) => emit(const NewChatLoading()));
   }
-
-  // Future<NewChatState> _getNewChatMessages(int id) async {
-  //   String token = await MySharedPreferences().get("TOKEN");
-  //   List<Message> messagesList =
-  //       await organIAAPIRepository.getChatMessages(token, id);
-  //   return NewChatLoaded(messagesList, chat,
-  //       int.parse(await MySharedPreferences().get("USER_ID")));
-  // }
 }
