@@ -22,7 +22,6 @@ class _ChatsListLoggedInPageState extends State<ChatsListLoggedInPage> {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
           Padding(
             padding: const EdgeInsets.only(left: 16, right: 16),
@@ -103,20 +102,20 @@ class _ChatsListLoggedInPageState extends State<ChatsListLoggedInPage> {
               style: GoogleFonts.nunito(),
             ),
           ),
-          RefreshIndicator(
-            onRefresh: () async {
-              BlocProvider.of<ChatsListBloc>(context)
-                  .add(const ChatsListLoadEvent());
-            },
-            child: ListView.builder(
-              itemCount: widget.chats.length,
-              shrinkWrap: true,
-              padding: const EdgeInsets.only(top: 16),
-              itemBuilder: (context, index) {
-                return ChatElement(
-                  chat: widget.chats[index],
-                );
+          Expanded(
+            child: RefreshIndicator(
+              onRefresh: () async {
+                BlocProvider.of<ChatsListBloc>(context)
+                    .add(const ChatsListLoadEvent());
               },
+              child: ListView(
+                shrinkWrap: true,
+                children: widget.chats.map<Widget>(
+                  (chat) {
+                    return (ChatElement(chat: chat));
+                  },
+                ).toList(),
+              ),
             ),
           ),
         ],
