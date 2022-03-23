@@ -145,17 +145,8 @@ class OrganIAAPIProvider {
           "Authorization": "Bearer $token"
         },
       );
-      users.add(parseUserResponse(response));
+      users.add(await parseUserInfosResponse(response));
     }
     return users;
-  }
-
-  User parseUserResponse(http.Response response) {
-    if (response.statusCode == success) {
-      final parsedBody = json.decode(response.body);
-      return User.fromJson(parsedBody);
-    } else {
-      throw Exception("Erreur inconnue");
-    }
   }
 }
