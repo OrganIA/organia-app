@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:organia/src/blocs/chats_list/bloc.dart';
-import 'package:organia/src/models/hive/current_hive_user.dart';
 import 'package:organia/src/ui/themes/themes.dart';
 import 'package:organia/src/utils/myhive.dart';
 
