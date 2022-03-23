@@ -38,6 +38,8 @@ class OrganIAAPIProvider {
       return User.fromJson(parsedBody["user"]);
     } else if (response.statusCode == unprocessable) {
       throw Exception("Utilisateur inconnu");
+    } else if (response.statusCode == unauthorized) {
+      throw Exception("Mot de passe incorrect");
     } else {
       throw Exception("Erreur inconnue");
     }
