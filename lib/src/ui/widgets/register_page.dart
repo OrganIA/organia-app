@@ -53,6 +53,7 @@ class _RegisterPageState extends State<RegisterPage> {
                   child: Column(
                     children: [
                       TextFormField(
+                        textInputAction: TextInputAction.next,
                         key: const Key("emailRegisterField"),
                         controller: emailController,
                         style: GoogleFonts.nunito(),
@@ -87,6 +88,11 @@ class _RegisterPageState extends State<RegisterPage> {
                             borderSide: BorderSide.none,
                           ),
                         ),
+                        onFieldSubmitted: (_) {
+                          BlocProvider.of<RegisterBloc>(context).add(
+                              RegisterClickOnRegisterEvent(emailController.text,
+                                  passwordController.text));
+                        },
                       ),
                     ],
                   ),
