@@ -16,6 +16,9 @@ class OrganIAAPIProvider {
   final int serverError = 500;
 
   Future<User> login(String email, String password) async {
+    if (email == "" || password == "") {
+      throw Exception("Email ou mot de passe non fournis");
+    }
     final response = await http.post(
       Uri.parse("$baseUrl/auth/"),
       headers: {"Content-Type": "application/json"},
@@ -68,6 +71,9 @@ class OrganIAAPIProvider {
   }
 
   Future<void> register(String email, String password) async {
+    if (email == "" || password == "") {
+      throw Exception("Email ou mot de passe non fournis");
+    }
     final response = await http.post(
       Uri.parse("$baseUrl/users/"),
       headers: {"Content-Type": "application/json"},
@@ -80,7 +86,7 @@ class OrganIAAPIProvider {
     if (response.statusCode == successPost) {
       return;
     } else if (response.statusCode == unprocessable) {
-      throw Exception("Email ou mot de passe non fourni");
+      throw Exception("Adresse email déjà utilisée");
     } else {
       throw Exception("Erreur inconnue");
     }
@@ -122,7 +128,8 @@ class OrganIAAPIProvider {
   }
 
   Future<List<Message>> parseMessagesListResponse(
-      http.Response response) async {
+    http.Response response,
+  ) async {
     if (response.statusCode == success) {
       List<Message> messagesList = [];
       final parsedBody = json.decode(response.body);
