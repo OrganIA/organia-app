@@ -21,11 +21,9 @@ class ChatBloc extends Bloc<ChatEvent, ChatState> {
   }
 
   Future<ChatState> _getChatMessages(Chat chat) async {
-    String token = hive.box.get("currentHiveUser").token;
     List<Message> messagesList =
-        await organIAAPIRepository.getChatMessages(token, chat.chatId);
-    List<User> users =
-        await organIAAPIRepository.getChatUsers(token, chat.usersIds);
+        await organIAAPIRepository.getChatMessages(chat.chatId);
+    List<User> users = await organIAAPIRepository.getChatUsers(chat.usersIds);
     return ChatLoaded(
       messagesList,
       chat,

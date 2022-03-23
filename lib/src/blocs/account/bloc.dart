@@ -21,7 +21,7 @@ class AccountBloc extends Bloc<AccountEvent, AccountState> {
 
   Future<AccountState> autoLogin(AccountAutoLoginEvent event) async {
     try {
-      final User user = await organIAAPIRepository.geMyInfos(event.token);
+      final User user = await organIAAPIRepository.geMyInfos();
       return AccountLoggedIn(user.email);
     } catch (e) {
       await hive.box.delete("currentHiveUser");

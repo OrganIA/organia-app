@@ -48,12 +48,12 @@ class OrganIAAPIProvider {
     }
   }
 
-  Future<User> getMyInfos(String token) async {
+  Future<User> getMyInfos() async {
     final response = await http.get(
       Uri.parse("$baseUrl/users/me"),
       headers: {
         "Content-Type": "application/json",
-        "Authorization": "Bearer $token"
+        "Authorization": "Bearer ${hive.box.get('currentHiveUser').token}"
       },
     );
     return parseUserInfosResponse(response);
@@ -92,12 +92,12 @@ class OrganIAAPIProvider {
     }
   }
 
-  Future<List<Chat>> getUserChats(String token) async {
+  Future<List<Chat>> getUserChats() async {
     final response = await http.get(
       Uri.parse("$baseUrl/chats/"),
       headers: {
         "Content-Type": "application/json",
-        "Authorization": "Bearer $token"
+        "Authorization": "Bearer ${hive.box.get('currentHiveUser').token}"
       },
     );
     return parseChatsListResponse(response);
@@ -116,12 +116,12 @@ class OrganIAAPIProvider {
     }
   }
 
-  Future<List<Message>> getChatMessages(String token, int id) async {
+  Future<List<Message>> getChatMessages(int chatId) async {
     final response = await http.get(
-      Uri.parse("$baseUrl/chats/messages/$id"),
+      Uri.parse("$baseUrl/chats/messages/$chatId"),
       headers: {
         "Content-Type": "application/json",
-        "Authorization": "Bearer $token"
+        "Authorization": "Bearer ${hive.box.get('currentHiveUser').token}"
       },
     );
     return parseMessagesListResponse(response);
@@ -142,18 +142,20 @@ class OrganIAAPIProvider {
     }
   }
 
-  Future<List<User>> getChatUsers(String token, List<int> usersIds) async {
+  Future<List<User>> getChatUsers(List<int> usersIds) async {
     List<User> users = [];
     for (var element in usersIds) {
       final response = await http.get(
         Uri.parse("$baseUrl/users/$element"),
         headers: {
           "Content-Type": "application/json",
-          "Authorization": "Bearer $token"
+          "Authorization": "Bearer ${hive.box.get('currentHiveUser').token}"
         },
       );
       users.add(await parseUserInfosResponse(response));
     }
     return users;
   }
+
+  // Future<void> createChat()
 }

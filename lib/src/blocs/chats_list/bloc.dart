@@ -2,7 +2,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:organia/src/data/repository.dart';
 import 'package:organia/src/models/chat.dart';
-import 'package:organia/src/utils/myhive.dart';
 part 'event.dart';
 part 'state.dart';
 
@@ -23,8 +22,7 @@ class ChatsListBloc extends Bloc<ChatsListEvent, ChatsListState> {
 
   Future<ChatsListState> _getUserChats() async {
     try {
-      String token = hive.box.get("currentHiveUser").token;
-      List<Chat> chatsList = await organIAAPIRepository.getUserChats(token);
+      List<Chat> chatsList = await organIAAPIRepository.getUserChats();
       return ChatsListLoggedIn(chatsList);
     } catch (e) {
       return const ChatsListGuest();
