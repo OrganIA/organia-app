@@ -4,7 +4,7 @@ import 'package:organia/src/data/repository.dart';
 import 'package:organia/src/models/chat.dart';
 import 'package:organia/src/models/message.dart';
 import 'package:organia/src/models/user.dart';
-import 'package:organia/src/utils/shared_preferences.dart';
+import 'package:organia/src/utils/myhive.dart';
 part 'event.dart';
 part 'state.dart';
 
@@ -21,7 +21,7 @@ class ChatBloc extends Bloc<ChatEvent, ChatState> {
   }
 
   Future<ChatState> _getChatMessages(Chat chat) async {
-    String token = await MySharedPreferences().get("TOKEN");
+    String token = await hive.box.get("currentHiveUser")["token"];
     List<Message> messagesList =
         await organIAAPIRepository.getChatMessages(token, chat.chatId);
     List<User> users =
@@ -29,7 +29,7 @@ class ChatBloc extends Bloc<ChatEvent, ChatState> {
     return ChatLoaded(
       messagesList,
       chat,
-      int.parse(await MySharedPreferences().get("USER_ID")),
+      hive.box.get("currentHiveUser").userId,
       users,
     );
   }

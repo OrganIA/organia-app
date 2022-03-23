@@ -2,7 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:organia/src/data/repository.dart';
 import 'package:organia/src/models/user.dart';
-import 'package:organia/src/utils/shared_preferences.dart';
+import 'package:organia/src/utils/myhive.dart';
 part 'event.dart';
 part 'state.dart';
 
@@ -24,15 +24,13 @@ class AccountBloc extends Bloc<AccountEvent, AccountState> {
       final User user = await organIAAPIRepository.geMyInfos(event.token);
       return AccountLoggedIn(user.email);
     } catch (e) {
-      MySharedPreferences().unset("USER_ID");
-      MySharedPreferences().unset("TOKEN");
+      await hive.box.delete("currentHiveUser");
       return const AccountGuest();
     }
   }
 
   Future<AccountState> logoutRequest() async {
-    await MySharedPreferences().unset("USER_ID");
-    await MySharedPreferences().unset("TOKEN");
+    await hive.box.delete("currentHiveUser");
     return const AccountGuest();
   }
 }

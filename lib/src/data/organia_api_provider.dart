@@ -2,9 +2,10 @@ import 'dart:convert';
 
 import 'package:http/http.dart' as http;
 import 'package:organia/src/models/chat.dart';
+import 'package:organia/src/models/hive/current_hive_user.dart';
 import 'package:organia/src/models/message.dart';
 import 'package:organia/src/models/user.dart';
-import 'package:organia/src/utils/shared_preferences.dart';
+import 'package:organia/src/utils/myhive.dart';
 
 class OrganIAAPIProvider {
   final String baseUrl = "http://10.0.2.2:8000/api";
@@ -26,9 +27,14 @@ class OrganIAAPIProvider {
   Future<User> parseLoginResponse(http.Response response) async {
     if (response.statusCode == success) {
       final parsedBody = json.decode(response.body);
-      await MySharedPreferences().set("TOKEN", parsedBody["token"]);
-      await MySharedPreferences()
-          .set("USER_ID", parsedBody["user"]["id"].toString());
+      await hive.box.put(
+        "currentHiveUser",
+        CurrentHiveUser(
+          email: parsedBody["user"]["email"],
+          token: parsedBody["token"],
+          userId: parsedBody["user"]["id"],
+        ),
+      );
       return User.fromJson(parsedBody["user"]);
     } else if (response.statusCode == unprocessable) {
       throw Exception("Utilisateur inconnu");
