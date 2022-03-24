@@ -108,12 +108,24 @@ class OrganIAAPIProvider {
       List<Chat> chatsList = [];
       final parsedBody = json.decode(response.body);
       for (var i in parsedBody) {
-        chatsList.add(Chat.fromJson(i));
+        final Message latest = await getLatestMessageOfChat(i["chat_id"]);
+        chatsList.add(Chat.fromJson(i, latest));
       }
       return chatsList;
     } else {
       throw Exception("Erreur inconnue");
     }
+  }
+
+  Future<Message> getLatestMessageOfChat(int chatId) async {
+    final http.Response response = await http.get(
+      Uri.parse("$baseUrl/chats/latest/$chatId"),
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": "Bearer ${hive.box.get('currentHiveUser').token}"
+      },
+    );
+    return Message.fromJson(json.decode(response.body));
   }
 
   Future<List<Message>> getChatMessages(int chatId) async {
