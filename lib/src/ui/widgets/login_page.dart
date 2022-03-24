@@ -39,7 +39,7 @@ class _LoginPageState extends State<LoginPage> {
           ),
         ),
         iconTheme: const IconThemeData(
-          color: Colors.black, //change your color here
+          color: Colors.black,
         ),
       ),
       body: SafeArea(

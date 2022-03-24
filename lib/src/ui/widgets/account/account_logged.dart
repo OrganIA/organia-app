@@ -34,7 +34,7 @@ class _AccountLoggedInPageState extends State<AccountLoggedInPage> {
           ),
         ),
         iconTheme: const IconThemeData(
-          color: Colors.black, //change your color here
+          color: Colors.black,
         ),
       ),
       body: Scaffold(

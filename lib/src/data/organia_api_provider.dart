@@ -156,6 +156,4 @@ class OrganIAAPIProvider {
     }
     return users;
   }
-
-  // Future<void> createChat()
 }
