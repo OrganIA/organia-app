@@ -16,3 +16,7 @@ class NewChatNavigationDoneEvent extends NewChatEvent {
 class NewChatLoadEvent extends NewChatEvent {
   const NewChatLoadEvent();
 }
+
+class NewChatReloadEvent extends NewChatEvent {
+  const NewChatReloadEvent();
+}
