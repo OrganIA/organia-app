@@ -15,12 +15,7 @@ class _NewChatScreenState extends State<NewChatScreen> {
   @override
   Widget build(BuildContext context) {
     return BlocListener<NewChatBloc, NewChatState>(
-      listener: (context, state) async {
-        if (state is NewChatNavigate) {
-          BlocProvider.of<NewChatBloc>(context)
-              .add(const NewChatNavigationDoneEvent());
-        }
-      },
+      listener: (context, state) async {},
       child: BlocBuilder<NewChatBloc, NewChatState>(
           buildWhen: (NewChatState previous, NewChatState current) {
         return (true);

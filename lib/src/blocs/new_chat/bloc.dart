@@ -8,9 +8,6 @@ class NewChatBloc extends Bloc<NewChatEvent, NewChatState> {
   final OrganIAAPIRepository organIAAPIRepository = OrganIAAPIRepository();
 
   NewChatBloc() : super(const NewChatLoading()) {
-    on<NewChatNavigateEvent>((event, emit) => emit(const NewChatNavigate()));
-    on<NewChatLoadEvent>((event, emit) async => emit(const NewChatLoaded(1)));
-    on<NewChatNavigationDoneEvent>(
-        (event, emit) => emit(const NewChatLoading()));
+    on<NewChatLoadEvent>((event, emit) async => emit(const NewChatLoaded()));
   }
 }

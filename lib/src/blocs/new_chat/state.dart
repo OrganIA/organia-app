@@ -5,9 +5,7 @@ abstract class NewChatState {
 }
 
 class NewChatLoaded extends NewChatState {
-  final int userId;
-
-  const NewChatLoaded(this.userId);
+  const NewChatLoaded();
 }
 
 class NewChatLoading extends NewChatState {
