@@ -22,22 +22,24 @@ class _ChatScreenState extends State<ChatScreen> {
         }
       },
       child: BlocBuilder<ChatBloc, ChatState>(
-          buildWhen: (ChatState previous, ChatState current) {
-        return (true);
-      }, builder: (context, state) {
-        if (state is ChatLoading) {
-          return (ChatLoadingPage(chat: state.chat));
-        } else if (state is ChatLoaded) {
-          return (ChatLoadedPage(
-            messages: state.messages,
-            chat: state.chat,
-            userId: state.userId,
-            users: state.users,
-          ));
-        } else {
-          return (Container());
-        }
-      }),
+        buildWhen: (ChatState previous, ChatState current) {
+          return (true);
+        },
+        builder: (context, state) {
+          if (state is ChatLoading) {
+            return (ChatLoadingPage(chat: state.chat));
+          } else if (state is ChatLoaded) {
+            return (ChatLoadedPage(
+              messages: state.messages,
+              chat: state.chat,
+              userId: state.userId,
+              users: state.users,
+            ));
+          } else {
+            return (Container());
+          }
+        },
+      ),
     );
   }
 }

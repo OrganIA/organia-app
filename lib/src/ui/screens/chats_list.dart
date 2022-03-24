@@ -52,19 +52,21 @@ class _ChatsListScreenState extends State<ChatsListScreen> {
         }
       },
       child: BlocBuilder<ChatsListBloc, ChatsListState>(
-          buildWhen: (ChatsListState previous, ChatsListState current) {
-        return (true);
-      }, builder: (context, state) {
-        if (state is ChatsListGuest) {
-          return (const ChatsListGuestPage());
-        } else if (state is ChatsListLoggedIn) {
-          return (ChatsListLoggedInPage(chats: state.chats));
-        } else if (state is ChatsListLoading) {
-          return (const ChatsListLoadingPage());
-        } else {
-          return (Container());
-        }
-      }),
+        buildWhen: (ChatsListState previous, ChatsListState current) {
+          return (true);
+        },
+        builder: (context, state) {
+          if (state is ChatsListGuest) {
+            return (const ChatsListGuestPage());
+          } else if (state is ChatsListLoggedIn) {
+            return (ChatsListLoggedInPage(chats: state.chats));
+          } else if (state is ChatsListLoading) {
+            return (const ChatsListLoadingPage());
+          } else {
+            return (Container());
+          }
+        },
+      ),
     );
   }
 }

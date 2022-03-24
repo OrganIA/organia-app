@@ -20,6 +20,9 @@ class ChatsListLoggedInPage extends StatefulWidget {
 class _ChatsListLoggedInPageState extends State<ChatsListLoggedInPage> {
   @override
   Widget build(BuildContext context) {
+    widget.chats.sort(
+      (a, b) => a.chatName.toLowerCase().compareTo(b.chatName.toLowerCase()),
+    );
     return SafeArea(
       child: Column(
         children: <Widget>[
