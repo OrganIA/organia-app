@@ -34,7 +34,7 @@ class _ChatsListScreenState extends State<ChatsListScreen> {
               ),
             );
           } else if (state.to == Destination.newChat) {
-            Navigator.push(
+            await Navigator.push(
               context,
               CupertinoPageRoute(
                 builder: (context) => BlocProvider(
@@ -43,6 +43,9 @@ class _ChatsListScreenState extends State<ChatsListScreen> {
                 ),
               ),
             );
+            BlocProvider.of<ChatsListBloc>(context)
+                .add(const ChatsListReLoadEvent());
+            return;
           }
           BlocProvider.of<ChatsListBloc>(context)
               .add(const ChatsListNavigationDoneEvent());
