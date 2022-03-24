@@ -22,7 +22,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
       listener: (context, state) {
         if (state is RegisterLoadedFailure) {
           var snackBar = SnackBar(
-            duration: const Duration(seconds: 5),
+            duration: const Duration(seconds: 2),
             content: Text(
               state.cause,
               style: GoogleFonts.nunito(),

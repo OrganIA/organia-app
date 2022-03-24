@@ -13,6 +13,10 @@ class NewChatLoading extends NewChatState {
   const NewChatLoading();
 }
 
+class NewChatDone extends NewChatState {
+  const NewChatDone();
+}
+
 class NewChatError extends NewChatState {
   final String cause;
   const NewChatError(this.cause);

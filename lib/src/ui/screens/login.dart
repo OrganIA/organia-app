@@ -22,7 +22,7 @@ class _LoginScreenState extends State<LoginScreen> {
       listener: (context, state) {
         if (state is LoginLoadedFailure) {
           final snackBar = SnackBar(
-            duration: const Duration(seconds: 5),
+            duration: const Duration(seconds: 2),
             content: Text(
               'Error ${state.cause}',
               style: GoogleFonts.nunito(),

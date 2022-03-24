@@ -9,6 +9,8 @@ class NewChatLoadEvent extends NewChatEvent {
   const NewChatLoadEvent();
 }
 
-class NewChatReloadEvent extends NewChatEvent {
-  const NewChatReloadEvent();
+class NewChatCreateEvent extends NewChatEvent {
+  final String chatName;
+  final List<User> users;
+  const NewChatCreateEvent(this.chatName, this.users);
 }

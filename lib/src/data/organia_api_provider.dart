@@ -176,4 +176,40 @@ class OrganIAAPIProvider {
     }
     return users;
   }
+
+  Future<void> createChat(String chatName, List<User> users) async {
+    if (chatName == "") {
+      throw Exception("Aucun nom fourni");
+    } else if (users.isEmpty) {
+      throw Exception("Aucun utilisateur ajouté");
+    }
+    final List<dynamic> userList = generateUsersList(users);
+    final http.Response response = await http.post(
+      Uri.parse("$baseUrl/chats/"),
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": "Bearer ${hive.box.get('currentHiveUser').token}"
+      },
+      body: jsonEncode(
+        {
+          "chat_name": chatName,
+          "users_ids": userList,
+        },
+      ),
+    );
+    print(response.statusCode);
+    if (response.statusCode != successPost) {
+      throw Exception("Erreur ${response.statusCode}");
+    }
+    return;
+  }
+
+  List<dynamic> generateUsersList(List<User> users) {
+    final List<dynamic> userList = [];
+    for (var element in users) {
+      userList.add({"user_id": element.id});
+    }
+    userList.add({"user_id": hive.box.get("currentHiveUser").userId});
+    return userList;
+  }
 }

@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:organia/src/blocs/new_chat/bloc.dart';
 import 'package:organia/src/models/user.dart';
 import 'package:organia/src/ui/themes/themes.dart';
 import 'package:organia/src/ui/widgets/big_button.dart';
@@ -173,13 +175,36 @@ class _NewChatLoadedPageState extends State<NewChatLoadedPage> {
                 ],
               ),
             ),
-            Padding(
+            GestureDetector(
+              child: Padding(
                 padding: const EdgeInsets.all(15),
                 child: BigButton(
                   buttonColor: darkBlue,
                   textColor: Colors.white,
                   textValue: "Créer",
-                )),
+                ),
+              ),
+              onTap: () {
+                if (chatNameController.text.isEmpty || usersToAdd.isEmpty) {
+                  final snackBar = SnackBar(
+                    duration: const Duration(seconds: 2),
+                    content: Text(
+                      'Erreur aucun nom ou utilisateur fourni',
+                      style: GoogleFonts.nunito(),
+                    ),
+                    backgroundColor: red,
+                  );
+                  ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                } else {
+                  BlocProvider.of<NewChatBloc>(context).add(
+                    NewChatCreateEvent(
+                      chatNameController.text,
+                      usersToAdd,
+                    ),
+                  );
+                }
+              },
+            ),
           ],
         ),
       ),
