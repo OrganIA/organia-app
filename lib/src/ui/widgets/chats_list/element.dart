@@ -61,6 +61,15 @@ class _ChatElement extends State<ChatElement> {
                           const SizedBox(
                             height: 6,
                           ),
+                          if (widget.chat.latest != null) ...[
+                            Text(
+                              widget.chat.latest!.content,
+                              style: TextStyle(
+                                fontSize: 13,
+                                color: Colors.grey.shade600,
+                              ),
+                            ),
+                          ]
                         ],
                       ),
                     ),

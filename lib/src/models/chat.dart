@@ -5,7 +5,7 @@ class Chat {
   List<int> usersIds;
   String chatName;
   int creatorId;
-  Message latest;
+  Message? latest;
 
   Chat({
     required this.chatId,
@@ -15,7 +15,7 @@ class Chat {
     required this.latest,
   });
 
-  factory Chat.fromJson(Map<String, dynamic> parsedJson, Message latest) {
+  factory Chat.fromJson(Map<String, dynamic> parsedJson, Message? latest) {
     final List<int> usersIds = [];
     for (var i = 0; i < parsedJson["users_ids"].length; i++) {
       usersIds.add(parsedJson["users_ids"][i]);
