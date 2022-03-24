@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:organia/src/blocs/new_chat/bloc.dart';
-import 'package:organia/src/ui/themes/themes.dart';
 import 'package:organia/src/ui/widgets/new_chat/loaded.dart';
 import 'package:organia/src/ui/widgets/new_chat/loading.dart';
 

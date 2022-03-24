@@ -197,7 +197,6 @@ class OrganIAAPIProvider {
         },
       ),
     );
-    print(response.statusCode);
     if (response.statusCode != successPost) {
       throw Exception("Erreur ${response.statusCode}");
     }
