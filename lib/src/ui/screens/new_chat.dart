@@ -23,7 +23,7 @@ class _NewChatScreenState extends State<NewChatScreen> {
         if (state is NewChatLoading) {
           return (const NewChatLoadingPage());
         } else if (state is NewChatLoaded) {
-          return (const NewChatLoadedPage());
+          return (NewChatLoadedPage(users: state.users));
         } else {
           return (Container());
         }

@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:organia/src/models/user.dart';
 import 'package:organia/src/ui/themes/themes.dart';
 import 'package:organia/src/ui/widgets/big_button.dart';
 
 class NewChatLoadedPage extends StatefulWidget {
-  const NewChatLoadedPage({Key? key}) : super(key: key);
+  final List<User> users;
+  const NewChatLoadedPage({Key? key, required this.users}) : super(key: key);
 
   @override
   _NewChatLoadedPageState createState() => _NewChatLoadedPageState();
@@ -12,10 +14,13 @@ class NewChatLoadedPage extends StatefulWidget {
 
 class _NewChatLoadedPageState extends State<NewChatLoadedPage> {
   TextEditingController chatNameController = TextEditingController();
-  List<String> usersNotAdded = [];
-  List<String> usersToAdd = [];
+  List<User> usersNotAdded = [];
+  List<User> usersToAdd = [];
   @override
   Widget build(BuildContext context) {
+    setState(() {
+      usersNotAdded = widget.users;
+    });
     return Scaffold(
       appBar: AppBar(
         elevation: 0,
@@ -85,7 +90,7 @@ class _NewChatLoadedPageState extends State<NewChatLoadedPage> {
                             child: Padding(
                               padding: const EdgeInsets.all(15),
                               child: Text(
-                                user,
+                                user.email,
                                 style: const TextStyle(
                                   color: Colors.white,
                                 ),
@@ -143,7 +148,7 @@ class _NewChatLoadedPageState extends State<NewChatLoadedPage> {
                                   child: Padding(
                                     padding: const EdgeInsets.all(15),
                                     child: Text(
-                                      user,
+                                      user.email,
                                       style: const TextStyle(
                                         color: Colors.white,
                                       ),

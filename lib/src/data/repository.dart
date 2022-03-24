@@ -11,6 +11,8 @@ class OrganIAAPIRepository {
 
   Future<User> geMyInfos() => _organIAAPIProvider.getMyInfos();
 
+  Future<List<User>> getAllUsers() => _organIAAPIProvider.getAllUsers();
+
   Future<void> register(String email, String password) =>
       _organIAAPIProvider.register(email, password);
 

@@ -19,7 +19,7 @@ class OrganIAAPIProvider {
     if (email == "" || password == "") {
       throw Exception("Email ou mot de passe non fournis");
     }
-    final response = await http.post(
+    final http.Response response = await http.post(
       Uri.parse("$baseUrl/auth/"),
       headers: {"Content-Type": "application/json"},
       body: jsonEncode({"email": email, "password": password}),
@@ -49,7 +49,7 @@ class OrganIAAPIProvider {
   }
 
   Future<User> getMyInfos() async {
-    final response = await http.get(
+    final http.Response response = await http.get(
       Uri.parse("$baseUrl/users/me"),
       headers: {
         "Content-Type": "application/json",
@@ -74,7 +74,7 @@ class OrganIAAPIProvider {
     if (email == "" || password == "") {
       throw Exception("Email ou mot de passe non fournis");
     }
-    final response = await http.post(
+    final http.Response response = await http.post(
       Uri.parse("$baseUrl/users/"),
       headers: {"Content-Type": "application/json"},
       body: jsonEncode({"email": email, "password": password, "role_id": 0}),
@@ -93,7 +93,7 @@ class OrganIAAPIProvider {
   }
 
   Future<List<Chat>> getUserChats() async {
-    final response = await http.get(
+    final http.Response response = await http.get(
       Uri.parse("$baseUrl/chats/"),
       headers: {
         "Content-Type": "application/json",
@@ -117,7 +117,7 @@ class OrganIAAPIProvider {
   }
 
   Future<List<Message>> getChatMessages(int chatId) async {
-    final response = await http.get(
+    final http.Response response = await http.get(
       Uri.parse("$baseUrl/chats/messages/$chatId"),
       headers: {
         "Content-Type": "application/json",
@@ -145,7 +145,7 @@ class OrganIAAPIProvider {
   Future<List<User>> getChatUsers(List<int> usersIds) async {
     List<User> users = [];
     for (var element in usersIds) {
-      final response = await http.get(
+      final http.Response response = await http.get(
         Uri.parse("$baseUrl/users/$element"),
         headers: {
           "Content-Type": "application/json",
@@ -153,6 +153,26 @@ class OrganIAAPIProvider {
         },
       );
       users.add(await parseUserInfosResponse(response));
+    }
+    return users;
+  }
+
+  Future<List<User>> getAllUsers() async {
+    final List<User> users = [];
+    final http.Response response = await http.get(
+      Uri.parse("$baseUrl/users"),
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": "Bearer ${hive.box.get('currentHiveUser').token}"
+      },
+    );
+    if (response.statusCode == success) {
+      final parsedBody = json.decode(response.body);
+      for (var element in parsedBody) {
+        users.add(User.fromJson(element));
+      }
+    } else {
+      throw Exception("Erreur ${response.statusCode}");
     }
     return users;
   }
