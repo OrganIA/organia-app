@@ -18,11 +18,28 @@ class ChatsListLoggedInPage extends StatefulWidget {
 }
 
 class _ChatsListLoggedInPageState extends State<ChatsListLoggedInPage> {
-  @override
-  Widget build(BuildContext context) {
+  void sortChatList() {
     widget.chats.sort(
       (a, b) => a.chatName.toLowerCase().compareTo(b.chatName.toLowerCase()),
     );
+    final List<Chat> withMessage = widget.chats
+        .where(
+          (element) => element.latest != null,
+        )
+        .toList();
+    for (var i in withMessage) {
+      widget.chats.removeWhere((element) => element.chatId == i.chatId);
+    }
+    withMessage
+        .sort(((b, a) => a.latest!.createdAt.compareTo(b.latest!.createdAt)));
+    withMessage.addAll(widget.chats);
+    widget.chats.removeRange(0, widget.chats.length);
+    widget.chats.addAll(withMessage);
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    sortChatList();
     return SafeArea(
       child: Column(
         children: <Widget>[
