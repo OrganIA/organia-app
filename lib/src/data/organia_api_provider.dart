@@ -1,7 +1,5 @@
-// ignore_for_file: avoid_print
-
 import 'dart:convert';
-
+import 'package:collection/collection.dart';
 import 'package:http/http.dart' as http;
 import 'package:organia/src/models/chat.dart';
 import 'package:organia/src/models/hive/current_hive_user.dart';
@@ -111,28 +109,18 @@ class OrganIAAPIProvider {
       final List<Chat> chatsList = [];
       final parsedBody = json.decode(response.body);
       for (var i in parsedBody) {
-        final Message? message = getLatestChatMessage(
-          i["chat_id"],
-          latestMessages,
-        );
         chatsList.add(
           Chat.fromJson(
             i,
-            message,
+            latestMessages.firstWhereOrNull(
+              (message) => message.chatId == i["chat_id"],
+            ),
           ),
         );
       }
       return chatsList;
     } else {
       throw Exception("Erreur inconnue");
-    }
-  }
-
-  Message? getLatestChatMessage(int chatId, List<Message> latestMessages) {
-    try {
-      return latestMessages.firstWhere((message) => message.chatId == chatId);
-    } catch (_) {
-      return null;
     }
   }
 
