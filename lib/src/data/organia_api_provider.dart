@@ -1,3 +1,5 @@
+// ignore_for_file: avoid_print
+
 import 'dart:convert';
 
 import 'package:http/http.dart' as http;
@@ -105,37 +107,53 @@ class OrganIAAPIProvider {
 
   Future<List<Chat>> parseChatsListResponse(http.Response response) async {
     if (response.statusCode == success) {
-      List<Chat> chatsList = [];
-      final parsedBody = json.decode(response.body);
-      for (var i in parsedBody) {
-        final Message? latest = await getLatestMessageOfChat(i["chat_id"]);
-        chatsList.add(Chat.fromJson(i, latest));
+      try {
+        final List<Message> latestMessages = await getLatestMessageOfChat();
+        final List<Chat> chatsList = [];
+        final parsedBody = json.decode(response.body);
+        for (var i in parsedBody) {
+          final Message? message = getLatestChatMessage(
+            i["chat_id"],
+            latestMessages,
+          );
+          chatsList.add(
+            Chat.fromJson(
+              i,
+              message,
+            ),
+          );
+        }
+        return chatsList;
+      } catch (e) {
+        return [];
       }
-      return chatsList;
     } else {
       throw Exception("Erreur inconnue");
     }
   }
 
-  Future<Message?> getLatestMessageOfChat(int chatId) async {
+  Message? getLatestChatMessage(int chatId, List<Message> latestMessages) {
+    try {
+      return latestMessages.firstWhere((message) => message.chatId == chatId);
+    } catch (_) {
+      return null;
+    }
+  }
+
+  Future<List<Message>> getLatestMessageOfChat() async {
     final http.Response response = await http.get(
-      Uri.parse("$baseUrl/chats/latest/$chatId"),
+      Uri.parse("$baseUrl/chats/messages/latest"),
       headers: {
         "Content-Type": "application/json",
         "Authorization": "Bearer ${hive.box.get('currentHiveUser').token}"
       },
     );
-    final decodedJson = json.decode(response.body);
-    if (decodedJson == null) {
-      return null;
-    } else {
-      return Message.fromJson(decodedJson);
-    }
+    return parseMessagesListResponse(response);
   }
 
   Future<List<Message>> getChatMessages(int chatId) async {
     final http.Response response = await http.get(
-      Uri.parse("$baseUrl/chats/messages/$chatId"),
+      Uri.parse("$baseUrl/chats/$chatId/messages"),
       headers: {
         "Content-Type": "application/json",
         "Authorization": "Bearer ${hive.box.get('currentHiveUser').token}"
@@ -161,9 +179,9 @@ class OrganIAAPIProvider {
 
   Future<List<User>> getChatUsers(List<int> usersIds) async {
     List<User> users = [];
-    for (var element in usersIds) {
+    for (var userId in usersIds) {
       final http.Response response = await http.get(
-        Uri.parse("$baseUrl/users/$element"),
+        Uri.parse("$baseUrl/users/$userId"),
         headers: {
           "Content-Type": "application/json",
           "Authorization": "Bearer ${hive.box.get('currentHiveUser').token}"
