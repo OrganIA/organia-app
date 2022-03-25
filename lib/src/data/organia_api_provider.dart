@@ -107,26 +107,22 @@ class OrganIAAPIProvider {
 
   Future<List<Chat>> parseChatsListResponse(http.Response response) async {
     if (response.statusCode == success) {
-      try {
-        final List<Message> latestMessages = await getLatestMessageOfChat();
-        final List<Chat> chatsList = [];
-        final parsedBody = json.decode(response.body);
-        for (var i in parsedBody) {
-          final Message? message = getLatestChatMessage(
-            i["chat_id"],
-            latestMessages,
-          );
-          chatsList.add(
-            Chat.fromJson(
-              i,
-              message,
-            ),
-          );
-        }
-        return chatsList;
-      } catch (e) {
-        return [];
+      final List<Message> latestMessages = await getLatestMessageOfChat();
+      final List<Chat> chatsList = [];
+      final parsedBody = json.decode(response.body);
+      for (var i in parsedBody) {
+        final Message? message = getLatestChatMessage(
+          i["chat_id"],
+          latestMessages,
+        );
+        chatsList.add(
+          Chat.fromJson(
+            i,
+            message,
+          ),
+        );
       }
+      return chatsList;
     } else {
       throw Exception("Erreur inconnue");
     }
