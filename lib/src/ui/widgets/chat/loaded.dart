@@ -25,6 +25,17 @@ class ChatLoadedPage extends StatefulWidget {
 
 class _ChatLoadedPageState extends State<ChatLoadedPage> {
   final ScrollController controller = ScrollController();
+
+  Color getMessageColor(BuildContext context, int senderId, int currentUserId) {
+    if (senderId == currentUserId) {
+      return MediaQuery.of(context).platformBrightness == Brightness.light
+          ? lightBlue
+          : darkBlue;
+    } else {
+      return grey;
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     SchedulerBinding.instance?.addPostFrameCallback((_) {
@@ -36,7 +47,15 @@ class _ChatLoadedPageState extends State<ChatLoadedPage> {
       appBar: AppBar(
         elevation: 0,
         automaticallyImplyLeading: false,
-        backgroundColor: Colors.white,
+        iconTheme: IconThemeData(
+          color: MediaQuery.of(context).platformBrightness == Brightness.light
+              ? darkBlue
+              : Colors.white,
+        ),
+        backgroundColor:
+            MediaQuery.of(context).platformBrightness == Brightness.dark
+                ? null
+                : Colors.white,
         flexibleSpace: SafeArea(
           child: Container(
             padding: const EdgeInsets.only(right: 16),
@@ -48,7 +67,6 @@ class _ChatLoadedPageState extends State<ChatLoadedPage> {
                   },
                   icon: const Icon(
                     Icons.arrow_back,
-                    color: Colors.black,
                   ),
                 ),
                 const SizedBox(
@@ -83,9 +101,8 @@ class _ChatLoadedPageState extends State<ChatLoadedPage> {
                   ),
                 ),
                 IconButton(
-                  icon: Icon(
+                  icon: const Icon(
                     Icons.info_outline,
-                    color: darkBlue,
                   ),
                   onPressed: () {},
                 ),
@@ -120,15 +137,16 @@ class _ChatLoadedPageState extends State<ChatLoadedPage> {
                           Container(
                             decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(20),
-                              color: (widget.messages[index].senderId !=
-                                      widget.userId
-                                  ? Colors.grey.shade200
-                                  : Colors.blue[200]),
+                              color: getMessageColor(
+                                context,
+                                widget.messages[index].senderId,
+                                widget.userId,
+                              ),
                             ),
                             padding: const EdgeInsets.all(16),
                             child: Text(
                               widget.messages[index].content,
-                              style: const TextStyle(fontSize: 15),
+                              // style: const TextStyle(fontSize: 14),
                             ),
                           ),
                           Text(
@@ -137,9 +155,11 @@ class _ChatLoadedPageState extends State<ChatLoadedPage> {
                           ),
                           Text(
                             widget.users
-                                .firstWhere((element) =>
-                                    element.id ==
-                                    widget.messages[index].senderId)
+                                .firstWhere(
+                                  (element) =>
+                                      element.id ==
+                                      widget.messages[index].senderId,
+                                )
                                 .email,
                             style: const TextStyle(fontSize: 11),
                           ),
@@ -160,7 +180,6 @@ class _ChatLoadedPageState extends State<ChatLoadedPage> {
                 ),
                 height: 60,
                 width: double.infinity,
-                color: Colors.white,
                 child: Row(
                   children: <Widget>[
                     const SizedBox(
@@ -171,9 +190,6 @@ class _ChatLoadedPageState extends State<ChatLoadedPage> {
                         cursorColor: darkBlue,
                         decoration: const InputDecoration(
                           hintText: "Vôtre message...",
-                          hintStyle: TextStyle(
-                            color: Colors.black54,
-                          ),
                           border: InputBorder.none,
                         ),
                       ),

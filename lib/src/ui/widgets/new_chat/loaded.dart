@@ -33,11 +33,18 @@ class _NewChatLoadedPageState extends State<NewChatLoadedPage> {
             textStyle: TextStyle(
               fontSize: 24,
               fontWeight: FontWeight.bold,
-              color: black,
+              color:
+                  MediaQuery.of(context).platformBrightness == Brightness.light
+                      ? black
+                      : Colors.white,
             ),
           ),
         ),
-        iconTheme: const IconThemeData(color: Colors.black),
+        iconTheme: IconThemeData(
+          color: MediaQuery.of(context).platformBrightness == Brightness.light
+              ? darkBlue
+              : Colors.white,
+        ),
       ),
       body: SafeArea(
         child: Column(
@@ -63,10 +70,9 @@ class _NewChatLoadedPageState extends State<NewChatLoadedPage> {
               child: Text(
                 "Utilisateurs ajoutés",
                 style: GoogleFonts.nunito(
-                  textStyle: TextStyle(
+                  textStyle: const TextStyle(
                     fontSize: 16,
                     fontWeight: FontWeight.bold,
-                    color: black,
                   ),
                 ),
               ),
@@ -118,10 +124,9 @@ class _NewChatLoadedPageState extends State<NewChatLoadedPage> {
               child: Text(
                 "Utilisateurs non ajoutés",
                 style: GoogleFonts.nunito(
-                  textStyle: TextStyle(
+                  textStyle: const TextStyle(
                     fontSize: 16,
                     fontWeight: FontWeight.bold,
-                    color: black,
                   ),
                 ),
               ),

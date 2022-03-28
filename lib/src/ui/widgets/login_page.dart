@@ -31,15 +31,16 @@ class _LoginPageState extends State<LoginPage> {
         title: Text(
           "Connexion",
           style: GoogleFonts.nunito(
-            textStyle: TextStyle(
+            textStyle: const TextStyle(
               fontSize: 32,
               fontWeight: FontWeight.bold,
-              color: black,
             ),
           ),
         ),
-        iconTheme: const IconThemeData(
-          color: Colors.black,
+        iconTheme: IconThemeData(
+          color: MediaQuery.of(context).platformBrightness == Brightness.light
+              ? darkBlue
+              : Colors.white,
         ),
       ),
       body: SafeArea(

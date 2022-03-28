@@ -52,7 +52,9 @@ class _ChatsListLoggedInPageState extends State<ChatsListLoggedInPage> {
                   "Conversations",
                   style: GoogleFonts.nunito(
                     textStyle: const TextStyle(
-                        fontSize: 32, fontWeight: FontWeight.bold),
+                      fontSize: 32,
+                      fontWeight: FontWeight.bold,
+                    ),
                   ),
                 ),
                 Container(

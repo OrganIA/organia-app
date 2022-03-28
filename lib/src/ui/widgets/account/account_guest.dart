@@ -26,7 +26,10 @@ class _AccountGuestPageState extends State<AccountGuestPage> {
             textStyle: TextStyle(
               fontSize: 32,
               fontWeight: FontWeight.bold,
-              color: black,
+              color:
+                  MediaQuery.of(context).platformBrightness == Brightness.light
+                      ? black
+                      : Colors.white,
             ),
           ),
         ),

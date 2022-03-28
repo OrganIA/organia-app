@@ -26,10 +26,9 @@ class _AccountLoggedInPageState extends State<AccountLoggedInPage> {
         title: Text(
           "Votre compte",
           style: GoogleFonts.nunito(
-            textStyle: TextStyle(
+            textStyle: const TextStyle(
               fontSize: 32,
               fontWeight: FontWeight.bold,
-              color: black,
             ),
           ),
         ),
