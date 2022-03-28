@@ -1,5 +1,4 @@
 import 'package:flutter/cupertino.dart';
-import 'package:faker/faker.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:integration_test/integration_test.dart';
 import 'package:organia/main.dart' as app;
@@ -7,7 +6,6 @@ import 'package:organia/main.dart' as app;
 void main() {
   IntegrationTestWidgetsFlutterBinding.ensureInitialized();
   IntegrationTestWidgetsFlutterBinding.ensureInitialized();
-  var faker = Faker();
 
   group('Navigation Tests', () {
     testWidgets('Bottom Tab bar navigation', (WidgetTester tester) async {
