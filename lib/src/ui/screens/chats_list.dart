@@ -23,7 +23,7 @@ class _ChatsListScreenState extends State<ChatsListScreen> {
       listener: (context, state) async {
         if (state is ChatsListNavigate) {
           if (state.to == Destination.chat && state.chat != null) {
-            Navigator.push(
+            await Navigator.push(
               context,
               CupertinoPageRoute(
                 builder: (context) => BlocProvider(
