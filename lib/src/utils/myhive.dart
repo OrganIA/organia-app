@@ -7,7 +7,9 @@ class MyHive {
   late Box box;
   Future<void> init() async {
     await Hive.initFlutter();
-    Hive.registerAdapter(CurrentHiveUserAdapter());
+    if (!Hive.isAdapterRegistered(1)) {
+      Hive.registerAdapter(CurrentHiveUserAdapter());
+    }
     box = await Hive.openBox('organia');
   }
 }
