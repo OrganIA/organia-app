@@ -8,7 +8,7 @@ void main() {
   IntegrationTestWidgetsFlutterBinding.ensureInitialized();
   final Faker faker = Faker();
 
-  group('Navigation Tests', () {
+  group('Tests', () {
     testWidgets('Bottom Tab bar navigation', (WidgetTester tester) async {
       app.main();
       await tester.pumpAndSettle();
