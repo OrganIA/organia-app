@@ -31,9 +31,13 @@ class _LoginPageState extends State<LoginPage> {
         title: Text(
           "Connexion",
           style: GoogleFonts.nunito(
-            textStyle: const TextStyle(
+            textStyle: TextStyle(
               fontSize: 32,
               fontWeight: FontWeight.bold,
+              color:
+                  MediaQuery.of(context).platformBrightness == Brightness.light
+                      ? black
+                      : Colors.white,
             ),
           ),
         ),

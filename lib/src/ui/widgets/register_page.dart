@@ -31,10 +31,13 @@ class _RegisterPageState extends State<RegisterPage> {
         title: Text(
           "Inscription",
           style: GoogleFonts.nunito(
-            textStyle: const TextStyle(
+            textStyle: TextStyle(
               fontSize: 32,
               fontWeight: FontWeight.bold,
-              // color: black,
+              color:
+                  MediaQuery.of(context).platformBrightness == Brightness.light
+                      ? black
+                      : Colors.white,
             ),
           ),
         ),
