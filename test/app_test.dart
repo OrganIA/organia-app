@@ -7,7 +7,6 @@ import 'package:organia/main.dart' as app;
 void main() {
   IntegrationTestWidgetsFlutterBinding.ensureInitialized();
   final Faker faker = Faker();
-
   group('Tests', () {
     testWidgets('Bottom Tab bar navigation', (WidgetTester tester) async {
       app.main();
