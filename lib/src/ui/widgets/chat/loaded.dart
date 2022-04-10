@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:organia/src/blocs/chat/bloc.dart';
 import 'package:organia/src/models/chat.dart';
 import 'package:organia/src/models/message.dart';
 import 'package:organia/src/models/user.dart';
@@ -104,7 +106,11 @@ class _ChatLoadedPageState extends State<ChatLoadedPage> {
                   icon: const Icon(
                     Icons.info_outline,
                   ),
-                  onPressed: () {},
+                  onPressed: () {
+                    BlocProvider.of<ChatBloc>(context).add(
+                      const ChatNavigateEvent(),
+                    );
+                  },
                 ),
               ],
             ),
