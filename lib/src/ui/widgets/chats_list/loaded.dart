@@ -130,13 +130,12 @@ class _ChatsListLoggedInPageState extends State<ChatsListLoggedInPage> {
                 BlocProvider.of<ChatsListBloc>(context)
                     .add(const ChatsListLoadEvent());
               },
-              child: ListView(
+              child: ListView.builder(
+                itemCount: widget.chats.length,
                 shrinkWrap: true,
-                children: widget.chats.map<Widget>(
-                  (chat) {
-                    return (ChatElement(chat: chat));
-                  },
-                ).toList(),
+                itemBuilder: (context, index) {
+                  return (ChatElement(chat: widget.chats[index]));
+                },
               ),
             ),
           ),
