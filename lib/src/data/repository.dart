@@ -16,7 +16,7 @@ class OrganIAAPIRepository {
   Future<void> register(String email, String password) =>
       _organIAAPIProvider.register(email, password);
 
-  Future<List<Chat>> getUserChats() => _organIAAPIProvider.getUserChats();
+  Future<List<Chat>> getChats() => _organIAAPIProvider.getChats();
 
   Future<void> createChat(String chatName, List<User> users) =>
       _organIAAPIProvider.createChat(chatName, users);

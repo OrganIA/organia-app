@@ -94,7 +94,7 @@ class OrganIAAPIProvider {
     }
   }
 
-  Future<List<Chat>> getUserChats() async {
+  Future<List<Chat>> getChats() async {
     final http.Response response = await http.get(
       Uri.parse("$baseUrl/chats/"),
       headers: {
@@ -107,7 +107,7 @@ class OrganIAAPIProvider {
 
   Future<List<Chat>> parseChatsListResponse(http.Response response) async {
     if (response.statusCode == success) {
-      final List<Message> latestMessages = await getLatestMessageOfChat();
+      final List<Message> latestMessages = await getLatestMessagesOfChats();
       final List<Chat> chatsList = [];
       final parsedBody = json.decode(response.body);
       for (var i in parsedBody) {
@@ -126,7 +126,7 @@ class OrganIAAPIProvider {
     }
   }
 
-  Future<List<Message>> getLatestMessageOfChat() async {
+  Future<List<Message>> getLatestMessagesOfChats() async {
     final http.Response response = await http.get(
       Uri.parse("$baseUrl/chats/messages/latest"),
       headers: {

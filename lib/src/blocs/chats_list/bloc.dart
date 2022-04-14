@@ -14,15 +14,15 @@ class ChatsListBloc extends Bloc<ChatsListEvent, ChatsListState> {
         (event, emit) => emit(ChatsListNavigate(event.to, event.chat)));
     on<ChatsListNavigationDoneEvent>(
         (event, emit) => emit(const ChatsListLoading()));
-    on<ChatsListLoadEvent>((event, emit) async => emit(await _getUserChats()));
+    on<ChatsListLoadEvent>((event, emit) async => emit(await _getChats()));
     on<ChatsListReLoadEvent>(
         (event, emit) async => emit(const ChatsListLoading()));
     on<ChatsListGuestEvent>((event, emit) => emit(const ChatsListGuest()));
   }
 
-  Future<ChatsListState> _getUserChats() async {
+  Future<ChatsListState> _getChats() async {
     try {
-      List<Chat> chatsList = await organIAAPIRepository.getUserChats();
+      List<Chat> chatsList = await organIAAPIRepository.getChats();
       return ChatsListLoggedIn(chatsList);
     } catch (e) {
       return const ChatsListGuest();
