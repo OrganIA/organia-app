@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:organia/src/blocs/chat/bloc.dart';
-import 'package:organia/src/models/chat.dart';
 import 'package:organia/src/ui/themes/themes.dart';
 
 class ChatLoadingPage extends StatefulWidget {
