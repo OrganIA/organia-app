@@ -108,7 +108,7 @@ class _ChatLoadedPageState extends State<ChatLoadedPage> {
                   ),
                   onPressed: () {
                     BlocProvider.of<ChatBloc>(context).add(
-                      const ChatNavigateEvent(),
+                      ChatNavigateEvent(widget.chat.chatId),
                     );
                   },
                 ),

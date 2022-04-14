@@ -26,12 +26,13 @@ class _EditChatScreenState extends State<EditChatScreen> {
       }, builder: (context, state) {
         if (state is EditChatLoading) {
           return (EditChatLoadingPage(
-            chat: state.chat,
+            chatId: state.chatId,
           ));
         } else if (state is EditChatLoaded) {
           return (EditChatLoadedPage(
             users: state.users,
             chat: state.chat,
+            chatUsers: state.chatUsers,
           ));
         } else {
           return (Container());

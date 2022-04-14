@@ -9,8 +9,13 @@ import 'package:organia/src/ui/widgets/big_button.dart';
 
 class EditChatLoadedPage extends StatefulWidget {
   final List<User> users;
+  final List<User> chatUsers;
   final Chat chat;
-  const EditChatLoadedPage({Key? key, required this.users, required this.chat})
+  const EditChatLoadedPage(
+      {Key? key,
+      required this.users,
+      required this.chat,
+      required this.chatUsers})
       : super(key: key);
 
   @override
@@ -25,13 +30,15 @@ class _EditChatLoadedPageState extends State<EditChatLoadedPage> {
   Widget build(BuildContext context) {
     setState(() {
       usersNotAdded = widget.users;
+      usersToAdd = widget.chatUsers;
+      chatNameController.text = widget.chat.chatName;
     });
     return Scaffold(
       appBar: AppBar(
         elevation: 0,
         backgroundColor: Colors.transparent,
         title: Text(
-          "Nouvelle Conversation",
+          "Éditer la conversation",
           style: GoogleFonts.nunito(
             textStyle: TextStyle(
               fontSize: 24,
@@ -189,7 +196,7 @@ class _EditChatLoadedPageState extends State<EditChatLoadedPage> {
                 child: BigButton(
                   buttonColor: darkBlue,
                   textColor: Colors.white,
-                  textValue: "Créer",
+                  textValue: "Valider",
                 ),
               ),
               onTap: () {
@@ -205,9 +212,10 @@ class _EditChatLoadedPageState extends State<EditChatLoadedPage> {
                   ScaffoldMessenger.of(context).showSnackBar(snackBar);
                 } else {
                   BlocProvider.of<EditChatBloc>(context).add(
-                    EditChatCreateEvent(
+                    EditChatEditEvent(
                       chatNameController.text,
                       usersToAdd,
+                      widget.chat.chatId,
                     ),
                   );
                 }

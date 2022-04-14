@@ -23,16 +23,14 @@ class _ChatScreenState extends State<ChatScreen> {
             context,
             CupertinoPageRoute(
               builder: (context) => BlocProvider(
-                create: (_) => ChatInfosBloc(
-                  initialState: ChatInfosLoading(state.chat),
-                  chat: state.chat,
-                ),
+                create: (_) =>
+                    ChatInfosBloc(initialState: ChatInfosLoading(state.chatId)),
                 child: const ChatInfosScreen(),
               ),
             ),
           );
           BlocProvider.of<ChatBloc>(context)
-              .add(const ChatNavigationDoneEvent());
+              .add(ChatNavigationDoneEvent(state.chatId));
         }
       },
       child: BlocBuilder<ChatBloc, ChatState>(
@@ -41,7 +39,7 @@ class _ChatScreenState extends State<ChatScreen> {
         },
         builder: (context, state) {
           if (state is ChatLoading) {
-            return (ChatLoadingPage(chat: state.chat));
+            return (ChatLoadingPage(chatId: state.chatId));
           } else if (state is ChatLoaded) {
             return (ChatLoadedPage(
               messages: state.messages,

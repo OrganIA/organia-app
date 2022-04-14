@@ -17,9 +17,12 @@ class OrganIAAPIRepository {
       _organIAAPIProvider.register(email, password);
 
   Future<List<Chat>> getChats() => _organIAAPIProvider.getChats();
+  Future<Chat> getChat(int chatId) => _organIAAPIProvider.getChat(chatId);
 
   Future<void> createChat(String chatName, List<User> users) =>
       _organIAAPIProvider.createChat(chatName, users);
+  Future<void> editChat(String chatName, List<User> users, int chatId) =>
+      _organIAAPIProvider.editChat(chatName, users, chatId);
 
   Future<List<Message>> getChatMessages(int chatId) =>
       _organIAAPIProvider.getChatMessages(chatId);

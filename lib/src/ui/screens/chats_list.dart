@@ -27,8 +27,7 @@ class _ChatsListScreenState extends State<ChatsListScreen> {
               context,
               CupertinoPageRoute(
                 builder: (context) => BlocProvider(
-                  create: (_) =>
-                      ChatBloc(ChatLoading(state.chat!), state.chat!),
+                  create: (_) => ChatBloc(ChatLoading(state.chat!.chatId)),
                   child: const ChatScreen(),
                 ),
               ),

@@ -17,11 +17,11 @@ class ChatInfosError extends ChatInfosState {
 }
 
 class ChatInfosLoading extends ChatInfosState {
-  final Chat chat;
-  const ChatInfosLoading(this.chat);
+  final int chatId;
+  const ChatInfosLoading(this.chatId);
 }
 
 class ChatInfosNavigate extends ChatInfosState {
-  final Chat chat;
-  const ChatInfosNavigate(this.chat);
+  final int chatId;
+  const ChatInfosNavigate(this.chatId);
 }

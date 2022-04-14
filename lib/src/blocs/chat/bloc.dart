@@ -10,20 +10,21 @@ part 'state.dart';
 
 class ChatBloc extends Bloc<ChatEvent, ChatState> {
   final ChatState initialState;
-  final Chat chat;
   final OrganIAAPIRepository organIAAPIRepository = OrganIAAPIRepository();
 
-  ChatBloc(this.initialState, this.chat) : super(initialState) {
-    on<ChatNavigateEvent>((event, emit) => emit(ChatNavigate(chat)));
+  ChatBloc(this.initialState) : super(initialState) {
+    on<ChatNavigateEvent>((event, emit) => emit(ChatNavigate(event.chatId)));
     on<ChatLoadEvent>(
-        (event, emit) async => emit(await _getChatMessages(event.chat)));
-    on<ChatNavigationDoneEvent>((event, emit) => emit(ChatLoading(chat)));
+        (event, emit) async => emit(await _getChatMessages(event.chatId)));
+    on<ChatNavigationDoneEvent>(
+        (event, emit) => emit(ChatLoading(event.chatId)));
   }
 
-  Future<ChatState> _getChatMessages(Chat chat) async {
+  Future<ChatState> _getChatMessages(int chatId) async {
+    Chat chat = await organIAAPIRepository.getChat(chatId);
     List<Message> messagesList =
         await organIAAPIRepository.getChatMessages(chat.chatId);
-    List<User> users = await organIAAPIRepository.getChatUsers(chat.usersIds);
+    List<User> users = await organIAAPIRepository.getAllUsers();
     return ChatLoaded(
       messagesList,
       chat,

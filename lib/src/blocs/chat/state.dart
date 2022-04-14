@@ -18,11 +18,11 @@ class ChatError extends ChatState {
 }
 
 class ChatLoading extends ChatState {
-  final Chat chat;
-  const ChatLoading(this.chat);
+  final int chatId;
+  const ChatLoading(this.chatId);
 }
 
 class ChatNavigate extends ChatState {
-  final Chat chat;
-  const ChatNavigate(this.chat);
+  final int chatId;
+  const ChatNavigate(this.chatId);
 }

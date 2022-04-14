@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:organia/src/blocs/chat_infos/bloc.dart';
 import 'package:organia/src/models/chat.dart';
 import 'package:organia/src/models/user.dart';
 import 'package:organia/src/ui/themes/themes.dart';
@@ -60,9 +62,6 @@ class _ChatInfosLoadedPageState extends State<ChatInfosLoadedPage> {
                     Icons.arrow_back,
                   ),
                 ),
-                const SizedBox(
-                  width: 2,
-                ),
                 Expanded(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -77,6 +76,16 @@ class _ChatInfosLoadedPageState extends State<ChatInfosLoadedPage> {
                       ),
                     ],
                   ),
+                ),
+                IconButton(
+                  icon: const Icon(
+                    Icons.edit_outlined,
+                  ),
+                  onPressed: () {
+                    BlocProvider.of<ChatInfosBloc>(context).add(
+                      ChatInfosNavigateEvent(widget.chat.chatId),
+                    );
+                  },
                 ),
               ],
             ),

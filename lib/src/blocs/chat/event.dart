@@ -6,14 +6,16 @@ abstract class ChatEvent {
 }
 
 class ChatNavigateEvent extends ChatEvent {
-  const ChatNavigateEvent();
+  final int chatId;
+  const ChatNavigateEvent(this.chatId);
 }
 
 class ChatNavigationDoneEvent extends ChatEvent {
-  const ChatNavigationDoneEvent();
+  final int chatId;
+  const ChatNavigationDoneEvent(this.chatId);
 }
 
 class ChatLoadEvent extends ChatEvent {
-  final Chat chat;
-  const ChatLoadEvent(this.chat);
+  final int chatId;
+  const ChatLoadEvent(this.chatId);
 }

@@ -6,12 +6,13 @@ abstract class EditChatEvent {
 }
 
 class EditChatLoadEvent extends EditChatEvent {
-  final Chat chat;
-  const EditChatLoadEvent(this.chat);
+  final int chatId;
+  const EditChatLoadEvent(this.chatId);
 }
 
-class EditChatCreateEvent extends EditChatEvent {
+class EditChatEditEvent extends EditChatEvent {
   final String chatName;
   final List<User> users;
-  const EditChatCreateEvent(this.chatName, this.users);
+  final int chatId;
+  const EditChatEditEvent(this.chatName, this.users, this.chatId);
 }

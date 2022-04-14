@@ -12,8 +12,8 @@ class EditChatLoaded extends EditChatState {
 }
 
 class EditChatLoading extends EditChatState {
-  final Chat chat;
-  const EditChatLoading(this.chat);
+  final int chatId;
+  const EditChatLoading(this.chatId);
 }
 
 class EditChatDone extends EditChatState {

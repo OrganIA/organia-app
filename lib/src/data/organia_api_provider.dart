@@ -163,6 +163,22 @@ class OrganIAAPIProvider {
     }
   }
 
+  Future<Chat> getChat(int chatId) async {
+    final http.Response response = await http.get(
+      Uri.parse("$baseUrl/chats/$chatId"),
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": "Bearer ${hive.box.get('currentHiveUser').token}"
+      },
+    );
+    return parseChatResponse(response);
+  }
+
+  Chat parseChatResponse(http.Response response) {
+    final parsedBody = json.decode(response.body);
+    return Chat.fromJson(parsedBody, null);
+  }
+
   Future<List<User>> getChatUsers(List<int> usersIds) async {
     List<User> users = [];
     for (var userId in usersIds) {
@@ -207,6 +223,32 @@ class OrganIAAPIProvider {
     final List<dynamic> userList = generateUsersList(users);
     final http.Response response = await http.post(
       Uri.parse("$baseUrl/chats/"),
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": "Bearer ${hive.box.get('currentHiveUser').token}"
+      },
+      body: jsonEncode(
+        {
+          "chat_name": chatName,
+          "users_ids": userList,
+        },
+      ),
+    );
+    if (response.statusCode != successPost) {
+      throw Exception("Erreur ${response.statusCode}");
+    }
+    return;
+  }
+
+  Future<void> editChat(String chatName, List<User> users, int chatId) async {
+    if (chatName == "") {
+      throw Exception("Aucun nom fourni");
+    } else if (users.isEmpty) {
+      throw Exception("Aucun utilisateur ajouté");
+    }
+    final List<dynamic> userList = generateUsersList(users);
+    final http.Response response = await http.post(
+      Uri.parse("$baseUrl/chats/$chatId"),
       headers: {
         "Content-Type": "application/json",
         "Authorization": "Bearer ${hive.box.get('currentHiveUser').token}"

@@ -4,6 +4,7 @@ import 'package:organia/src/data/repository.dart';
 import 'package:organia/src/models/chat.dart';
 import 'package:organia/src/models/user.dart';
 import 'package:organia/src/utils/myhive.dart';
+import 'package:collection/collection.dart';
 part 'event.dart';
 part 'state.dart';
 
@@ -13,28 +14,35 @@ class EditChatBloc extends Bloc<EditChatEvent, EditChatState> {
   EditChatBloc({required this.initialState}) : super(initialState) {
     on<EditChatLoadEvent>(
         (event, emit) async => emit(await getAllUsers(event)));
-    on<EditChatCreateEvent>(
-        (event, emit) async => emit(await createChat(event)));
+    on<EditChatEditEvent>((event, emit) async => emit(await editChat(event)));
   }
 
   Future<EditChatState> getAllUsers(EditChatLoadEvent event) async {
+    Chat chat = await organIAAPIRepository.getChat(event.chatId);
     final List<User> chatUsers =
-        await organIAAPIRepository.getChatUsers(event.chat.usersIds);
+        await organIAAPIRepository.getChatUsers(chat.usersIds);
     List<User> users = await organIAAPIRepository.getAllUsers();
-    for (var user in users) {
-      if (chatUsers.contains(user)) {
-        users.remove(user);
+    users.removeWhere((user) {
+      if (chatUsers.firstWhereOrNull((element) => element.id == user.id) !=
+          null) {
+        return true;
+      } else {
+        return false;
       }
-    }
+    });
     chatUsers.removeWhere(
       (element) => element.id == hive.box.get("currentHiveUser").userId,
     );
-    return EditChatLoaded(users, event.chat, chatUsers);
+    return EditChatLoaded(users, chat, chatUsers);
   }
 
-  Future<EditChatState> createChat(EditChatCreateEvent event) async {
+  Future<EditChatState> editChat(EditChatEditEvent event) async {
     try {
-      await organIAAPIRepository.createChat(event.chatName, event.users);
+      await organIAAPIRepository.editChat(
+        event.chatName,
+        event.users,
+        event.chatId,
+      );
       return const EditChatDone();
     } catch (e) {
       return EditChatError(e.toString());
