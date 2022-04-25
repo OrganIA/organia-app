@@ -40,12 +40,12 @@ class _ChatLoadedPageState extends State<ChatLoadedPage> {
     },
   );
   late WebSocketChannel channel = WebSocketChannel.connect(
-    // Uri.parse(
-    //   "ws://organia.francecentral.cloudapp.azure.com:8000/api/chats/ws/${widget.chat.chatId}",
-    // ),
     Uri.parse(
-      "ws://10.0.2.2:8000/api/chats/ws/${widget.chat.chatId}",
+      "ws://organia.francecentral.cloudapp.azure.com:8000/api/chats/ws/${widget.chat.chatId}",
     ),
+    // Uri.parse(
+    //   "ws://10.0.2.2:8000/api/chats/ws/${widget.chat.chatId}",
+    // ),
   );
 
   @override
