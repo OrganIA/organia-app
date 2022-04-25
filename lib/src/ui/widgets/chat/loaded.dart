@@ -16,7 +16,6 @@ class ChatLoadedPage extends StatefulWidget {
   final Chat chat;
   final int userId;
   final List<User> users;
-  final String test = "ok";
   const ChatLoadedPage({
     Key? key,
     required this.originalMessages,
@@ -35,8 +34,11 @@ class _ChatLoadedPageState extends State<ChatLoadedPage> {
   late List<Message> messages;
   late WebSocketChannel channel = WebSocketChannel.connect(
     Uri.parse(
-      "ws://10.0.2.2:8000/api/chats/ws/${widget.chat.chatId}",
+      "ws://organia.francecentral.cloudapp.azure.com:8000/api/chats/ws/${widget.chat.chatId}",
     ),
+    // Uri.parse(
+    //   "ws://10.0.2.2:8000/api/chats/ws/${widget.chat.chatId}",
+    // ),
   );
 
   @override
@@ -71,6 +73,20 @@ class _ChatLoadedPageState extends State<ChatLoadedPage> {
     if (mounted) {
       super.setState(fn);
     }
+  }
+
+  void sendMessage() {
+    channel.sink.add(
+      json.encode(
+        {
+          "event": "send_message",
+          "chat_id": widget.chat.chatId,
+          "content": messageController.text,
+          "sender_id": widget.userId,
+        },
+      ),
+    );
+    messageController.clear();
   }
 
   Color getMessageColor(BuildContext context, int senderId, int currentUserId) {
@@ -244,17 +260,7 @@ class _ChatLoadedPageState extends State<ChatLoadedPage> {
                             border: InputBorder.none,
                           ),
                           onEditingComplete: () {
-                            channel.sink.add(
-                              json.encode(
-                                {
-                                  "event": "send_message",
-                                  "chat_id": widget.chat.chatId,
-                                  "content": messageController.text,
-                                  "sender_id": widget.userId,
-                                },
-                              ),
-                            );
-                            messageController.clear();
+                            sendMessage();
                           },
                         ),
                       ),
@@ -262,7 +268,9 @@ class _ChatLoadedPageState extends State<ChatLoadedPage> {
                         width: 15,
                       ),
                       FloatingActionButton(
-                        onPressed: () {},
+                        onPressed: () {
+                          sendMessage();
+                        },
                         child: const Icon(
                           Icons.send,
                           color: Colors.white,
