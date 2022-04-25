@@ -15,8 +15,13 @@ class _ChatLoadingPageState extends State<ChatLoadingPage> {
   @override
   Widget build(BuildContext context) {
     BlocProvider.of<ChatBloc>(context).add(ChatLoadEvent(widget.chatId));
-    return Center(
-      child: CircularProgressIndicator(color: blue),
+    return Scaffold(
+      backgroundColor: Colors.white,
+      body: SafeArea(
+        child: Center(
+          child: CircularProgressIndicator(color: blue),
+        ),
+      ),
     );
   }
 }

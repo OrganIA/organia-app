@@ -22,8 +22,13 @@ class _AccountLoadingPageState extends State<AccountLoadingPage> {
     } else {
       BlocProvider.of<AccountBloc>(context).add(const AccountLogoutEvent());
     }
-    return Center(
-      child: CircularProgressIndicator(color: blue),
+    return Scaffold(
+      backgroundColor: Colors.white,
+      body: SafeArea(
+        child: Center(
+          child: CircularProgressIndicator(color: blue),
+        ),
+      ),
     );
   }
 }

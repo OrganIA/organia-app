@@ -14,8 +14,13 @@ class _NewChatLoadingPageState extends State<NewChatLoadingPage> {
   @override
   Widget build(BuildContext context) {
     BlocProvider.of<NewChatBloc>(context).add(const NewChatLoadEvent());
-    return Center(
-      child: CircularProgressIndicator(color: blue),
+    return Scaffold(
+      backgroundColor: Colors.white,
+      body: SafeArea(
+        child: Center(
+          child: CircularProgressIndicator(color: blue),
+        ),
+      ),
     );
   }
 }

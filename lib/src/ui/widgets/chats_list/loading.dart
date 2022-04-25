@@ -19,8 +19,13 @@ class _ChatsListLoadingPageState extends State<ChatsListLoadingPage> {
     } else {
       BlocProvider.of<ChatsListBloc>(context).add(const ChatsListGuestEvent());
     }
-    return Center(
-      child: CircularProgressIndicator(color: blue),
+    return Scaffold(
+      backgroundColor: Colors.white,
+      body: SafeArea(
+        child: Center(
+          child: CircularProgressIndicator(color: blue),
+        ),
+      ),
     );
   }
 }

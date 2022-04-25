@@ -16,8 +16,13 @@ class _EditChatLoadingPageState extends State<EditChatLoadingPage> {
   Widget build(BuildContext context) {
     BlocProvider.of<EditChatBloc>(context)
         .add(EditChatLoadEvent(widget.chatId));
-    return Center(
-      child: CircularProgressIndicator(color: blue),
+    return Scaffold(
+      backgroundColor: Colors.white,
+      body: SafeArea(
+        child: Center(
+          child: CircularProgressIndicator(color: blue),
+        ),
+      ),
     );
   }
 }
