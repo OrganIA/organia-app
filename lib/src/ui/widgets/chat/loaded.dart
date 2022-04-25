@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -7,15 +8,18 @@ import 'package:organia/src/models/chat.dart';
 import 'package:organia/src/models/message.dart';
 import 'package:organia/src/models/user.dart';
 import 'package:organia/src/ui/themes/themes.dart';
+import 'package:organia/src/utils/myhive.dart';
+import 'package:web_socket_channel/web_socket_channel.dart';
 
 class ChatLoadedPage extends StatefulWidget {
-  final List<Message> messages;
+  final List<Message> originalMessages;
   final Chat chat;
   final int userId;
   final List<User> users;
+  final String test = "ok";
   const ChatLoadedPage({
     Key? key,
-    required this.messages,
+    required this.originalMessages,
     required this.chat,
     required this.userId,
     required this.users,
@@ -27,6 +31,47 @@ class ChatLoadedPage extends StatefulWidget {
 
 class _ChatLoadedPageState extends State<ChatLoadedPage> {
   final ScrollController controller = ScrollController();
+  final TextEditingController messageController = TextEditingController();
+  late List<Message> messages;
+  late WebSocketChannel channel = WebSocketChannel.connect(
+    Uri.parse(
+      "ws://10.0.2.2:8000/api/chats/ws/${widget.chat.chatId}",
+    ),
+  );
+
+  @override
+  void initState() {
+    super.initState();
+    setState(() {
+      messages = widget.originalMessages;
+    });
+    channel.sink.add(
+      json.encode(
+        {
+          "event": "login",
+          "token": "Bearer ${hive.box.get('currentHiveUser').token}",
+        },
+      ),
+    );
+    channel.stream.listen(
+      (data) {
+        Map<String, dynamic> decodedData = json.decode(data);
+        if (decodedData["event"] == "message_received" ||
+            decodedData["event"] == "message_sent") {
+          setState(() {
+            messages.add(Message.fromJson(decodedData["data"]));
+          });
+        }
+      },
+    );
+  }
+
+  @override
+  void setState(fn) {
+    if (mounted) {
+      super.setState(fn);
+    }
+  }
 
   Color getMessageColor(BuildContext context, int senderId, int currentUserId) {
     if (senderId == currentUserId) {
@@ -118,106 +163,120 @@ class _ChatLoadedPageState extends State<ChatLoadedPage> {
         ),
       ),
       body: SafeArea(
-        child: Column(
-          children: <Widget>[
-            SizedBox(
-              height: MediaQuery.of(context).size.height -
-                  AppBar().preferredSize.height -
-                  84,
-              child: ListView.builder(
-                controller: controller,
-                itemCount: widget.messages.length,
-                shrinkWrap: true,
-                padding: const EdgeInsets.only(top: 20, bottom: 20),
-                itemBuilder: (context, index) {
-                  return Container(
-                    padding: const EdgeInsets.only(
-                        left: 14, right: 14, top: 10, bottom: 10),
-                    child: Align(
-                      alignment:
-                          (widget.messages[index].senderId != widget.userId
-                              ? Alignment.topLeft
-                              : Alignment.topRight),
-                      child: Column(
-                        children: [
-                          Container(
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(20),
-                              color: getMessageColor(
-                                context,
-                                widget.messages[index].senderId,
-                                widget.userId,
+        child: SingleChildScrollView(
+          child: Column(
+            children: <Widget>[
+              SizedBox(
+                height: MediaQuery.of(context).size.height -
+                    AppBar().preferredSize.height -
+                    84,
+                child: ListView.builder(
+                  controller: controller,
+                  itemCount: messages.length,
+                  shrinkWrap: true,
+                  padding: const EdgeInsets.only(top: 20, bottom: 20),
+                  itemBuilder: (context, index) {
+                    return Container(
+                      padding: const EdgeInsets.only(
+                          left: 14, right: 14, top: 10, bottom: 10),
+                      child: Align(
+                        alignment: (messages[index].senderId != widget.userId
+                            ? Alignment.topLeft
+                            : Alignment.topRight),
+                        child: Column(
+                          children: [
+                            Container(
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(20),
+                                color: getMessageColor(
+                                  context,
+                                  messages[index].senderId,
+                                  widget.userId,
+                                ),
+                              ),
+                              padding: const EdgeInsets.all(16),
+                              child: Text(
+                                messages[index].content,
                               ),
                             ),
-                            padding: const EdgeInsets.all(16),
-                            child: Text(
-                              widget.messages[index].content,
-                              // style: const TextStyle(fontSize: 14),
+                            Text(
+                              messages[index].createdAt,
+                              style: const TextStyle(fontSize: 11),
                             ),
-                          ),
-                          Text(
-                            widget.messages[index].createdAt,
-                            style: const TextStyle(fontSize: 11),
-                          ),
-                          Text(
-                            widget.users
-                                .firstWhere(
-                                  (element) =>
-                                      element.id ==
-                                      widget.messages[index].senderId,
-                                )
-                                .email,
-                            style: const TextStyle(fontSize: 11),
-                          ),
-                        ],
-                      ),
-                    ),
-                  );
-                },
-              ),
-            ),
-            Align(
-              alignment: Alignment.bottomLeft,
-              child: Container(
-                padding: const EdgeInsets.only(
-                  left: 10,
-                  bottom: 10,
-                  top: 10,
-                ),
-                height: 60,
-                width: double.infinity,
-                child: Row(
-                  children: <Widget>[
-                    const SizedBox(
-                      width: 15,
-                    ),
-                    Expanded(
-                      child: TextField(
-                        cursorColor: darkBlue,
-                        decoration: const InputDecoration(
-                          hintText: "Vôtre message...",
-                          border: InputBorder.none,
+                            Text(
+                              widget.users
+                                  .firstWhere(
+                                    (element) =>
+                                        element.id == messages[index].senderId,
+                                  )
+                                  .email,
+                              style: const TextStyle(fontSize: 11),
+                            ),
+                          ],
                         ),
                       ),
-                    ),
-                    const SizedBox(
-                      width: 15,
-                    ),
-                    FloatingActionButton(
-                      onPressed: () {},
-                      child: const Icon(
-                        Icons.send,
-                        color: Colors.white,
-                        size: 18,
-                      ),
-                      backgroundColor: darkBlue,
-                      elevation: 0,
-                    ),
-                  ],
+                    );
+                  },
                 ),
               ),
-            ),
-          ],
+              Align(
+                alignment: Alignment.bottomLeft,
+                child: Container(
+                  padding: const EdgeInsets.only(
+                    left: 10,
+                    bottom: 10,
+                    top: 10,
+                  ),
+                  height: 60,
+                  width: double.infinity,
+                  child: Row(
+                    children: <Widget>[
+                      const SizedBox(
+                        width: 15,
+                      ),
+                      Expanded(
+                        child: TextFormField(
+                          controller: messageController,
+                          textInputAction: TextInputAction.send,
+                          cursorColor: darkBlue,
+                          decoration: const InputDecoration(
+                            hintText: "Vôtre message...",
+                            border: InputBorder.none,
+                          ),
+                          onEditingComplete: () {
+                            channel.sink.add(
+                              json.encode(
+                                {
+                                  "event": "send_message",
+                                  "chat_id": widget.chat.chatId,
+                                  "content": messageController.text,
+                                  "sender_id": widget.userId,
+                                },
+                              ),
+                            );
+                            messageController.clear();
+                          },
+                        ),
+                      ),
+                      const SizedBox(
+                        width: 15,
+                      ),
+                      FloatingActionButton(
+                        onPressed: () {},
+                        child: const Icon(
+                          Icons.send,
+                          color: Colors.white,
+                          size: 18,
+                        ),
+                        backgroundColor: darkBlue,
+                        elevation: 0,
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );

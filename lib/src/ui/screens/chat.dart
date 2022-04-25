@@ -42,7 +42,7 @@ class _ChatScreenState extends State<ChatScreen> {
             return (ChatLoadingPage(chatId: state.chatId));
           } else if (state is ChatLoaded) {
             return (ChatLoadedPage(
-              messages: state.messages,
+              originalMessages: state.messages,
               chat: state.chat,
               userId: state.userId,
               users: state.users,
