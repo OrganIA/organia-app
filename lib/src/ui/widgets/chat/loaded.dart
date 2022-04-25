@@ -1,6 +1,5 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
-import 'package:flutter/scheduler.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:organia/src/blocs/chat/bloc.dart';
@@ -10,6 +9,7 @@ import 'package:organia/src/models/user.dart';
 import 'package:organia/src/ui/themes/themes.dart';
 import 'package:organia/src/utils/myhive.dart';
 import 'package:web_socket_channel/web_socket_channel.dart';
+import 'package:dash_chat_2/dash_chat_2.dart';
 
 class ChatLoadedPage extends StatefulWidget {
   final List<Message> originalMessages;
@@ -29,23 +29,38 @@ class ChatLoadedPage extends StatefulWidget {
 }
 
 class _ChatLoadedPageState extends State<ChatLoadedPage> {
-  final ScrollController controller = ScrollController();
   final TextEditingController messageController = TextEditingController();
-  late List<Message> messages;
+  final List<ChatMessage> messages = [];
+  late ChatUser currentUser = ChatUser(
+    id: widget.userId.toString(),
+    customProperties: {
+      "email": widget.users
+          .firstWhere((element) => element.id == widget.userId)
+          .email,
+    },
+  );
   late WebSocketChannel channel = WebSocketChannel.connect(
-    Uri.parse(
-      "ws://organia.francecentral.cloudapp.azure.com:8000/api/chats/ws/${widget.chat.chatId}",
-    ),
     // Uri.parse(
-    //   "ws://10.0.2.2:8000/api/chats/ws/${widget.chat.chatId}",
+    //   "ws://organia.francecentral.cloudapp.azure.com:8000/api/chats/ws/${widget.chat.chatId}",
     // ),
+    Uri.parse(
+      "ws://10.0.2.2:8000/api/chats/ws/${widget.chat.chatId}",
+    ),
   );
 
   @override
   void initState() {
     super.initState();
     setState(() {
-      messages = widget.originalMessages;
+      for (Message message in widget.originalMessages.reversed) {
+        messages.add(
+          ChatMessage(
+            user: createChatUser(message.senderId),
+            createdAt: message.createdAtOriginal,
+            text: message.content,
+          ),
+        );
+      }
     });
     channel.sink.add(
       json.encode(
@@ -61,7 +76,15 @@ class _ChatLoadedPageState extends State<ChatLoadedPage> {
         if (decodedData["event"] == "message_received" ||
             decodedData["event"] == "message_sent") {
           setState(() {
-            messages.add(Message.fromJson(decodedData["data"]));
+            final Message message = Message.fromJson(decodedData["data"]);
+            messages.insert(
+              0,
+              ChatMessage(
+                user: createChatUser(message.senderId),
+                createdAt: message.createdAtOriginal,
+                text: message.content,
+              ),
+            );
           });
         }
       },
@@ -75,13 +98,13 @@ class _ChatLoadedPageState extends State<ChatLoadedPage> {
     }
   }
 
-  void sendMessage() {
+  void sendMessage(String text) {
     channel.sink.add(
       json.encode(
         {
           "event": "send_message",
           "chat_id": widget.chat.chatId,
-          "content": messageController.text,
+          "content": text,
           "sender_id": widget.userId,
         },
       ),
@@ -89,23 +112,17 @@ class _ChatLoadedPageState extends State<ChatLoadedPage> {
     messageController.clear();
   }
 
-  Color getMessageColor(BuildContext context, int senderId, int currentUserId) {
-    if (senderId == currentUserId) {
-      return MediaQuery.of(context).platformBrightness == Brightness.light
-          ? lightBlue
-          : darkBlue;
-    } else {
-      return grey;
-    }
+  ChatUser createChatUser(int id) {
+    return ChatUser(
+      id: widget.users.firstWhere((element) => element.id == id).id.toString(),
+      customProperties: {
+        "email": widget.users.firstWhere((element) => element.id == id).email,
+      },
+    );
   }
 
   @override
   Widget build(BuildContext context) {
-    SchedulerBinding.instance?.addPostFrameCallback((_) {
-      controller.jumpTo(
-        controller.position.maxScrollExtent,
-      );
-    });
     return Scaffold(
       appBar: AppBar(
         elevation: 0,
@@ -178,113 +195,22 @@ class _ChatLoadedPageState extends State<ChatLoadedPage> {
           ),
         ),
       ),
-      body: SafeArea(
-        child: SingleChildScrollView(
-          child: Column(
-            children: <Widget>[
-              SizedBox(
-                height: MediaQuery.of(context).size.height -
-                    AppBar().preferredSize.height -
-                    84,
-                child: ListView.builder(
-                  controller: controller,
-                  itemCount: messages.length,
-                  shrinkWrap: true,
-                  padding: const EdgeInsets.only(top: 20, bottom: 20),
-                  itemBuilder: (context, index) {
-                    return Container(
-                      padding: const EdgeInsets.only(
-                          left: 14, right: 14, top: 10, bottom: 10),
-                      child: Align(
-                        alignment: (messages[index].senderId != widget.userId
-                            ? Alignment.topLeft
-                            : Alignment.topRight),
-                        child: Column(
-                          children: [
-                            Container(
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(20),
-                                color: getMessageColor(
-                                  context,
-                                  messages[index].senderId,
-                                  widget.userId,
-                                ),
-                              ),
-                              padding: const EdgeInsets.all(16),
-                              child: Text(
-                                messages[index].content,
-                              ),
-                            ),
-                            Text(
-                              messages[index].createdAt,
-                              style: const TextStyle(fontSize: 11),
-                            ),
-                            Text(
-                              widget.users
-                                  .firstWhere(
-                                    (element) =>
-                                        element.id == messages[index].senderId,
-                                  )
-                                  .email,
-                              style: const TextStyle(fontSize: 11),
-                            ),
-                          ],
-                        ),
-                      ),
-                    );
-                  },
-                ),
-              ),
-              Align(
-                alignment: Alignment.bottomLeft,
-                child: Container(
-                  padding: const EdgeInsets.only(
-                    left: 10,
-                    bottom: 10,
-                    top: 10,
-                  ),
-                  height: 60,
-                  width: double.infinity,
-                  child: Row(
-                    children: <Widget>[
-                      const SizedBox(
-                        width: 15,
-                      ),
-                      Expanded(
-                        child: TextFormField(
-                          controller: messageController,
-                          textInputAction: TextInputAction.send,
-                          cursorColor: darkBlue,
-                          decoration: const InputDecoration(
-                            hintText: "Vôtre message...",
-                            border: InputBorder.none,
-                          ),
-                          onEditingComplete: () {
-                            sendMessage();
-                          },
-                        ),
-                      ),
-                      const SizedBox(
-                        width: 15,
-                      ),
-                      FloatingActionButton(
-                        onPressed: () {
-                          sendMessage();
-                        },
-                        child: const Icon(
-                          Icons.send,
-                          color: Colors.white,
-                          size: 18,
-                        ),
-                        backgroundColor: darkBlue,
-                        elevation: 0,
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-            ],
+      body: DashChat(
+        currentUser: currentUser,
+        onSend: (ChatMessage message) => sendMessage(message.text),
+        inputOptions: const InputOptions(
+          inputDecoration: InputDecoration(
+            hintText: "Vôtre message",
           ),
+        ),
+        messages: messages,
+        messageOptions: MessageOptions(
+          userNameBuilder: (user) {
+            return Text(user.customProperties!["email"]);
+          },
+          showCurrentUserAvatar: true,
+          showTime: true,
+          showOtherUsersName: true,
         ),
       ),
     );
