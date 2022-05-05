@@ -68,16 +68,19 @@ class _AccountLoggedInPageState extends State<AccountLoggedInPage> {
                     ),
                     const SizedBox(height: 50),
                     GestureDetector(
-                        onTap: () {
-                          BlocProvider.of<AccountBloc>(context)
-                              .add(const AccountLogoutEvent());
-                        },
-                        child: SizedBox(
-                          child: BigButton(
-                              buttonColor: darkBlue,
-                              textValue: "Se déconnecter",
-                              textColor: Colors.white),
-                        )),
+                      onTap: () {
+                        BlocProvider.of<AccountBloc>(context)
+                            .add(const AccountLogoutEvent());
+                      },
+                      child: SizedBox(
+                        child: BigButton(
+                          buttonColor: darkBlue,
+                          textValue: "Se déconnecter",
+                          textColor: Colors.white,
+                          key: const Key("logoutButton"),
+                        ),
+                      ),
+                    ),
                   ],
                 ),
               ),

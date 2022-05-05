@@ -7,25 +7,28 @@ import 'package:organia/main.dart' as app;
 void main() {
   IntegrationTestWidgetsFlutterBinding.ensureInitialized();
   final Faker faker = Faker();
-  group('Tests', () {
+  group('App navigation Tests', () {
     testWidgets('Bottom Tab bar navigation', (WidgetTester tester) async {
       app.main();
-      await tester.pumpAndSettle();
-      expect(find.byIcon(CupertinoIcons.chat_bubble_2_fill), findsOneWidget);
-      expect(find.byIcon(CupertinoIcons.person_alt_circle), findsOneWidget);
-      await tester.pumpAndSettle();
+      await tester.pumpAndSettle(const Duration(seconds: 1));
+      final Finder chatsTab = find.byIcon(CupertinoIcons.chat_bubble_2_fill);
+      expect(chatsTab, findsOneWidget);
       final Finder accountTab = find.byIcon(CupertinoIcons.person_alt_circle);
+      expect(accountTab, findsOneWidget);
+      await tester.pumpAndSettle();
       await tester.tap(accountTab);
       await tester.pumpAndSettle();
-      final Finder chatsTab = find.byIcon(CupertinoIcons.chat_bubble_2_fill);
       await tester.tap(chatsTab);
       await tester.pumpAndSettle();
     });
+  });
+
+  group('Account tab tests', () {
     testWidgets('Register Test', (WidgetTester tester) async {
       app.main();
       final String email = faker.internet.email();
       final String password = faker.internet.password();
-      await tester.pumpAndSettle();
+      await tester.pumpAndSettle(const Duration(seconds: 1));
       final Finder accountTab = find.byIcon(CupertinoIcons.person_alt_circle);
       expect(accountTab, findsOneWidget);
       await tester.tap(accountTab);
@@ -51,7 +54,7 @@ void main() {
     });
     testWidgets('Login Test', (WidgetTester tester) async {
       app.main();
-      await tester.pumpAndSettle();
+      await tester.pumpAndSettle(const Duration(seconds: 1));
       final Finder accountTab = find.byIcon(CupertinoIcons.person_alt_circle);
       expect(accountTab, findsOneWidget);
       await tester.tap(accountTab);
@@ -72,6 +75,40 @@ void main() {
       await tester.pumpAndSettle();
       await tester.tap(loginButton);
       await tester.pumpAndSettle();
+    });
+    testWidgets('Logout Test', (WidgetTester tester) async {
+      app.main();
+      await tester.pumpAndSettle(const Duration(seconds: 1));
+      final Finder accountTab = find.byIcon(CupertinoIcons.person_alt_circle);
+      expect(accountTab, findsOneWidget);
+      await tester.tap(accountTab);
+      await tester.pumpAndSettle();
+      final Finder toLoginButton = find.byKey(const Key("loginBigButton"));
+      expect(toLoginButton, findsOneWidget);
+      await tester.tap(toLoginButton);
+      await tester.pumpAndSettle();
+      final Finder emailField = find.byKey(const Key("emailLoginField"));
+      final Finder passwordField = find.byKey(const Key("passwordLoginField"));
+      final Finder loginButton = find.byKey(const Key("loginButton"));
+      expect(emailField, findsOneWidget);
+      expect(passwordField, findsOneWidget);
+      expect(loginButton, findsOneWidget);
+      await tester.enterText(emailField, "saber@saber.com");
+      await tester.pumpAndSettle();
+      await tester.enterText(passwordField, "saber");
+      await tester.pumpAndSettle();
+      await tester.tap(loginButton);
+      await tester.pumpAndSettle(const Duration(seconds: 20));
+      // await Future.delayed(const Duration(seconds: 1));
+      // final Finder toLogoutButton = find.byKey(const Key("logoutBigButton"));
+      // expect(toLogoutButton, findsOneWidget);
+      // await tester.tap(toLogoutButton);
+      // await tester.pumpAndSettle();
+      // expect(toLoginButton, findsOneWidget);
+      // final Finder toRegisterButton =
+      //     find.byKey(const Key("registerBigButton"));
+      // expect(toRegisterButton, findsOneWidget);
+      // await tester.pumpAndSettle();
     });
   });
 }
