@@ -15,9 +15,9 @@ jobs:
 
       - name: run tests
         uses: reactivecircus/android-emulator-runner@v2
-        # with:
-        #   api-level: 29
-        #   script: gradlew connectedCheck
+        with:
+          api-level: 29
+          script: echo "tkt akhy"
 
       - name: Checkout the code
         uses: actions/checkout@v2
