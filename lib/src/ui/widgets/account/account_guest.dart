@@ -65,9 +65,10 @@ class _AccountGuestPageState extends State<AccountGuestPage> {
                       .add(const AccountNavigateEvent("register"));
                 },
                 child: BigButton(
-                    buttonColor: darkBlue,
-                    textValue: "S'inscrire",
-                    textColor: Colors.white),
+                  buttonColor: darkBlue,
+                  textValue: "S'inscrire",
+                  textColor: Colors.white,
+                ),
               ),
             ],
           ),
