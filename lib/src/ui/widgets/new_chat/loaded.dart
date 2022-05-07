@@ -18,11 +18,11 @@ class _NewChatLoadedPageState extends State<NewChatLoadedPage> {
   TextEditingController chatNameController = TextEditingController();
   List<User> usersNotAdded = [];
   List<User> usersToAdd = [];
+  String test = "waiting";
+
   @override
   Widget build(BuildContext context) {
-    setState(() {
-      usersNotAdded = widget.users;
-    });
+    usersNotAdded = widget.users;
     return Scaffold(
       appBar: AppBar(
         elevation: 0,
@@ -86,14 +86,14 @@ class _NewChatLoadedPageState extends State<NewChatLoadedPage> {
                   physics: const AlwaysScrollableScrollPhysics(),
                   children: usersToAdd.map<Widget>(
                     (user) {
-                      return (InkWell(
-                        child: Card(
-                          color: darkBlue,
-                          elevation: 5,
-                          margin: const EdgeInsets.all(2.5),
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(15.0),
-                          ),
+                      return (Card(
+                        color: darkBlue,
+                        elevation: 5,
+                        margin: const EdgeInsets.all(2.5),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(15.0),
+                        ),
+                        child: InkWell(
                           child: Center(
                             child: Padding(
                               padding: const EdgeInsets.all(15),
@@ -102,17 +102,18 @@ class _NewChatLoadedPageState extends State<NewChatLoadedPage> {
                                 style: const TextStyle(
                                   color: Colors.white,
                                 ),
+                                key: const Key("userToAddCard"),
                               ),
                             ),
                           ),
+                          onTap: () {
+                            setState(() {
+                              usersNotAdded.add(user);
+                              usersToAdd
+                                  .removeWhere((element) => user == element);
+                            });
+                          },
                         ),
-                        onTap: () {
-                          setState(() {
-                            usersNotAdded.add(user);
-                            usersToAdd
-                                .removeWhere((element) => user == element);
-                          });
-                        },
                       ));
                     },
                   ).toList(),
@@ -143,14 +144,14 @@ class _NewChatLoadedPageState extends State<NewChatLoadedPage> {
                         physics: const AlwaysScrollableScrollPhysics(),
                         children: usersNotAdded.map<Widget>(
                           (user) {
-                            return (InkWell(
-                              child: Card(
-                                color: darkBlue,
-                                elevation: 5,
-                                margin: const EdgeInsets.all(2.5),
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(15.0),
-                                ),
+                            return (Card(
+                              color: darkBlue,
+                              elevation: 5,
+                              margin: const EdgeInsets.all(2.5),
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(15.0),
+                              ),
+                              child: InkWell(
                                 child: Center(
                                   child: Padding(
                                     padding: const EdgeInsets.all(15),
@@ -159,17 +160,18 @@ class _NewChatLoadedPageState extends State<NewChatLoadedPage> {
                                       style: const TextStyle(
                                         color: Colors.white,
                                       ),
+                                      key: const Key("userNotAddedCard"),
                                     ),
                                   ),
                                 ),
+                                onTap: () {
+                                  setState(() {
+                                    usersToAdd.add(user);
+                                    usersNotAdded.removeWhere(
+                                        (element) => user == element);
+                                  });
+                                },
                               ),
-                              onTap: () {
-                                setState(() {
-                                  usersToAdd.add(user);
-                                  usersNotAdded.removeWhere(
-                                      (element) => user == element);
-                                });
-                              },
                             ));
                           },
                         ).toList(),
