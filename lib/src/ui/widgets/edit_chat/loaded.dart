@@ -49,6 +49,7 @@ class _EditChatLoadedPageState extends State<EditChatLoadedPage> {
                       : Colors.white,
             ),
           ),
+          key: const Key("editPageTitle"),
         ),
         iconTheme: IconThemeData(
           color: MediaQuery.of(context).platformBrightness == Brightness.light
@@ -112,6 +113,7 @@ class _EditChatLoadedPageState extends State<EditChatLoadedPage> {
                                 style: const TextStyle(
                                   color: Colors.white,
                                 ),
+                                key: const Key("userToAddCard"),
                               ),
                             ),
                           ),
@@ -169,6 +171,7 @@ class _EditChatLoadedPageState extends State<EditChatLoadedPage> {
                                       style: const TextStyle(
                                         color: Colors.white,
                                       ),
+                                      key: const Key("userNotAddedCard"),
                                     ),
                                   ),
                                 ),
@@ -220,6 +223,7 @@ class _EditChatLoadedPageState extends State<EditChatLoadedPage> {
                   );
                 }
               },
+              key: const Key("validateEditButton"),
             ),
           ],
         ),

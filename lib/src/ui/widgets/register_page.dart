@@ -139,6 +139,7 @@ class _RegisterPageState extends State<RegisterPage> {
                       ),
                     ),
                   ),
+                  key: const Key("toLoginButton"),
                 ),
               ],
             ),
