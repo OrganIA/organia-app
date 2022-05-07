@@ -208,7 +208,7 @@ class _ChatLoadedPageState extends State<ChatLoadedPage> {
           userNameBuilder: (user) {
             return Text(user.customProperties!["email"]);
           },
-          showCurrentUserAvatar: true,
+          showOtherUsersAvatar: false,
           showTime: true,
           showOtherUsersName: true,
         ),

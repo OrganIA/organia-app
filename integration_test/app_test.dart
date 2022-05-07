@@ -1,16 +1,10 @@
-import 'dart:convert';
-
 import 'package:flutter/material.dart';
-import 'package:http/http.dart' as http;
 import 'package:faker/faker.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:integration_test/integration_test.dart';
 import 'package:organia/main.dart' as app;
-import 'package:organia/src/models/hive/current_hive_user.dart';
-import 'package:organia/src/models/user.dart';
 import 'package:organia/src/ui/widgets/big_button.dart';
-import 'package:organia/src/utils/myhive.dart';
 
 const String baseUrl =
     "http://organia.francecentral.cloudapp.azure.com:8000/api";
@@ -39,7 +33,6 @@ void main() {
       await tester.pumpAndSettle();
       await tester.tap(chatsTab);
       await tester.pumpAndSettle();
-      print('App tests✅');
     });
 
     testWidgets('Register to Login Test', (WidgetTester tester) async {
@@ -64,7 +57,6 @@ void main() {
       expect(emailField, findsOneWidget);
       expect(passwordField, findsOneWidget);
       expect(loginButton, findsOneWidget);
-      print('Register to Login Test OK✅');
     });
     testWidgets('Login to Register Test', (WidgetTester tester) async {
       app.main();
@@ -88,7 +80,6 @@ void main() {
       expect(emailField, findsOneWidget);
       expect(passwordField, findsOneWidget);
       expect(registerButton, findsOneWidget);
-      print('Login to Register Test OK✅');
     });
     testWidgets('Register Test', (WidgetTester tester) async {
       app.main();
@@ -116,7 +107,6 @@ void main() {
       await tester.tap(registerButton);
       await tester.pumpAndSettle();
       await tester.pumpAndSettle(const Duration(seconds: 5));
-      print('Register Test OK✅');
     });
     testWidgets('Login Test', (WidgetTester tester) async {
       app.main();
@@ -143,7 +133,6 @@ void main() {
       await tester.pumpAndSettle(const Duration(seconds: 5));
       final Finder userEmail = find.text(email);
       expect(userEmail, findsOneWidget);
-      print('Login Test OK✅');
     });
 
     testWidgets('New Chat test', (WidgetTester tester) async {
@@ -172,7 +161,6 @@ void main() {
       expect(userToAdd, findsOneWidget);
       await tester.tap(createButton);
       await tester.pumpAndSettle(const Duration(seconds: 5));
-      print('New Chat test OK✅');
     });
     testWidgets('Chat List test', (WidgetTester tester) async {
       app.main();
@@ -182,7 +170,6 @@ void main() {
       expect(tabTitle, findsOneWidget);
       expect(newChat, findsOneWidget);
       await tester.pumpAndSettle();
-      print('Chat List test OK✅');
     });
     testWidgets('Chat Test', (WidgetTester tester) async {
       app.main();
@@ -194,11 +181,17 @@ void main() {
       final Finder chatTitle = find.text("Test");
       final Finder infosIcon = find.byIcon(Icons.info_outline);
       final Finder messageInput = find.byType(TextField);
+      final Finder sendButtonNotHere = find.byIcon(Icons.send);
+      expect(sendButtonNotHere, findsNothing);
       expect(chatTitle, findsOneWidget);
       expect(infosIcon, findsOneWidget);
       expect(messageInput, findsOneWidget);
       await tester.enterText(messageInput, "Ceci est un message de tests.");
-      print('Chat Test OK✅');
+      await tester.pump();
+      final Finder sendButton = find.byIcon(Icons.send);
+      expect(sendButton, findsOneWidget);
+      await tester.tap(sendButton);
+      await tester.pumpAndSettle(const Duration(seconds: 2));
     });
     testWidgets('Chat Infos test', (WidgetTester tester) async {
       app.main();
@@ -219,7 +212,6 @@ void main() {
       expect(chatInfosTitle, findsOneWidget);
       expect(editIcon, findsOneWidget);
       expect(userEmail, findsNWidgets(2));
-      print('Chat Infos test OK✅');
     });
     testWidgets('Chat Edit test', (WidgetTester tester) async {
       app.main();
@@ -253,7 +245,6 @@ void main() {
       expect(userToAdd, findsWidgets);
       await tester.tap(createButton);
       await tester.pumpAndSettle(const Duration(seconds: 5));
-      print('Chat Edit test OK✅');
     });
     testWidgets('Logout Test', (WidgetTester tester) async {
       app.main();
@@ -272,7 +263,6 @@ void main() {
       expect(toLoginButton, findsOneWidget);
       expect(toRegisterButton, findsOneWidget);
       await tester.pumpAndSettle();
-      print('Logout Test OK✅');
     });
   });
 }

@@ -34,14 +34,4 @@ class CurrentHiveUserAdapter extends TypeAdapter<CurrentHiveUser> {
       ..writeByte(2)
       ..write(obj.userId);
   }
-
-  @override
-  int get hashCode => typeId.hashCode;
-
-  @override
-  bool operator ==(Object other) =>
-      identical(this, other) ||
-      other is CurrentHiveUserAdapter &&
-          runtimeType == other.runtimeType &&
-          typeId == other.typeId;
 }
