@@ -77,16 +77,17 @@ class _ChatInfosLoadedPageState extends State<ChatInfosLoadedPage> {
                     ],
                   ),
                 ),
-                IconButton(
-                  icon: const Icon(
-                    Icons.edit_outlined,
+                if (widget.chat.creatorId == widget.userId)
+                  IconButton(
+                    icon: const Icon(
+                      Icons.edit_outlined,
+                    ),
+                    onPressed: () {
+                      BlocProvider.of<ChatInfosBloc>(context).add(
+                        ChatInfosNavigateEvent(widget.chat.chatId),
+                      );
+                    },
                   ),
-                  onPressed: () {
-                    BlocProvider.of<ChatInfosBloc>(context).add(
-                      ChatInfosNavigateEvent(widget.chat.chatId),
-                    );
-                  },
-                ),
               ],
             ),
           ),
