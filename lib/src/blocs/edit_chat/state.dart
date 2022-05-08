@@ -28,7 +28,3 @@ class EditChatError extends EditChatState {
   final String cause;
   const EditChatError(this.cause);
 }
-
-class EditChatNavigate extends EditChatState {
-  const EditChatNavigate();
-}

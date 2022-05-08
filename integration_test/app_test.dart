@@ -245,6 +245,29 @@ void main() {
       expect(userToAdd, findsWidgets);
       await tester.tap(createButton);
       await tester.pumpAndSettle(const Duration(seconds: 5));
+      final Finder newChatName = find.text("New Test");
+      expect(newChatName, findsOneWidget);
+    });
+
+    testWidgets('Chat Delete test', (WidgetTester tester) async {
+      app.main();
+      await tester.pumpAndSettle(const Duration(seconds: 1));
+      final Finder chat = find.text("New Test");
+      expect(chat, findsOneWidget);
+      await tester.tap(chat);
+      await tester.pumpAndSettle(const Duration(seconds: 1));
+      final Finder infosIcon = find.byIcon(Icons.info_outline);
+      await tester.tap(infosIcon);
+      await tester.pumpAndSettle(const Duration(seconds: 1));
+      final Finder editIcon = find.byIcon(Icons.edit_outlined);
+      await tester.tap(editIcon);
+      await tester.pumpAndSettle(const Duration(seconds: 1));
+      final Finder deleteButton = find.byKey(const Key("deleteChatButton"));
+      expect(deleteButton, findsOneWidget);
+      await tester.tap(deleteButton);
+      await tester.pumpAndSettle(const Duration(seconds: 5));
+      final Finder deletedChat = find.text("New Test");
+      expect(deletedChat, findsNothing);
     });
     testWidgets('Logout Test', (WidgetTester tester) async {
       app.main();
