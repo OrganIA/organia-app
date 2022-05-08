@@ -15,6 +15,8 @@ class EditChatBloc extends Bloc<EditChatEvent, EditChatState> {
     on<EditChatLoadEvent>(
         (event, emit) async => emit(await getAllUsers(event)));
     on<EditChatEditEvent>((event, emit) async => emit(await editChat(event)));
+    on<EditChatDeleteEvent>(
+        (event, emit) async => emit(await deleteChat(event)));
   }
 
   Future<EditChatState> getAllUsers(EditChatLoadEvent event) async {
@@ -44,6 +46,17 @@ class EditChatBloc extends Bloc<EditChatEvent, EditChatState> {
         event.chatId,
       );
       return const EditChatDone();
+    } catch (e) {
+      return EditChatError(e.toString());
+    }
+  }
+
+  Future<EditChatState> deleteChat(EditChatDeleteEvent event) async {
+    try {
+      await organIAAPIRepository.deleteChat(
+        event.chatId,
+      );
+      return const EditChatDeleteDone();
     } catch (e) {
       return EditChatError(e.toString());
     }

@@ -19,7 +19,7 @@ class _ChatScreenState extends State<ChatScreen> {
     return BlocListener<ChatBloc, ChatState>(
       listener: (context, state) async {
         if (state is ChatNavigate) {
-          await Navigator.push(
+          var result = await Navigator.push(
             context,
             CupertinoPageRoute(
               builder: (context) => BlocProvider(
@@ -29,8 +29,12 @@ class _ChatScreenState extends State<ChatScreen> {
               ),
             ),
           );
-          BlocProvider.of<ChatBloc>(context)
-              .add(ChatNavigationDoneEvent(state.chatId));
+          if (result == "deleted") {
+            Navigator.pop(context);
+          } else {
+            BlocProvider.of<ChatBloc>(context)
+                .add(ChatNavigationDoneEvent(state.chatId));
+          }
         }
       },
       child: BlocBuilder<ChatBloc, ChatState>(

@@ -101,7 +101,7 @@ class _EditChatLoadedPageState extends State<EditChatLoadedPage> {
                   physics: const AlwaysScrollableScrollPhysics(),
                   children: usersToAdd.map<Widget>(
                     (user) {
-                      return (InkWell(
+                      return InkWell(
                         child: Card(
                           color: darkBlue,
                           elevation: 5,
@@ -129,7 +129,7 @@ class _EditChatLoadedPageState extends State<EditChatLoadedPage> {
                                 .removeWhere((element) => user == element);
                           });
                         },
-                      ));
+                      );
                     },
                   ).toList(),
                   shrinkWrap: true,
@@ -197,37 +197,66 @@ class _EditChatLoadedPageState extends State<EditChatLoadedPage> {
                 ],
               ),
             ),
-            GestureDetector(
-              child: Padding(
-                padding: const EdgeInsets.all(15),
-                child: BigButton(
-                  buttonColor: darkBlue,
-                  textColor: Colors.white,
-                  textValue: "Valider",
-                ),
+            Expanded(
+              child: Row(
+                children: [
+                  Expanded(
+                    child: GestureDetector(
+                      child: Padding(
+                        padding: const EdgeInsets.all(15),
+                        child: BigButton(
+                          buttonColor: darkBlue,
+                          textColor: Colors.white,
+                          textValue: "Valider",
+                        ),
+                      ),
+                      onTap: () {
+                        if (chatNameController.text.isEmpty ||
+                            usersToAdd.isEmpty) {
+                          final snackBar = SnackBar(
+                            duration: const Duration(seconds: 2),
+                            content: Text(
+                              'Erreur aucun nom ou utilisateur fourni',
+                              style: GoogleFonts.nunito(),
+                            ),
+                            backgroundColor: red,
+                          );
+                          ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                        } else {
+                          BlocProvider.of<EditChatBloc>(context).add(
+                            EditChatEditEvent(
+                              chatNameController.text,
+                              usersToAdd,
+                              widget.chat.chatId,
+                            ),
+                          );
+                        }
+                      },
+                      key: const Key("validateEditButton"),
+                    ),
+                  ),
+                  Expanded(
+                    child: GestureDetector(
+                      child: Padding(
+                        padding: const EdgeInsets.all(15),
+                        child: BigButton(
+                          buttonColor: red,
+                          textColor: Colors.white,
+                          textValue: "Supprimer",
+                        ),
+                      ),
+                      onTap: () {
+                        BlocProvider.of<EditChatBloc>(context).add(
+                          EditChatDeleteEvent(
+                            widget.chat.chatId,
+                          ),
+                        );
+                      },
+                      key: const Key("deleteChatButton"),
+                    ),
+                  ),
+                ],
               ),
-              onTap: () {
-                if (chatNameController.text.isEmpty || usersToAdd.isEmpty) {
-                  final snackBar = SnackBar(
-                    duration: const Duration(seconds: 2),
-                    content: Text(
-                      'Erreur aucun nom ou utilisateur fourni',
-                      style: GoogleFonts.nunito(),
-                    ),
-                    backgroundColor: red,
-                  );
-                  ScaffoldMessenger.of(context).showSnackBar(snackBar);
-                } else {
-                  BlocProvider.of<EditChatBloc>(context).add(
-                    EditChatEditEvent(
-                      chatNameController.text,
-                      usersToAdd,
-                      widget.chat.chatId,
-                    ),
-                  );
-                }
-              },
-              key: const Key("validateEditButton"),
             ),
           ],
         ),

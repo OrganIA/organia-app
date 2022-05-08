@@ -20,6 +20,10 @@ class EditChatDone extends EditChatState {
   const EditChatDone();
 }
 
+class EditChatDeleteDone extends EditChatState {
+  const EditChatDeleteDone();
+}
+
 class EditChatError extends EditChatState {
   final String cause;
   const EditChatError(this.cause);

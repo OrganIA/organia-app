@@ -16,3 +16,8 @@ class EditChatEditEvent extends EditChatEvent {
   final int chatId;
   const EditChatEditEvent(this.chatName, this.users, this.chatId);
 }
+
+class EditChatDeleteEvent extends EditChatEvent {
+  final int chatId;
+  const EditChatDeleteEvent(this.chatId);
+}

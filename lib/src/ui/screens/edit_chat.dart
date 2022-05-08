@@ -17,7 +17,9 @@ class _EditChatScreenState extends State<EditChatScreen> {
     return BlocListener<EditChatBloc, EditChatState>(
       listener: (context, state) async {
         if (state is EditChatDone) {
-          Navigator.pop(context);
+          Navigator.pop(context, false);
+        } else if (state is EditChatDeleteDone) {
+          Navigator.pop(context, "deleted");
         }
       },
       child: BlocBuilder<EditChatBloc, EditChatState>(
@@ -27,6 +29,12 @@ class _EditChatScreenState extends State<EditChatScreen> {
         if (state is EditChatLoading) {
           return (EditChatLoadingPage(
             chatId: state.chatId,
+          ));
+        } else if (state is EditChatLoaded) {
+          return (EditChatLoadedPage(
+            users: state.users,
+            chat: state.chat,
+            chatUsers: state.chatUsers,
           ));
         } else if (state is EditChatLoaded) {
           return (EditChatLoadedPage(

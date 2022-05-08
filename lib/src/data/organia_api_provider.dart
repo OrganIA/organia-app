@@ -274,4 +274,18 @@ class OrganIAAPIProvider {
     userList.add({"user_id": hive.box.get("currentHiveUser").userId});
     return userList;
   }
+
+  Future<void> deleteChat(int chatId) async {
+    final http.Response response = await http.delete(
+      Uri.parse("$baseUrl/chats/$chatId"),
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": "Bearer ${hive.box.get('currentHiveUser').token}"
+      },
+    );
+    if (response.statusCode != success) {
+      throw Exception("Erreur ${response.statusCode}");
+    }
+    return;
+  }
 }

@@ -27,6 +27,8 @@ class OrganIAAPIRepository {
   Future<List<Message>> getChatMessages(int chatId) =>
       _organIAAPIProvider.getChatMessages(chatId);
 
+  Future<void> deleteChat(int chatId) => _organIAAPIProvider.deleteChat(chatId);
+
   Future<List<User>> getChatUsers(List<int> usersIds) =>
       _organIAAPIProvider.getChatUsers(usersIds);
 }
