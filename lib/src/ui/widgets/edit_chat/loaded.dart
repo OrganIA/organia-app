@@ -26,13 +26,17 @@ class _EditChatLoadedPageState extends State<EditChatLoadedPage> {
   TextEditingController chatNameController = TextEditingController();
   List<User> usersNotAdded = [];
   List<User> usersToAdd = [];
+
+  @override
+  void initState() {
+    usersNotAdded = widget.users;
+    usersToAdd = widget.chatUsers;
+    chatNameController.text = widget.chat.chatName;
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
-    setState(() {
-      usersNotAdded = widget.users;
-      usersToAdd = widget.chatUsers;
-      chatNameController.text = widget.chat.chatName;
-    });
     return Scaffold(
       appBar: AppBar(
         elevation: 0,
