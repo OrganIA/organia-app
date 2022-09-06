@@ -8,8 +8,15 @@ import 'package:organia/src/ui/widgets/big_button.dart';
 
 class AccountLoggedInPage extends StatefulWidget {
   final String email;
+  final String firstName;
+  final String lastName;
 
-  const AccountLoggedInPage({Key? key, required this.email}) : super(key: key);
+  const AccountLoggedInPage({
+    Key? key,
+    required this.email,
+    required this.firstName,
+    required this.lastName,
+  }) : super(key: key);
 
   @override
   _AccountLoggedInPageState createState() => _AccountLoggedInPageState();
@@ -53,6 +60,18 @@ class _AccountLoggedInPageState extends State<AccountLoggedInPage> {
                     const Icon(
                       CupertinoIcons.person_alt_circle_fill,
                       size: 150,
+                    ),
+                    const SizedBox(
+                      height: 10.0,
+                    ),
+                    Text(
+                      "${widget.firstName} ${widget.lastName}",
+                      style: GoogleFonts.nunito(
+                        textStyle: TextStyle(
+                          fontSize: 22.0,
+                          color: blue,
+                        ),
+                      ),
                     ),
                     const SizedBox(
                       height: 10.0,

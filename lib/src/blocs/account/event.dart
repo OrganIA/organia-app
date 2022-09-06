@@ -16,7 +16,9 @@ class AccountNavigationDoneEvent extends AccountEvent {
 
 class AccountLoginEvent extends AccountEvent {
   final String email;
-  const AccountLoginEvent(this.email);
+  final String firstName;
+  final String lastName;
+  const AccountLoginEvent(this.email, this.firstName, this.lastName);
 }
 
 class AccountAutoLoginEvent extends AccountEvent {

@@ -43,7 +43,14 @@ class _LoginScreenState extends State<LoginScreen> {
           );
         }
         if (state is LoginLoadedSuccess) {
-          Navigator.pop(context, state.email);
+          Navigator.pop(
+            context,
+            {
+              'email': state.email,
+              'firstName': state.firstName,
+              'lastName': state.lastName,
+            },
+          );
         }
       },
       child: BlocBuilder<LoginBloc, LoginState>(

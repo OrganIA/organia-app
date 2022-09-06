@@ -47,6 +47,7 @@ dependencies:
   test: ^1.19.5
   web_socket_channel: ^2.1.0
   dash_chat_2: ^0.0.6
+  phone_form_field: ^7.0.2
 
 flutter_icons:
   android: true

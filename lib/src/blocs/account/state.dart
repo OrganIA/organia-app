@@ -6,7 +6,9 @@ abstract class AccountState {
 
 class AccountLoggedIn extends AccountState {
   final String email;
-  const AccountLoggedIn(this.email);
+  final String firstName;
+  final String lastName;
+  const AccountLoggedIn(this.email, this.firstName, this.lastName);
 }
 
 class AccountGuest extends AccountState {

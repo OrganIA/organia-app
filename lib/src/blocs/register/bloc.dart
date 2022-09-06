@@ -17,7 +17,14 @@ class RegisterBloc extends Bloc<RegisterEvent, RegisterState> {
   Future<RegisterState> _registerRequest(
       RegisterClickOnRegisterEvent event) async {
     try {
-      await organIAAPIRepository.register(event.email, event.password);
+      await organIAAPIRepository.register(
+        event.email,
+        event.password,
+        event.firstname,
+        event.lastname,
+        event.phone,
+        event.countryCode,
+      );
       return const RegisterLoadedSuccess();
     } catch (e) {
       return RegisterLoadedFailure(e.toString());

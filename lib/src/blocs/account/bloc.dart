@@ -13,7 +13,8 @@ class AccountBloc extends Bloc<AccountEvent, AccountState> {
       : super(initialState) {
     on<AccountNavigateEvent>((event, emit) => emit(AccountNavigate(event.to)));
     on<AccountNavigationDoneEvent>((event, emit) => emit(const AccountGuest()));
-    on<AccountLoginEvent>((event, emit) => emit(AccountLoggedIn(event.email)));
+    on<AccountLoginEvent>((event, emit) =>
+        emit(AccountLoggedIn(event.email, event.firstName, event.lastName)));
     on<AccountAutoLoginEvent>(
         (event, emit) async => emit(await autoLogin(event)));
     on<AccountLogoutEvent>((event, emit) async => emit(await logoutRequest()));
@@ -22,7 +23,7 @@ class AccountBloc extends Bloc<AccountEvent, AccountState> {
   Future<AccountState> autoLogin(AccountAutoLoginEvent event) async {
     try {
       final User user = await organIAAPIRepository.geMyInfos();
-      return AccountLoggedIn(user.email);
+      return AccountLoggedIn(user.email, user.firstName, user.lastName);
     } catch (e) {
       await hive.box.delete("currentHiveUser");
       return const AccountGuest();

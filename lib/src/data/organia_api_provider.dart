@@ -32,15 +32,20 @@ class OrganIAAPIProvider {
   Future<User> parseLoginResponse(http.Response response) async {
     if (response.statusCode == success) {
       final parsedBody = json.decode(response.body);
+      final User user = User.fromJson(parsedBody["user"]);
       await hive.box.put(
         "currentHiveUser",
         CurrentHiveUser(
-          email: parsedBody["user"]["email"],
+          email: user.email,
           token: parsedBody["token"],
-          userId: parsedBody["user"]["id"],
+          userId: user.id,
+          firstName: user.firstName,
+          lastName: user.lastName,
+          phoneNumber: user.phoneNumber,
+          countryCode: user.countryCode,
         ),
       );
-      return User.fromJson(parsedBody["user"]);
+      return user;
     } else if (response.statusCode == unprocessable) {
       throw Exception("Utilisateur inconnu");
     } else if (response.statusCode == unauthorized) {
@@ -72,14 +77,36 @@ class OrganIAAPIProvider {
     }
   }
 
-  Future<void> register(String email, String password) async {
-    if (email == "" || password == "") {
-      throw Exception("Email ou mot de passe non fournis");
+  Future<void> register(
+    String email,
+    String password,
+    String firstName,
+    String lastName,
+    String phoneNumber,
+    String countryCode,
+  ) async {
+    if (email == "" ||
+        password == "" ||
+        firstName == "" ||
+        lastName == "" ||
+        phoneNumber == "" ||
+        countryCode == "") {
+      throw Exception("Un champ n'a pas été fourni.");
     }
     final http.Response response = await http.post(
       Uri.parse("$baseUrl/users/"),
       headers: {"Content-Type": "application/json"},
-      body: jsonEncode({"email": email, "password": password, "role_id": 0}),
+      body: jsonEncode(
+        {
+          "email": email,
+          "password": password,
+          "role_id": 0,
+          "firstname": firstName,
+          "lastname": lastName,
+          "phone_number": phoneNumber,
+          "country_code": countryCode,
+        },
+      ),
     );
     return parseRegisterResponse(response);
   }

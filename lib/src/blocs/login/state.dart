@@ -14,7 +14,9 @@ class LoginNavigateToRegister extends LoginState {
 
 class LoginLoadedSuccess extends LoginState {
   String email;
-  LoginLoadedSuccess(this.email);
+  String firstName;
+  String lastName;
+  LoginLoadedSuccess(this.email, this.firstName, this.lastName);
 }
 
 class LoginLoadedFailure extends LoginState {

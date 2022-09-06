@@ -20,7 +20,7 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
     try {
       final User user =
           await organIAAPIRepository.login(event.email, event.password);
-      return LoginLoadedSuccess(user.email);
+      return LoginLoadedSuccess(user.email, user.firstName, user.lastName);
     } catch (e) {
       return LoginLoadedFailure(e.toString());
     }

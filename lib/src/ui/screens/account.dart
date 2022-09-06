@@ -37,16 +37,21 @@ class _AccountScreenState extends State<AccountScreen> {
               );
               break;
             case "login":
-              final email = await Navigator.push(
+              final Map<String, dynamic>? result = await Navigator.push(
                   context,
                   CupertinoPageRoute(
                       builder: (context) => BlocProvider(
                             create: (_) => LoginBloc(),
                             child: const LoginScreen(),
                           )));
-              if (email is String) {
-                BlocProvider.of<AccountBloc>(context)
-                    .add(AccountLoginEvent(email));
+              if (result != null) {
+                BlocProvider.of<AccountBloc>(context).add(
+                  AccountLoginEvent(
+                    result['email'],
+                    result['firstName'],
+                    result['lastName'],
+                  ),
+                );
               }
               break;
           }
@@ -59,7 +64,11 @@ class _AccountScreenState extends State<AccountScreen> {
         if (state is AccountGuest) {
           return (const AccountGuestPage());
         } else if (state is AccountLoggedIn) {
-          return (AccountLoggedInPage(email: state.email));
+          return (AccountLoggedInPage(
+            email: state.email,
+            firstName: state.firstName,
+            lastName: state.lastName,
+          ));
         } else if (state is AccountLoading) {
           return (const AccountLoadingPage());
         } else {
