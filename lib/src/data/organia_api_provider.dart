@@ -8,9 +8,10 @@ import 'package:organia/src/models/user.dart';
 import 'package:organia/src/utils/myhive.dart';
 
 class OrganIAAPIProvider {
-  final String baseUrl =
-      "http://organia.francecentral.cloudapp.azure.com:8000/api";
-  // final String baseUrl = "http://10.0.2.2:8000/api";
+  final String baseUrl = "http://organia-api.savatier.fr/api";
+  // final String baseUrl =
+  //     "http://organia.francecentral.cloudapp.azure.com:8000/api";
+  // final String baseUrl = "http://localhost:8000/api";
   final int success = 200;
   final int successPost = 201;
   final int unauthorized = 401;
@@ -108,6 +109,7 @@ class OrganIAAPIProvider {
         },
       ),
     );
+    print(response.request);
     return parseRegisterResponse(response);
   }
 
