@@ -18,7 +18,6 @@ class _ChatInfosLoadingPageState extends State<ChatInfosLoadingPage> {
     BlocProvider.of<ChatInfosBloc>(context)
         .add(ChatInfosLoadEvent(widget.chatId));
     return Scaffold(
-      backgroundColor: Colors.white,
       body: SafeArea(
         child: Center(
           child: CircularProgressIndicator(color: blue),

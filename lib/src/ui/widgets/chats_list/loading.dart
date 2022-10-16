@@ -20,7 +20,6 @@ class _ChatsListLoadingPageState extends State<ChatsListLoadingPage> {
       BlocProvider.of<ChatsListBloc>(context).add(const ChatsListGuestEvent());
     }
     return Scaffold(
-      backgroundColor: Colors.white,
       body: SafeArea(
         child: Center(
           child: CircularProgressIndicator(color: blue),

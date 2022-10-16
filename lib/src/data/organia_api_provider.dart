@@ -109,7 +109,6 @@ class OrganIAAPIProvider {
         },
       ),
     );
-    print(response.request);
     return parseRegisterResponse(response);
   }
 
