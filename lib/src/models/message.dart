@@ -1,10 +1,11 @@
 import 'package:intl/intl.dart';
+import 'package:organia/src/models/user.dart';
 
 class Message {
   int id;
   String createdAt;
   DateTime createdAtOriginal;
-  int senderId;
+  User sender;
   int chatId;
   String content;
 
@@ -12,7 +13,7 @@ class Message {
     required this.id,
     required this.createdAt,
     required this.createdAtOriginal,
-    required this.senderId,
+    required this.sender,
     required this.chatId,
     required this.content,
   });
@@ -23,8 +24,8 @@ class Message {
       createdAt: DateFormat('kk:mm:ss dd/MM/yy')
           .format(DateTime.parse(parsedJson["created_at"]).toLocal()),
       createdAtOriginal: DateTime.parse(parsedJson["created_at"]),
-      senderId: parsedJson["sender_id"],
-      chatId: parsedJson["chat_id"],
+      sender: User.fromJson(parsedJson["sender"]),
+      chatId: parsedJson["chat"]["id"],
       content: parsedJson["content"],
     );
   }

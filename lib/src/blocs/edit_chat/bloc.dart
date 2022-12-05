@@ -21,8 +21,7 @@ class EditChatBloc extends Bloc<EditChatEvent, EditChatState> {
 
   Future<EditChatState> getAllUsers(EditChatLoadEvent event) async {
     Chat chat = await organIAAPIRepository.getChat(event.chatId);
-    final List<User> chatUsers =
-        await organIAAPIRepository.getChatUsers(chat.usersIds);
+    final List<User> chatUsers = chat.users;
     List<User> users = await organIAAPIRepository.getAllUsers();
     users.removeWhere((user) {
       if (chatUsers.firstWhereOrNull((element) => element.id == user.id) !=

@@ -77,7 +77,7 @@ class _ChatInfosLoadedPageState extends State<ChatInfosLoadedPage> {
                     ],
                   ),
                 ),
-                if (widget.chat.creatorId == widget.userId)
+                if (widget.chat.creator.id == widget.userId)
                   IconButton(
                     icon: const Icon(
                       Icons.edit_outlined,
@@ -136,7 +136,7 @@ class _ChatInfosLoadedPageState extends State<ChatInfosLoadedPage> {
               child: Text(
                 widget.users
                     .firstWhere(
-                        (element) => element.id == widget.chat.creatorId)
+                        (element) => element.id == widget.chat.creator.id)
                     .email,
                 style: GoogleFonts.nunito(
                   textStyle: const TextStyle(

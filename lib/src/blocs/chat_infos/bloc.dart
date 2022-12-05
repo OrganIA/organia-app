@@ -22,7 +22,7 @@ class ChatInfosBloc extends Bloc<ChatInfosEvent, ChatInfosState> {
 
   Future<ChatInfosState> _getChatMessages(int chatId) async {
     Chat chat = await organIAAPIRepository.getChat(chatId);
-    List<User> users = await organIAAPIRepository.getChatUsers(chat.usersIds);
+    List<User> users = chat.users;
     return ChatInfosLoaded(
       chat,
       hive.box.get("currentHiveUser").userId,

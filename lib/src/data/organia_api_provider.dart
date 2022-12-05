@@ -8,12 +8,11 @@ import 'package:organia/src/models/user.dart';
 import 'package:organia/src/utils/myhive.dart';
 
 class OrganIAAPIProvider {
-  final String baseUrl = "http://organia-api.savatier.fr/api";
-  // final String baseUrl =
-  //     "http://organia.francecentral.cloudapp.azure.com:8000/api";
+  final String baseUrl = "https://dev.organia.savatier.fr/api";
   // final String baseUrl = "http://localhost:8000/api";
   final int success = 200;
-  final int successPost = 201;
+  final int successCreated = 201;
+  final int successNoContent = 204;
   final int unauthorized = 401;
   final int unprocessable = 422;
   final int serverError = 500;
@@ -23,7 +22,7 @@ class OrganIAAPIProvider {
       throw Exception("Email ou mot de passe non fournis");
     }
     final http.Response response = await http.post(
-      Uri.parse("$baseUrl/auth/"),
+      Uri.parse("$baseUrl/auth/login"),
       headers: {"Content-Type": "application/json"},
       body: jsonEncode({"email": email, "password": password}),
     );
@@ -95,7 +94,7 @@ class OrganIAAPIProvider {
       throw Exception("Un champ n'a pas été fourni.");
     }
     final http.Response response = await http.post(
-      Uri.parse("$baseUrl/users/"),
+      Uri.parse("$baseUrl/auth/register"),
       headers: {"Content-Type": "application/json"},
       body: jsonEncode(
         {
@@ -105,7 +104,6 @@ class OrganIAAPIProvider {
           "firstname": firstName,
           "lastname": lastName,
           "phone_number": phoneNumber,
-          "country_code": countryCode,
         },
       ),
     );
@@ -113,7 +111,7 @@ class OrganIAAPIProvider {
   }
 
   Future<void> parseRegisterResponse(http.Response response) async {
-    if (response.statusCode == successPost) {
+    if (response.statusCode == successCreated) {
       return;
     } else if (response.statusCode == unprocessable) {
       throw Exception("Adresse email déjà utilisée");
@@ -139,14 +137,13 @@ class OrganIAAPIProvider {
       final List<Chat> chatsList = [];
       final parsedBody = json.decode(response.body);
       for (var i in parsedBody) {
-        chatsList.add(
-          Chat.fromJson(
-            i,
-            latestMessages.firstWhereOrNull(
-              (message) => message.chatId == i["chat_id"],
-            ),
+        final Chat chat = Chat.fromJson(
+          i,
+          latestMessages.firstWhereOrNull(
+            (message) => message.chatId == i["id"],
           ),
         );
+        chatsList.add(chat);
       }
       return chatsList;
     } else {
@@ -183,7 +180,8 @@ class OrganIAAPIProvider {
       List<Message> messagesList = [];
       final parsedBody = json.decode(response.body);
       for (var i in parsedBody) {
-        messagesList.add(Message.fromJson(i));
+        final Message message = Message.fromJson(i);
+        messagesList.add(message);
       }
       return messagesList;
     } else {
@@ -225,7 +223,7 @@ class OrganIAAPIProvider {
   Future<List<User>> getAllUsers() async {
     final List<User> users = [];
     final http.Response response = await http.get(
-      Uri.parse("$baseUrl/users"),
+      Uri.parse("$baseUrl/users/"),
       headers: {
         "Content-Type": "application/json",
         "Authorization": "Bearer ${hive.box.get('currentHiveUser').token}"
@@ -257,12 +255,12 @@ class OrganIAAPIProvider {
       },
       body: jsonEncode(
         {
-          "chat_name": chatName,
+          "name": chatName,
           "users_ids": userList,
         },
       ),
     );
-    if (response.statusCode != successPost) {
+    if (response.statusCode != success) {
       throw Exception("Erreur ${response.statusCode}");
     }
     return;
@@ -283,23 +281,23 @@ class OrganIAAPIProvider {
       },
       body: jsonEncode(
         {
-          "chat_name": chatName,
+          "name": chatName,
           "users_ids": userList,
         },
       ),
     );
-    if (response.statusCode != successPost) {
+    if (response.statusCode != success) {
       throw Exception("Erreur ${response.statusCode}");
     }
     return;
   }
 
   List<dynamic> generateUsersList(List<User> users) {
-    final List<dynamic> userList = [];
+    final List<int> userList = [];
     for (var element in users) {
-      userList.add({"user_id": element.id});
+      userList.add(element.id);
     }
-    userList.add({"user_id": hive.box.get("currentHiveUser").userId});
+    userList.add(hive.box.get("currentHiveUser").userId);
     return userList;
   }
 
@@ -311,7 +309,7 @@ class OrganIAAPIProvider {
         "Authorization": "Bearer ${hive.box.get('currentHiveUser').token}"
       },
     );
-    if (response.statusCode != success) {
+    if (response.statusCode != successNoContent) {
       throw Exception("Erreur ${response.statusCode}");
     }
     return;

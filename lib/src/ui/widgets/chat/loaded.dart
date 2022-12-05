@@ -41,13 +41,10 @@ class _ChatLoadedPageState extends State<ChatLoadedPage> {
   );
   late WebSocketChannel channel = WebSocketChannel.connect(
     Uri.parse(
-      "ws://organia-api.savatier.fr/api/chats/ws/${widget.chat.chatId}",
+      "wss://dev.organia.savatier.fr/api/chats/ws/${widget.chat.chatId}",
     ),
     // Uri.parse(
-    //   "ws://organia.francecentral.cloudapp.azure.com:8000/api/chats/ws/${widget.chat.chatId}",
-    // ),
-    // Uri.parse(
-    //   "ws://10.0.2.2:8000/api/chats/ws/${widget.chat.chatId}",
+    //   "ws://localhost:8000/api/chats/ws/${widget.chat.chatId}",
     // ),
   );
 
@@ -58,7 +55,7 @@ class _ChatLoadedPageState extends State<ChatLoadedPage> {
       for (Message message in widget.originalMessages.reversed) {
         messages.add(
           ChatMessage(
-            user: createChatUser(message.senderId),
+            user: createChatUser(message.sender.id),
             createdAt: message.createdAtOriginal,
             text: message.content,
           ),
@@ -69,7 +66,7 @@ class _ChatLoadedPageState extends State<ChatLoadedPage> {
       json.encode(
         {
           "event": "login",
-          "token": "Bearer ${hive.box.get('currentHiveUser').token}",
+          "token": "${hive.box.get('currentHiveUser').token}",
         },
       ),
     );
@@ -83,7 +80,7 @@ class _ChatLoadedPageState extends State<ChatLoadedPage> {
             messages.insert(
               0,
               ChatMessage(
-                user: createChatUser(message.senderId),
+                user: createChatUser(message.sender.id),
                 createdAt: message.createdAtOriginal,
                 text: message.content,
               ),
@@ -106,9 +103,9 @@ class _ChatLoadedPageState extends State<ChatLoadedPage> {
       json.encode(
         {
           "event": "send_message",
-          "chat_id": widget.chat.chatId,
-          "content": text,
-          "sender_id": widget.userId,
+          "data": {
+            "content": text,
+          },
         },
       ),
     );

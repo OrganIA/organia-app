@@ -1,7 +1,6 @@
 class User {
   int id;
   String email;
-  int roleId;
   String firstName;
   String lastName;
   String phoneNumber;
@@ -10,7 +9,6 @@ class User {
   User({
     required this.id,
     required this.email,
-    required this.roleId,
     required this.firstName,
     required this.lastName,
     required this.phoneNumber,
@@ -21,7 +19,6 @@ class User {
     return User(
       id: parsedJson["id"],
       email: parsedJson["email"],
-      roleId: parsedJson["role_id"],
       firstName: parsedJson["firstname"],
       lastName: parsedJson["lastname"],
       phoneNumber: parsedJson["phone_number"],
