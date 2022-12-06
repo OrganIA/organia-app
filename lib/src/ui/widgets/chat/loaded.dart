@@ -28,7 +28,9 @@ class ChatLoadedPage extends StatefulWidget {
   _ChatLoadedPageState createState() => _ChatLoadedPageState();
 }
 
-class _ChatLoadedPageState extends State<ChatLoadedPage> {
+class _ChatLoadedPageState extends State<ChatLoadedPage>
+    with WidgetsBindingObserver {
+  AppLifecycleState? appState;
   final TextEditingController messageController = TextEditingController();
   final List<ChatMessage> messages = [];
   late ChatUser currentUser = ChatUser(
@@ -39,29 +41,52 @@ class _ChatLoadedPageState extends State<ChatLoadedPage> {
           .email,
     },
   );
-  late WebSocketChannel channel = WebSocketChannel.connect(
-    Uri.parse(
-      "wss://dev.organia.savatier.fr/api/chats/ws/${widget.chat.chatId}",
-    ),
-    // Uri.parse(
-    //   "ws://localhost:8000/api/chats/ws/${widget.chat.chatId}",
-    // ),
-  );
+  late WebSocketChannel channel;
+  bool wasPaused = false;
 
   @override
-  void initState() {
-    super.initState();
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    switch (state) {
+      case AppLifecycleState.resumed:
+        if (wasPaused) {
+          BlocProvider.of<ChatBloc>(context)
+              .add(ChatLoadEvent(widget.chat.chatId));
+          updateMessages();
+          connectWs();
+          setState(() {
+            wasPaused = false;
+          });
+        }
+        break;
+      case AppLifecycleState.paused:
+        channel.sink.close();
+        setState(() {
+          wasPaused = true;
+        });
+        break;
+      default:
+        break;
+    }
     setState(() {
-      for (Message message in widget.originalMessages.reversed) {
-        messages.add(
-          ChatMessage(
-            user: createChatUser(message.sender.id),
-            createdAt: message.createdAtOriginal,
-            text: message.content,
-          ),
-        );
-      }
+      appState = state;
     });
+  }
+
+  void connectWs() {
+    setState(() {
+      channel = WebSocketChannel.connect(
+        Uri.parse(
+          "wss://dev.organia.savatier.fr/api/chats/ws/${widget.chat.chatId}",
+        ),
+        // Uri.parse(
+        //   "ws://localhost:8000/api/chats/ws/${widget.chat.chatId}",
+        // ),
+      );
+    });
+    loginWebsocket();
+  }
+
+  void loginWebsocket() {
     channel.sink.add(
       json.encode(
         {
@@ -89,6 +114,36 @@ class _ChatLoadedPageState extends State<ChatLoadedPage> {
         }
       },
     );
+  }
+
+  void updateMessages() {
+    setState(() {
+      messages.clear();
+      for (Message message in widget.originalMessages.reversed) {
+        messages.add(
+          ChatMessage(
+            user: createChatUser(message.sender.id),
+            createdAt: message.createdAtOriginal,
+            text: message.content,
+          ),
+        );
+      }
+    });
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addObserver(this);
+    updateMessages();
+    connectWs();
+  }
+
+  @override
+  void dispose() {
+    WidgetsBinding.instance.removeObserver(this);
+    channel.sink.close();
+    super.dispose();
   }
 
   @override
@@ -143,6 +198,7 @@ class _ChatLoadedPageState extends State<ChatLoadedPage> {
               children: <Widget>[
                 IconButton(
                   onPressed: () {
+                    channel.sink.close();
                     Navigator.pop(context);
                   },
                   icon: const Icon(
