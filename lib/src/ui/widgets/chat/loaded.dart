@@ -154,6 +154,10 @@ class _ChatLoadedPageState extends State<ChatLoadedPage>
   }
 
   void sendMessage(String text) {
+    text = text.trim();
+    if (text == "") {
+      return;
+    }
     channel.sink.add(
       json.encode(
         {
